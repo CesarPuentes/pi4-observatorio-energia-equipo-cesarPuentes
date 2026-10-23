@@ -1,0 +1,32 @@
+# Mapa del Proyecto y Reporte de Avance
+
+## ¿Por qué se desarrolló la Actividad 1?
+
+El código provisto en clase era una demostración reducida a la que le faltaban piezas críticas de negocio e ingeniería:
+
+1. **Rango histórico insuficiente:** Solo cubría 2026 (y lluvias desde junio), impidiendo comparar la coyuntura actual con El Niño 2023–2024. Se amplió XM desde enero de 2024 e IDEAM desde enero de 2025.
+2. **Falta de variables explicativas del precio:** Faltaban la generación por planta (`Gene` por `Recurso`), los aportes hídricos (`AporEner`) y la temperatura del aire del IDEAM.
+3. **Limitación técnica del extractor de XM:** El script base solo consultaba endpoints con fechas (`hourly` y `daily`) y no soportaba el catálogo de plantas (`ListadoRecursos`) en el endpoint `lists` (`ListEntities`, sin fechas).
+4. **Calidad y gobernabilidad previas a la Capa Plata:** Se requería auditar los datos crudos (`docs/perfilamiento.md`), publicar muestras livianas (`data/sample/`) y agregar pruebas con `pytest`.
+
+### Enlaces de referencia de las fuentes de datos
+- **XM – API Sinergox (`POST`):** `https://servapibi.xm.com.co/hourly`, `https://servapibi.xm.com.co/daily` y `https://servapibi.xm.com.co/lists` ([Documentación](https://github.com/EquipoAnaliticaXM/API_XM))
+- **IDEAM – Precipitación (`GET` SoQL):** `https://www.datos.gov.co/resource/s54a-sgyg.json` ([Ficha](https://www.datos.gov.co/d/s54a-sgyg))
+- **IDEAM – Temperatura (`GET` SoQL):** `https://www.datos.gov.co/resource/sbwg-7ju4.json` ([Ficha](https://www.datos.gov.co/d/sbwg-7ju4))
+- **NOAA – Índice ONI (`GET`):** `https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt`
+- **DANE – DIVIPOLA (`GET` SoQL):** `https://www.datos.gov.co/resource/gdxc-w37w.json` ([Ficha](https://www.datos.gov.co/d/gdxc-w37w))
+
+---
+
+## Primer Commit – Ampliación de la extracción de XM (`#1`)
+
+Cambios aplicados sobre el código base:
+
+1. **[`src/config.py`](observatorio-energia/src/config.py):**
+   - Se cambió `FECHA_INICIO` de `2026-01-01` a `2024-01-01`.
+   - Se agregaron 3 métricas a `XM_METRICAS`: `Gene` (`Recurso`, `hourly`), `AporEner` (`Sistema`, `daily`) y `ListadoRecursos` (`Sistema`, `lists`).
+
+2. **[`src/extract/xm.py`](observatorio-energia/src/extract/xm.py):**
+   - Se agregó el soporte para `periodo == "lists"`, enviando el cuerpo JSON sin fechas (`{"MetricId": metrica, "Entity": entidad}`) al endpoint `https://servapibi.xm.com.co/lists` y leyendo la clave `ListEntities` de la respuesta.
+   - Se paralelizó la descarga de las ventanas de 30 días con `ThreadPoolExecutor` para acelerar la extracción de los 2+ años de historia.
+   - Se regeneraron los 6 archivos Parquet en `data/bronze/` ejecutando `uv run python -m src.extract.xm --forzar`.
