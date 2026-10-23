@@ -20,6 +20,8 @@ El código provisto en clase era una demostración reducida a la que le faltaban
 
 ## Primer Commit – Ampliación de la extracción de XM (`#1`)
 
+Link PR: https://github.com/CesarPuentes/pi4-observatorio-energia-equipo-cesarPuentes/pull/5
+
 Cambios aplicados sobre el código base:
 
 1. **[`src/config.py`](observatorio-energia/src/config.py):**
@@ -30,3 +32,17 @@ Cambios aplicados sobre el código base:
    - Se agregó el soporte para `periodo == "lists"`, enviando el cuerpo JSON sin fechas (`{"MetricId": metrica, "Entity": entidad}`) al endpoint `https://servapibi.xm.com.co/lists` y leyendo la clave `ListEntities` de la respuesta.
    - Se paralelizó la descarga de las ventanas de 30 días con `ThreadPoolExecutor` para acelerar la extracción de los 2+ años de historia.
    - Se regeneraron los 6 archivos Parquet en `data/bronze/` ejecutando `uv run python -m src.extract.xm --forzar`.
+
+---
+
+## Segundo Commit – Ampliación de la extracción del IDEAM (`#2`)
+
+Cambios aplicados sobre el código base:
+
+1. **[`src/config.py`](observatorio-energia/src/config.py):**
+   - Se amplió `IDEAM_FECHA_INICIO` de `2026-06-01` a `2025-01-01` (> 1 año de cobertura).
+   - Se añadió la URL del dataset de temperatura del aire: `IDEAM_TEMPERATURA_URL = "https://www.datos.gov.co/resource/sbwg-7ju4.json"`.
+
+2. **[`src/extract/ideam.py`](observatorio-energia/src/extract/ideam.py):**
+   - Se parametrizó la consulta SoQL para calcular en el servidor tanto la precipitación acumulada diaria (`sum(valorobservado)`) como la temperatura media, mínima y máxima diaria por estación (`avg()`, `min()` y `max()` sobre `valorobservado`).
+   - Se extendió la extracción para generar ambos archivos en `data/bronze/`: `ideam_precipitacion_diaria.parquet` e `ideam_temperatura_diaria.parquet`.
