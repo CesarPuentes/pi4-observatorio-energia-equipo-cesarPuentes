@@ -9,6 +9,7 @@ Documentacion SoQL: https://dev.socrata.com/docs/queries/
 # ---------------------------------------------------------------------------
 # IMPORTS (traer codigo que ya existe)
 # ---------------------------------------------------------------------------
+from concurrent.futures import ThreadPoolExecutor
 import pandas as pd     # pandas: libreria de tablas. "as pd" le pone el nombre corto pd.
                         # Aqui se usa para convertir la lista de filas en tabla (DataFrame).
 
@@ -24,9 +25,10 @@ from src.utils import guardar_bronce, http_json, log, ventanas, ya_existe
 # ---------------------------------------------------------------------------
 # CONSTANTES: valores fijos de este extractor (en MAYUSCULAS por convencion)
 # ---------------------------------------------------------------------------
-NOMBRE = "ideam_precipitacion_diaria"     # nombre del archivo en bronce
+NOMBRE = "ideam_precipitacion_diaria"          # nombre del archivo de precipitacion en bronce
+NOMBRE_TEMP = "ideam_temperatura_diaria"       # nombre del archivo de temperatura en bronce
 CAMPOS = "codigoestacion, nombreestacion, municipio, latitud, longitud"   # columnas que se piden
-PAGINA = 50000                            # filas maximas por pedido ($limit)
+PAGINA = 50000                                 # filas maximas por pedido ($limit)
 
 # ---------------------------------------------------------------------------
 # NOTA sobre "offset: int" o "-> dict" en las funciones:
@@ -36,13 +38,21 @@ PAGINA = 50000                            # filas maximas por pedido ($limit)
 # ---------------------------------------------------------------------------
 
 
-def consulta_soql(inicio, fin, offset: int) -> dict:
-    """Arma los parametros SoQL: filtrar Antioquia y fechas, y sumar la lluvia por dia."""
-    # Devuelve un diccionario {parametro: valor}. Son los mismos parametros que se
-    # escribieron a mano en la URL del navegador en la Parte 4.1.
+def consulta_soql(inicio, fin, offset: int, variable: str = "precipitacion") -> dict:
+    """Arma los parametros SoQL: filtrar Antioquia y fechas, y agregar por dia y estacion en el servidor."""
+    # En precipitacion sumamos la lluvia del dia; en temperatura calculamos media, minima y maxima.
+    if variable == "temperatura":
+        agregacion = (
+            "avg(valorobservado) AS temp_media_c, "
+            "min(valorobservado) AS temp_min_c, "
+            "max(valorobservado) AS temp_max_c, "
+            "count(*) AS n_obs"
+        )
+    else:
+        agregacion = "sum(valorobservado) AS precipitacion_mm, count(*) AS n_obs"
+
     return {
-        "$select": f"{CAMPOS}, date_trunc_ymd(fechaobservacion) AS fecha, "      # el dia
-                   f"sum(valorobservado) AS precipitacion_mm, count(*) AS n_obs",  # suma y conteo
+        "$select": f"{CAMPOS}, date_trunc_ymd(fechaobservacion) AS fecha, {agregacion}",
         "$where": f"departamento = '{config.IDEAM_DEPARTAMENTO}' AND "           # solo Antioquia
                   f"fechaobservacion BETWEEN '{inicio}T00:00:00' AND '{fin}T23:59:59'",   # esa semana
         "$group": f"{CAMPOS}, fecha",             # un grupo por estacion y dia
@@ -52,27 +62,41 @@ def consulta_soql(inicio, fin, offset: int) -> dict:
     }
 
 
-def extraer(forzar: bool = False) -> None:
-    """Descarga la lluvia diaria por estacion, semana por semana, y la guarda en bronce."""
-    # forzar: bool = False -> si no se indica nada, forzar vale False (no repetir descargas).
-    log("IDEAM - datos abiertos (SoQL)")
-    if ya_existe(NOMBRE, forzar):                 # si el archivo ya esta en bronce...
+def extraer_dataset(nombre: str, url: str, variable: str, forzar: bool = False) -> None:
+    """Descarga un dataset del IDEAM (precipitacion o temperatura) semana por semana con SoQL."""
+    if ya_existe(nombre, forzar):                 # si el archivo ya esta en bronce...
         return                                    # ...termina aqui, sin descargar
     filas = []                                    # aqui se juntan las filas de todas las semanas
-    for inicio, fin in ventanas(config.IDEAM_FECHA_INICIO, config.FECHA_FIN, config.IDEAM_DIAS_VENTANA):
+    bloques = list(ventanas(config.IDEAM_FECHA_INICIO, config.FECHA_FIN, config.IDEAM_DIAS_VENTANA))
+
+    def descargar_semana(rango):
+        inicio, fin = rango
         offset = 0                                # empezar por la primera pagina
+        filas_semana = []
         while True:                               # paginacion: repetir hasta la ultima pagina
             # GET con los parametros SoQL; requests los pone en la URL despues de ?
             # La respuesta es una lista de filas (cada fila es un diccionario).
-            lote = http_json("GET", config.IDEAM_URL, params=consulta_soql(inicio, fin, offset))
-            filas.extend(lote)                    # agrega las filas de esta pagina
+            lote = http_json("GET", url, params=consulta_soql(inicio, fin, offset, variable))
+            filas_semana.extend(lote)             # agrega las filas de esta pagina
             if len(lote) < PAGINA:                # llegaron menos filas que el limite: era la ultima
                 break                             # break: sale del while
             offset += PAGINA                      # pedir la siguiente pagina
-        log(f"   semana {inicio} a {fin}: {len(lote)} filas")
+        log(f"   [{variable}] semana {inicio} a {fin}: {len(filas_semana)} filas")
+        return filas_semana
+
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        for filas_semana in pool.map(descargar_semana, bloques):
+            filas.extend(filas_semana)
     # pd.DataFrame(filas) convierte la lista de filas en una tabla de pandas,
-    # y guardar_bronce() la guarda en data/bronze/<NOMBRE>.parquet
-    guardar_bronce(pd.DataFrame(filas), NOMBRE, fuente="IDEAM", origen=config.IDEAM_URL)
+    # y guardar_bronce() la guarda en data/bronze/<nombre>.parquet
+    guardar_bronce(pd.DataFrame(filas), nombre, fuente="IDEAM", origen=url)
+
+
+def extraer(forzar: bool = False) -> None:
+    """Descarga precipitacion y temperatura diaria por estacion del IDEAM y las guarda en bronce."""
+    log("IDEAM - datos abiertos (SoQL: precipitacion y temperatura)")
+    extraer_dataset(NOMBRE, config.IDEAM_URL, "precipitacion", forzar)
+    extraer_dataset(NOMBRE_TEMP, config.IDEAM_TEMPERATURA_URL, "temperatura", forzar)
 
 
 # ---------------------------------------------------------------------------
