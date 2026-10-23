@@ -8,6 +8,7 @@ Documentacion: https://github.com/EquipoAnaliticaXM/API_XM
 # ---------------------------------------------------------------------------
 # IMPORTS (traer codigo que ya existe)
 # ---------------------------------------------------------------------------
+from concurrent.futures import ThreadPoolExecutor
 import pandas as pd     # pandas: libreria de tablas. "as pd" le pone el nombre corto pd.
                         # Aqui se usa para convertir la lista de filas en tabla (DataFrame).
 
@@ -34,40 +35,56 @@ def aplanar(respuesta: dict, periodo: str) -> list:
     filas = []                                     # lista vacia donde se van guardando las filas
     # .get("Items", []) toma la lista "Items" de la respuesta;
     # si XM no la mando, devuelve una lista vacia [] en vez de fallar.
-    for item in respuesta.get("Items", []):        # cada item es un dia
-        if periodo == "hourly":                    # datos por hora (precio, demanda)
-            for entidad in item["HourlyEntities"]:
+    for item in respuesta.get("Items", []):        # cada item es un dia (o corte del catalogo)
+        if periodo == "hourly":                    # datos por hora (precio, demanda, generacion)
+            for entidad in item.get("HourlyEntities", []):
                 # Cada fila es un diccionario {columna: valor}.
                 # ** desempaca el diccionario Values: agrega Hour01 ... Hour24 a la fila.
-                filas.append({"Date": item["Date"], "Id": entidad["Id"], **entidad["Values"]})
-        else:                                      # datos diarios (embalses)
-            for entidad in item["DailyEntities"]:
-                filas.append({"Date": item["Date"], "Id": entidad["Id"], "Value": entidad["Value"]})
+                filas.append({"Date": item.get("Date"), "Id": entidad.get("Id"), **entidad.get("Values", {})})
+        elif periodo == "lists":                   # catalogos (ListadoRecursos en endpoint lists)
+            for entidad in item.get("ListEntities", []):
+                # En lists, cada elemento de ListEntities trae Id y un diccionario Values con sus atributos.
+                filas.append({"Date": item.get("Date"), "Id": entidad.get("Id"), **entidad.get("Values", {})})
+        else:                                      # datos diarios (embalses, aportes)
+            for entidad in item.get("DailyEntities", []):
+                filas.append({"Date": item.get("Date"), "Id": entidad.get("Id"), "Value": entidad.get("Value")})
     return filas                                   # entrega la lista de filas
 
 
 def extraer_metrica(metrica: str, entidad: str, periodo: str, nombre: str, forzar: bool) -> None:
-    """Descarga una metrica de XM en ventanas de 30 dias y la guarda en bronce."""
+    """Descarga una metrica de XM (en ventanas de 30 dias o consulta unica para lists) y la guarda en bronce."""
     if ya_existe(nombre, forzar):                  # si el archivo ya esta en bronce...
         return                                     # ...termina aqui, sin descargar
-    url = config.XM_URL.format(periodo=periodo)    # reemplaza {periodo} por hourly o daily
+    url = config.XM_URL.format(periodo=periodo)    # reemplaza {periodo} por hourly, daily o lists
     filas = []                                     # aqui se juntan las filas de todas las ventanas
-    for inicio, fin in ventanas(config.FECHA_INICIO, config.FECHA_FIN, config.XM_MAX_DIAS):
-        # El pedido, con los mismos 5 campos del comando de prueba de la Parte 3.1.
-        # str(inicio) convierte la fecha en texto "2026-01-01", como la pide XM.
-        cuerpo = {"MetricId": metrica, "Entity": entidad,
-                  "StartDate": str(inicio), "EndDate": str(fin), "Filter": []}
-        respuesta = http_json("POST", url, json=cuerpo)          # envia el pedido con POST
-        nuevas = aplanar(respuesta, periodo)                     # JSON anidado -> filas
-        filas.extend(nuevas)                                     # agrega las filas de esta ventana
-        log(f"   {metrica} {inicio} a {fin}: {len(nuevas)} filas")   # len() = cuantas filas
+    if periodo == "lists":
+        # El endpoint lists no recibe fechas (StartDate/EndDate) y responde con ListEntities
+        cuerpo = {"MetricId": metrica, "Entity": entidad}
+        respuesta = http_json("POST", url, json=cuerpo)
+        filas = aplanar(respuesta, periodo)
+        log(f"   {metrica} (catalogo lists): {len(filas)} filas")
+    else:
+        bloques = list(ventanas(config.FECHA_INICIO, config.FECHA_FIN, config.XM_MAX_DIAS))
+
+        def descargar_ventana(rango):
+            inicio, fin = rango
+            cuerpo = {"MetricId": metrica, "Entity": entidad,
+                      "StartDate": str(inicio), "EndDate": str(fin), "Filter": []}
+            respuesta = http_json("POST", url, json=cuerpo)          # envia el pedido con POST
+            nuevas = aplanar(respuesta, periodo)                     # JSON anidado -> filas
+            log(f"   {metrica} {inicio} a {fin}: {len(nuevas)} filas")
+            return nuevas
+
+        with ThreadPoolExecutor(max_workers=6) as pool:
+            for nuevas in pool.map(descargar_ventana, bloques):
+                filas.extend(nuevas)
     # pd.DataFrame(filas) convierte la lista de filas en una tabla de pandas,
     # y guardar_bronce() la guarda en data/bronze/<nombre>.parquet
     guardar_bronce(pd.DataFrame(filas), nombre, fuente="XM", origen=f"{url} MetricId={metrica}")
 
 
 def extraer(forzar: bool = False) -> None:
-    """Descarga las 3 metricas de XM definidas en config.XM_METRICAS."""
+    """Descarga las 6 metricas de XM definidas en config.XM_METRICAS."""
     # forzar: bool = False -> si no se indica nada, forzar vale False (no repetir descargas).
     log("XM - API REST del mercado electrico")
     # Cada elemento de XM_METRICAS es una tupla de 4 valores;
