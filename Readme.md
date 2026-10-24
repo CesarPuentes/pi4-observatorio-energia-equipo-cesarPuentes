@@ -61,3 +61,13 @@ Cambios aplicados sobre el código base:
 
 3. **[`src/pipeline.py`](observatorio-energia/src/pipeline.py) y [`observatorio-energia/README.md`](observatorio-energia/README.md):**
    - Se integró `divipola` en la secuencia de ejecución del pipeline y se documentó su origen y propósito de negocio (estandarizar nombres de municipios entre EnerAndes e IDEAM mediante `cod_mpio`).
+
+---
+
+## Cuarto Commit – Generación automática de muestras en `data/sample/` (`#3`)
+
+Cambios aplicados sobre el código base:
+
+1. **[`src/config.py`](observatorio-energia/src/config.py) y [`src/pipeline.py`](observatorio-energia/src/pipeline.py):**
+   - Se añadieron `DIR_SAMPLE = RAIZ / "data" / "sample"` y `SAMPLE_FILAS = 200`.
+   - Se implementó `exportar_muestras()` dentro del pipeline para exportar automáticamente las primeras 200 filas de cada uno de los 14 archivos Parquet de `data/bronze/` a formato CSV en `data/sample/`, garantizando que `data/bronze/` permanezca excluido por `.gitignore`.
