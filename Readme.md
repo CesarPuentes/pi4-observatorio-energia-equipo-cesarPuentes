@@ -64,10 +64,14 @@ Cambios aplicados sobre el código base:
 
 ---
 
-## Cuarto Commit – Generación automática de muestras en `data/sample/` (`#3`)
+## Cuarto Commit – Muestras en `data/sample/` y Perfilamiento de Datos (`#3`)
 
 Cambios aplicados sobre el código base:
 
 1. **[`src/config.py`](observatorio-energia/src/config.py) y [`src/pipeline.py`](observatorio-energia/src/pipeline.py):**
    - Se añadieron `DIR_SAMPLE = RAIZ / "data" / "sample"` y `SAMPLE_FILAS = 200`.
    - Se implementó `exportar_muestras()` dentro del pipeline para exportar automáticamente las primeras 200 filas de cada uno de los 14 archivos Parquet de `data/bronze/` a formato CSV en `data/sample/`, garantizando que `data/bronze/` permanezca excluido por `.gitignore`.
+
+2. **[`src/perfilar.py`](observatorio-energia/src/perfilar.py) y [`docs/perfilamiento.md`](observatorio-energia/docs/perfilamiento.md):**
+   - Se creó el módulo `src.perfilar` que audita los 14 archivos Parquet de `data/bronze/` y genera [`docs/perfilamiento.md`](observatorio-energia/docs/perfilamiento.md) con las tablas de filas, columnas, tipos de datos, porcentaje de nulos, duplicados y rangos de fechas.
+   - Se documentaron **8 hallazgos de calidad con evidencia numérica** (filas parásitas/TOTAL y esquemas dispares en EnerAndes, 38 variantes de municipios para 20 municipios reales, unidades `kWh`/`MWh` mezcladas, 120 duplicados y valores negativos, rezago del IDEAM al `2026-07-24`, comas decimales en DIVIPOLA y duplicados en `xm_listado_recursos`).
