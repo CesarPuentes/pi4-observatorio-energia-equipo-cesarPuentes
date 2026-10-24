@@ -75,3 +75,17 @@ Cambios aplicados sobre el código base:
 2. **[`src/perfilar.py`](observatorio-energia/src/perfilar.py) y [`docs/perfilamiento.md`](observatorio-energia/docs/perfilamiento.md):**
    - Se creó el módulo `src.perfilar` que audita los 14 archivos Parquet de `data/bronze/` y genera [`docs/perfilamiento.md`](observatorio-energia/docs/perfilamiento.md) con las tablas de filas, columnas, tipos de datos, porcentaje de nulos, duplicados y rangos de fechas.
    - Se documentaron **8 hallazgos de calidad con evidencia numérica** (filas parásitas/TOTAL y esquemas dispares en EnerAndes, 38 variantes de municipios para 20 municipios reales, unidades `kWh`/`MWh` mezcladas, 120 duplicados y valores negativos, rezago del IDEAM al `2026-07-24`, comas decimales en DIVIPOLA y duplicados en `xm_listado_recursos`).
+
+---
+
+## Quinto Commit – Pruebas automáticas con `pytest`, Bitácora y Cierre (`#4`)
+
+Cambios aplicados sobre el código base:
+
+1. **[`requirements.txt`](observatorio-energia/requirements.txt), [`pyproject.toml`](observatorio-energia/pyproject.toml) y [`tests/test_pipeline.py`](observatorio-energia/tests/test_pipeline.py):**
+   - Se añadió `pytest>=8.0` a las dependencias.
+   - Se implementaron **8 pruebas unitarias** en `tests/test_pipeline.py` que validan la partición de fechas (`ventanas()`), el aplanado JSON de XM (`hourly`, `daily` y `lists`), la construcción de consultas SoQL del IDEAM (`precipitacion` y `temperatura`), la idempotencia (`ya_existe()`) y las columnas de linaje (`guardar_bronce()`).
+
+2. **[`docs/bitacoras/puentes_cesar.md`](observatorio-energia/docs/bitacoras/puentes_cesar.md) y [`observatorio-energia/README.md`](observatorio-energia/README.md):**
+   - Se registró la bitácora individual de las semanas 1 y 2 y se completó el `README.md` con instrucciones reproducibles, tabla de fuentes y declaración de uso de IA.
+   - Se cerró la entrega fusionando a `main` y etiquetando la versión con `git tag ea1 && git push origin ea1`.

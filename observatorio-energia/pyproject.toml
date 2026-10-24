@@ -1,0 +1,18 @@
+[project]
+name = "observatorio-energia"
+version = "0.1.0"
+description = "Observatorio Energia y Clima Colombia - Capa Bronce (EA1)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.32",
+    "pandas>=2.2",
+    "pyarrow>=17.0",
+    "openpyxl>=3.1",
+    "duckdb>=1.1",
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
