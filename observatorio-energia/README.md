@@ -19,10 +19,16 @@ Integrar datos del mercado eléctrico (XM), del clima (IDEAM y NOAA) y de ventas
 
 | Fuente | Tipo | Archivo en `data/bronze/` |
 |---|---|---|
-| XM – API Sinergox | API REST (POST, JSON) | `xm_precio_bolsa`, `xm_demanda`, `xm_embalses` |
-| IDEAM – datos.gov.co | API Socrata (SoQL) | `ideam_precipitacion_diaria` |
+| XM – API Sinergox | API REST (POST, JSON) | `xm_precio_bolsa`, `xm_demanda`, `xm_embalses`, `xm_generacion_recurso`, `xm_aportes`, `xm_listado_recursos` |
+| IDEAM – datos.gov.co | API Socrata (SoQL) | `ideam_precipitacion_diaria`, `ideam_temperatura_diaria` |
 | NOAA – índice ONI | Archivo de texto | `noaa_oni` |
 | EnerAndes | Excel interno | `enerandes_ventas_2023` … `enerandes_ventas_2026` |
+| DANE – DIVIPOLA (Propia) | API Socrata (SoQL) | `dane_divipola` |
+
+## 🌎 Fuente propia: DIVIPOLA – DANE (`src/extract/divipola.py`)
+
+- **¿Qué es y de dónde viene?** Es el catálogo oficial de la División Político-Administrativa de Colombia publicado por el DANE en datos abiertos (`https://www.datos.gov.co/resource/gdxc-w37w.json`).
+- **¿Para qué se usará?** En el Excel de EnerAndes los municipios vienen sin estandarizar (`Medellin`, `MEDELLÍN`, `Apartado`, etc.). Con `dane_divipola` asignaremos el código oficial DANE (`cod_mpio`) para cruzar las ventas comerciales de EnerAndes con las estaciones meteorológicas del IDEAM por municipio en Antioquia.
 
 ## ⚙️ Cómo ejecutar
 

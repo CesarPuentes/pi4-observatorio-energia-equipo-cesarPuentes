@@ -46,3 +46,18 @@ Cambios aplicados sobre el código base:
 2. **[`src/extract/ideam.py`](observatorio-energia/src/extract/ideam.py):**
    - Se parametrizó la consulta SoQL para calcular en el servidor tanto la precipitación acumulada diaria (`sum(valorobservado)`) como la temperatura media, mínima y máxima diaria por estación (`avg()`, `min()` y `max()` sobre `valorobservado`).
    - Se extendió la extracción para generar ambos archivos en `data/bronze/`: `ideam_precipitacion_diaria.parquet` e `ideam_temperatura_diaria.parquet`.
+
+---
+
+## Tercer Commit – Incorporación de fuente propia DIVIPOLA (`#2`)
+
+Cambios aplicados sobre el código base:
+
+1. **[`src/config.py`](observatorio-energia/src/config.py):**
+   - Se añadió `DIVIPOLA_URL = "https://www.datos.gov.co/resource/gdxc-w37w.json"`.
+
+2. **[`src/extract/divipola.py`](observatorio-energia/src/extract/divipola.py):**
+   - Se creó el extractor para descargar mediante paginación SoQL el catálogo oficial de municipios del DANE y almacenarlo en `data/bronze/dane_divipola.parquet`.
+
+3. **[`src/pipeline.py`](observatorio-energia/src/pipeline.py) y [`observatorio-energia/README.md`](observatorio-energia/README.md):**
+   - Se integró `divipola` en la secuencia de ejecución del pipeline y se documentó su origen y propósito de negocio (estandarizar nombres de municipios entre EnerAndes e IDEAM mediante `cod_mpio`).
