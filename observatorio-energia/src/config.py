@@ -23,6 +23,8 @@ FECHA_FIN = date(2026, 9, 30)       # ultimo dia que se descarga
 RAIZ = Path(__file__).resolve().parent.parent
 DIR_INSUMOS = RAIZ / "data" / "insumos"     # el operador / une partes de una ruta
 DIR_BRONZE = RAIZ / "data" / "bronze"       # aqui se guardan los datos descargados
+DIR_SAMPLE = RAIZ / "data" / "sample"       # muestras de las primeras 200 filas en CSV
+SAMPLE_FILAS = 200                          # cantidad de filas por archivo de muestra
 
 # --- Fuente 1: API de XM (mercado electrico) -------------------------------
 XM_URL = "https://servapibi.xm.com.co/{periodo}"   # periodo: hourly | daily | lists
@@ -51,6 +53,9 @@ NOAA_ONI_URL = "https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt"
 
 # --- Fuente 4: archivo interno de EnerAndes (Excel) ------------------------
 ENERANDES_EXCEL = DIR_INSUMOS / "ventas_enerandes_2023_2026.xlsx"
+
+# --- Fuente 5 (propia): DIVIPOLA - DANE en datos.gov.co --------------------
+DIVIPOLA_URL = "https://www.datos.gov.co/resource/gdxc-w37w.json"
 
 # --- Comportamiento HTTP ---------------------------------------------------
 HTTP_TIMEOUT = 120      # segundos que se espera una respuesta antes de rendirse
