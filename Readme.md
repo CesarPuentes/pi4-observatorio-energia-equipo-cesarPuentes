@@ -1,6 +1,10 @@
 # Mapa del Proyecto y Reporte de Avance
 
-## ¿Por qué se desarrolló la Actividad 1?
+# Arquitectura del pipeline de datos de la Capa Bronce (EA1).
+
+![Diagrama del proyecto](diagrama.svg)
+
+## Interpretación de la actividad 1
 
 El código provisto en clase era una demostración reducida a la que le faltaban piezas críticas de negocio e ingeniería:
 
@@ -37,6 +41,8 @@ Cambios aplicados sobre el código base:
 
 ## Segundo Commit – Ampliación de la extracción del IDEAM (`#2`)
 
+Link PR: https://github.com/CesarPuentes/pi4-observatorio-energia-equipo-cesarPuentes/pull/6
+
 Cambios aplicados sobre el código base:
 
 1. **[`src/config.py`](observatorio-energia/src/config.py):**
@@ -50,6 +56,8 @@ Cambios aplicados sobre el código base:
 ---
 
 ## Tercer Commit – Incorporación de fuente propia DIVIPOLA (`#2`)
+
+Link PR: https://github.com/CesarPuentes/pi4-observatorio-energia-equipo-cesarPuentes/pull/7
 
 Cambios aplicados sobre el código base:
 
@@ -66,6 +74,8 @@ Cambios aplicados sobre el código base:
 
 ## Cuarto Commit – Muestras en `data/sample/` y Perfilamiento de Datos (`#3`)
 
+Link PR:  https://github.com/CesarPuentes/pi4-observatorio-energia-equipo-cesarPuentes/pull/8
+
 Cambios aplicados sobre el código base:
 
 1. **[`src/config.py`](observatorio-energia/src/config.py) y [`src/pipeline.py`](observatorio-energia/src/pipeline.py):**
@@ -79,6 +89,8 @@ Cambios aplicados sobre el código base:
 ---
 
 ## Quinto Commit – Pruebas automáticas con `pytest`, Bitácora y Cierre (`#4`)
+
+Link PR: https://github.com/CesarPuentes/pi4-observatorio-energia-equipo-cesarPuentes/pull/9
 
 Cambios aplicados sobre el código base:
 
