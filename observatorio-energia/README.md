@@ -1,54 +1,52 @@
-# Observatorio Energía y Clima – Equipo <nombre>
+# Observatorio Energía y Clima – César Puentes (EA1)
 
-> Proyecto Integrado IV – Integración de Información · IU Digital de Antioquia · 2026-2
+> Proyecto Integrado IV · IU Digital de Antioquia · 2026-2
 
-## 👥 Integrantes
+## 👥 Integrante
 
-| Nombre | Usuario GitHub | Rol |
-|---|---|---|
-| | | Líder técnico / Data Engineer |
-| | | Data Quality Analyst |
-| | | Analytics Engineer |
-| | | BI Analyst / Storyteller |
+| Nombre | Usuario GitHub | Rol | Bitácora |
+|---|---|---|---|
+| César Puentes | `CesarPuentes` | Data Engineer / Quality / Analytics / BI | [`docs/bitacoras/puentes_cesar.md`](docs/bitacoras/puentes_cesar.md) |
 
 ## 🎯 Objetivo
 
-Integrar datos del mercado eléctrico (XM), del clima (IDEAM y NOAA) y de ventas internas (EnerAndes) para analizar el riesgo energético de Colombia ante El Niño 2026.
+Integrar en la **capa bronce** datos crudos del mercado eléctrico (XM), clima (IDEAM y NOAA), ventas internas (EnerAndes) y municipios (DIVIPOLA) en formato Parquet con linaje.
 
-## 📦 Fuentes de datos (capa bronce)
+## 📦 Fuentes de datos (`data/bronze/` y muestras en `data/sample/`)
 
-| Fuente | Tipo | Archivo en `data/bronze/` |
-|---|---|---|
-| XM – API Sinergox | API REST (POST, JSON) | `xm_precio_bolsa`, `xm_demanda`, `xm_embalses`, `xm_generacion_recurso`, `xm_aportes`, `xm_listado_recursos` |
-| IDEAM – datos.gov.co | API Socrata (SoQL) | `ideam_precipitacion_diaria`, `ideam_temperatura_diaria` |
-| NOAA – índice ONI | Archivo de texto | `noaa_oni` |
-| EnerAndes | Excel interno | `enerandes_ventas_2023` … `enerandes_ventas_2026` |
-| DANE – DIVIPOLA (Propia) | API Socrata (SoQL) | `dane_divipola` |
+| Fuente | Método | Rango | Archivos generados |
+|---|---|---|---|
+| **XM – Sinergox** | API REST (`POST`, JSON) | `2024-01-01` a `2026-09-30` | `xm_precio_bolsa`, `xm_demanda`, `xm_embalses`, `xm_generacion_recurso`, `xm_aportes`, `xm_listado_recursos` (`/lists`) |
+| **IDEAM** | API Socrata (SoQL) | Desde `2025-01-01` | `ideam_precipitacion_diaria` (`s54a-sgyg`), `ideam_temperatura_diaria` (`sbwg-7ju4`) |
+| **NOAA** | Texto plano (`GET`) | `1950`–`2026` | `noaa_oni` |
+| **EnerAndes** | Excel interno | `2023`–`2026` | `enerandes_ventas_2023` … `enerandes_ventas_2026` |
+| **DIVIPOLA (DANE)** | API Socrata (SoQL) | Vigente | `dane_divipola` (`gdxc-w37w`) |
 
-## 🌎 Fuente propia: DIVIPOLA – DANE (`src/extract/divipola.py`)
+## 🌎 Fuente propia: DIVIPOLA (`src/extract/divipola.py`)
 
-- **¿Qué es y de dónde viene?** Es el catálogo oficial de la División Político-Administrativa de Colombia publicado por el DANE en datos abiertos (`https://www.datos.gov.co/resource/gdxc-w37w.json`).
-- **¿Para qué se usará?** En el Excel de EnerAndes los municipios vienen sin estandarizar (`Medellin`, `MEDELLÍN`, `Apartado`, etc.). Con `dane_divipola` asignaremos el código oficial DANE (`cod_mpio`) para cruzar las ventas comerciales de EnerAndes con las estaciones meteorológicas del IDEAM por municipio en Antioquia.
+- **¿Qué es y de dónde viene?** Catálogo oficial de departamentos y municipios del DANE en datos abiertos (`https://www.datos.gov.co/resource/gdxc-w37w.json`).
+- **¿Para qué se usará?** Para normalizar con código DANE (`cod_mpio`) los nombres de municipios sucios del Excel de EnerAndes (`Medellin`, `MEDELLÍN`, etc.) y cruzarlos sin pérdida con las estaciones climáticas del IDEAM en Antioquia.
 
-## ⚙️ Cómo ejecutar
+## ⚙️ Cómo ejecutar desde cero
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-# copiar ventas_enerandes_2023_2026.xlsx en data/insumos/
-python -m src.pipeline          # descarga las 4 fuentes a data/bronze/ (unos 3 minutos)
-python -m src.consultar         # consultas SQL de BI con DuckDB
+```bash
+uv venv .venv
+source .venv/bin/activate          # Windows: .\.venv\Scripts\Activate.ps1
+uv pip install -r requirements.txt
+
+uv run python -m src.pipeline      # Descarga bronce y crea muestras en data/sample/
+uv run python -m src.consultar     # Consultas SQL con DuckDB
+uv run python -m src.perfilar      # Genera docs/perfilamiento.md
+uv run python -m pytest            # Ejecuta las 8 pruebas automáticas
 ```
 
-Para volver a descargar todo: `python -m src.pipeline --forzar`. El rango de fechas se cambia en `src/config.py`.
+*(Para forzar la re-descarga: `uv run python -m src.pipeline --forzar`)*
 
-## 🏗️ Arquitectura
+## 🏗️ Arquitectura y Documentación
 
+```text
+Fuentes -> BRONCE (Parquet crudo + linaje) -> PLATA (limpio) -> ORO (modelo estrella) -> Dashboard
 ```
-Fuentes -> BRONCE (dato tal cual + linaje) -> PLATA (limpio) -> ORO (modelo estrella) -> Dashboard
-```
 
-## 🤖 Uso de IA
-
-(Declarar aquí qué herramientas de IA se usaron y para qué.)
+- **Perfilamiento y hallazgos:** [`docs/perfilamiento.md`](docs/perfilamiento.md)
+- **Uso de IA:** Se usó asistente de IA en el IDE para apoyo en pruebas con `pytest` y script de perfilamiento.
