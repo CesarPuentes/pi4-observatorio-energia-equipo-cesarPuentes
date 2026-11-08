@@ -1,11 +1,17 @@
 # Entorno virtual de Python (cada quien crea el suyo)
 .venv/
 
-# Datos descargados: se regeneran con el pipeline, no se suben a GitHub
+# Datos descargados y procesados: se regeneran con el pipeline, no se suben a GitHub
 data/bronze/
 data/silver/
 data/gold/
 *.duckdb
+*.duckdb.wal
+
+# Archivos que genera dbt al ejecutarse (se regeneran con dbt build)
+dbt/target/
+dbt/logs/
+dbt/.user.yml
 
 # Secretos y configuracion local
 .env
@@ -13,5 +19,7 @@ data/gold/
 # Archivos temporales de Python y del sistema
 __pycache__/
 *.pyc
+.pytest_cache/
 .DS_Store
 Thumbs.db
+

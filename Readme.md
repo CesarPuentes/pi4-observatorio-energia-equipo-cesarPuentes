@@ -1,103 +1,82 @@
-# Mapa del Proyecto y Reporte de Avance
+# Mapa del Proyecto y Reporte de Avance (EA1 + EA2)
 
-# Arquitectura del pipeline de datos de la Capa Bronce (EA1).
+> **Proyecto Integrado IV – Observatorio Energía y Clima Colombia (2026-2)**
+> **Integrante:** César Puentes (`CesarPuentes`) · IU Digital de Antioquia
+
+---
+
+## Arquitectura Medallion del Pipeline (Bronce → Plata → Oro)
 
 ![Diagrama del proyecto](diagrama.svg)
 
-## Interpretación de la actividad 1
+```mermaid
+flowchart LR
+    subgraph Fuentes["🌐 5 Fuentes Reales"]
+        A["API XM Sinergox<br/>(6 métricas POST)"]
+        B["IDEAM Socrata<br/>(Lluvia y Temp SoQL)"]
+        C["NOAA CPC<br/>(Índice ONI TXT)"]
+        D["EnerAndes<br/>(Excel 4 hojas 2023-2026)"]
+        E["DANE DIVIPOLA<br/>(Fuente propia SoQL)"]
+    end
 
-El código provisto en clase era una demostración reducida a la que le faltaban piezas críticas de negocio e ingeniería:
+    subgraph Bronce["🥉 Capa Bronce (data/bronze/)"]
+        R[("14 archivos Parquet<br/>Crudos + Linaje")]
+    end
 
-1. **Rango histórico insuficiente:** Solo cubría 2026 (y lluvias desde junio), impidiendo comparar la coyuntura actual con El Niño 2023–2024. Se amplió XM desde enero de 2024 e IDEAM desde enero de 2025.
-2. **Falta de variables explicativas del precio:** Faltaban la generación por planta (`Gene` por `Recurso`), los aportes hídricos (`AporEner`) y la temperatura del aire del IDEAM.
-3. **Limitación técnica del extractor de XM:** El script base solo consultaba endpoints con fechas (`hourly` y `daily`) y no soportaba el catálogo de plantas (`ListadoRecursos`) en el endpoint `lists` (`ListEntities`, sin fechas).
-4. **Calidad y gobernabilidad previas a la Capa Plata:** Se requería auditar los datos crudos (`docs/perfilamiento.md`), publicar muestras livianas (`data/sample/`) y agregar pruebas con `pytest`.
+    subgraph Plata["🥈 Capa Plata (data/silver/)"]
+        S[("11 tablas limpias Parquet<br/>+ 2 tablas de Cuarentena<br/>Validadas con Pandera")]
+    end
 
-### Enlaces de referencia de las fuentes de datos
-- **XM – API Sinergox (`POST`):** `https://servapibi.xm.com.co/hourly`, `https://servapibi.xm.com.co/daily` y `https://servapibi.xm.com.co/lists` ([Documentación](https://github.com/EquipoAnaliticaXM/API_XM))
-- **IDEAM – Precipitación (`GET` SoQL):** `https://www.datos.gov.co/resource/s54a-sgyg.json` ([Ficha](https://www.datos.gov.co/d/s54a-sgyg))
-- **IDEAM – Temperatura (`GET` SoQL):** `https://www.datos.gov.co/resource/sbwg-7ju4.json` ([Ficha](https://www.datos.gov.co/d/sbwg-7ju4))
-- **NOAA – Índice ONI (`GET`):** `https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt`
-- **DANE – DIVIPOLA (`GET` SoQL):** `https://www.datos.gov.co/resource/gdxc-w37w.json` ([Ficha](https://www.datos.gov.co/d/gdxc-w37w))
+    subgraph Oro["🥇 Capa Oro (dbt + DuckDB)"]
+        G[("data/observatorio.duckdb<br/>11 Vistas Staging · 7 Dim · 5 Hechos<br/>82 pruebas dbt PASS (105/105)")]
+    end
 
----
-
-## Primer Commit – Ampliación de la extracción de XM (`#1`)
-
-Link PR: https://github.com/CesarPuentes/pi4-observatorio-energia-equipo-cesarPuentes/pull/5
-
-Cambios aplicados sobre el código base:
-
-1. **[`src/config.py`](observatorio-energia/src/config.py):**
-   - Se cambió `FECHA_INICIO` de `2026-01-01` a `2024-01-01`.
-   - Se agregaron 3 métricas a `XM_METRICAS`: `Gene` (`Recurso`, `hourly`), `AporEner` (`Sistema`, `daily`) y `ListadoRecursos` (`Sistema`, `lists`).
-
-2. **[`src/extract/xm.py`](observatorio-energia/src/extract/xm.py):**
-   - Se agregó el soporte para `periodo == "lists"`, enviando el cuerpo JSON sin fechas (`{"MetricId": metrica, "Entity": entidad}`) al endpoint `https://servapibi.xm.com.co/lists` y leyendo la clave `ListEntities` de la respuesta.
-   - Se paralelizó la descarga de las ventanas de 30 días con `ThreadPoolExecutor` para acelerar la extracción de los 2+ años de historia.
-   - Se regeneraron los 6 archivos Parquet en `data/bronze/` ejecutando `uv run python -m src.extract.xm --forzar`.
+    A & B & C & D & E -->|"python -m src.pipeline"| R
+    R -->|"python -m src.transformar<br/>(src/silver + src/quality)"| S
+    S -->|"dbt build"| G
+    G -->|"python -m src.consultar"| Q["📊 Consultas SQL de Negocio<br/>(consultas/oro/*.sql)"]
+```
 
 ---
 
-## Segundo Commit – Ampliación de la extracción del IDEAM (`#2`)
+## Parte II – Evidencia de Aprendizaje 2 (EA2): Calidad de Datos (Capa Plata) y Modelo Dimensional (Capa Oro)
 
-Link PR: https://github.com/CesarPuentes/pi4-observatorio-energia-equipo-cesarPuentes/pull/6
+### 1. Limpieza Completa hacia la Capa Plata (`observatorio-energia/src/silver/`)
+- **[`src/silver/enerandes.py`](observatorio-energia/src/silver/enerandes.py):**
+  - Extiende el módulo visto en clase para unificar las 4 hojas del Excel (`2023`, `2024`, `2025`, `2026`) en `data/silver/enerandes_ventas.parquet` (**4,007 filas limpias**), manteniendo compatibilidad con un único `DataFrame` o lista de `DataFrames`.
+  - Elimina las **14 filas parásitas** (títulos decorativos en 2025 y 2026, encabezados desplazados y filas `TOTAL`).
+  - Convierte los **4 formatos de fecha** (`2024-03`, `mar-24` / `apr-24`, `03/2024` y `01/03/2026` como `DD/MM/AAAA`: marzo de 2026, no 3 de enero) al formato `YYYY-MM` en la columna `periodo` y deriva `fecha` (`YYYY-MM-01`).
+  - Convierte las **347 filas en `MWh`** de la hoja 2024 a `kWh` (`× 1,000`).
+  - Estandariza las **32 variantes de nombres de municipios** contra el catálogo oficial DANE `dane_divipola` de Antioquia asignando `divipola` / `cod_mpio` (`05001`, etc.) y `municipio` oficial.
+  - Elimina **120 registros duplicados**, asigna `'No informado'` a las **28 filas sin `segmento`**, conserva como `NaN` (`nullable=True`) las **28 filas sin `valor_cop`**, y aísla en `data/silver/enerandes_cuarentena.parquet` las **43 filas con `energia_kwh` vacía (`25`) o negativa (`18`)** junto con su `motivo`.
+- **[`src/silver/xm.py`](observatorio-energia/src/silver/xm.py):**
+  - Despivota (`melt`) `xm_precio_bolsa`, `xm_demanda` y `xm_generacion_recurso` de 24 columnas horarias (`Hour01`..`Hour24`) a formato largo por `fecha` y `hora` (`1..24`), filtrando los **2,472,918** registros horarios vacíos de plantas sin generación nocturna.
+  - Limpia `xm_embalses` (escalando de fracción `0..1` a porcentaje `0..100 %`), `xm_aportes` (`float64 > 0`) y `xm_listado_recursos` (eliminando los 2 duplicados `5J8H` y `5PUN`, normalizando mayúsculas e incorporando los 10 códigos históricos de generación para integridad referencial).
+- **[`src/silver/ideam.py`](observatorio-energia/src/silver/ideam.py), [`src/silver/noaa.py`](observatorio-energia/src/silver/noaa.py) y [`src/silver/divipola.py`](observatorio-energia/src/silver/divipola.py):**
+  - Tipa fechas y métricas del IDEAM, asigna `cod_mpio` DIVIPOLA a cada estación y aísla en `data/silver/ideam_cuarentena.parquet` **7 lecturas extremas (`> 500 mm/día`)** por volcado acumulado del sensor.
+  - Asigna cada trimestre móvil de NOAA (`DJF` → `1`, …, `NDJ` → `12`) a su mes central (`YYYY-MM-01`) y calcula `fase_enso` (`El Niño` si `oni >= 0.5`, `La Niña` si `oni <= -0.5`, `Neutral` en otro caso).
+  - Reemplaza la coma decimal (`,`) por punto (`.`) en las coordenadas geográficas de `dane_divipola`.
 
-Cambios aplicados sobre el código base:
+### 2. Validación con `pandera`, Pruebas con `pytest` y Reporte de Calidad
+- **Esquemas Pandera ([`src/quality/esquemas.py`](observatorio-energia/src/quality/esquemas.py)):** Incluye el `ESQUEMA_VENTAS` de clase y los contratos para todas las demás tablas de Plata (`xm_*`, `ideam_*`, `noaa_oni`, `dane_divipola`), validando tipos, rangos y dominios antes de escribir cada Parquet en `data/silver/`.
+- **Pruebas con `pytest` ([`tests/test_limpieza.py`](observatorio-energia/tests/test_limpieza.py) y [`tests/test_pipeline.py`](observatorio-energia/tests/test_pipeline.py)):** **25 pruebas unitarias** (las **7 pruebas de la clase** + **10 pruebas nuevas del equipo** en `test_limpieza.py` + **8 de extracción** en `test_pipeline.py` = `25 passed`).
+- **Reporte de Calidad ([`docs/reporte_calidad.md`](observatorio-energia/docs/reporte_calidad.md)):** Generado automáticamente por [`src/quality/reporte.py`](observatorio-energia/src/quality/reporte.py) con **23 reglas documentadas** (problema, regla aplicada y métrica antes y después) y el desglose de las filas en cuarentena.
 
-1. **[`src/config.py`](observatorio-energia/src/config.py):**
-   - Se amplió `IDEAM_FECHA_INICIO` de `2026-06-01` a `2025-01-01` (> 1 año de cobertura).
-   - Se añadió la URL del dataset de temperatura del aire: `IDEAM_TEMPERATURA_URL = "https://www.datos.gov.co/resource/sbwg-7ju4.json"`.
-
-2. **[`src/extract/ideam.py`](observatorio-energia/src/extract/ideam.py):**
-   - Se parametrizó la consulta SoQL para calcular en el servidor tanto la precipitación acumulada diaria (`sum(valorobservado)`) como la temperatura media, mínima y máxima diaria por estación (`avg()`, `min()` y `max()` sobre `valorobservado`).
-   - Se extendió la extracción para generar ambos archivos en `data/bronze/`: `ideam_precipitacion_diaria.parquet` e `ideam_temperatura_diaria.parquet`.
-
----
-
-## Tercer Commit – Incorporación de fuente propia DIVIPOLA (`#2`)
-
-Link PR: https://github.com/CesarPuentes/pi4-observatorio-energia-equipo-cesarPuentes/pull/7
-
-Cambios aplicados sobre el código base:
-
-1. **[`src/config.py`](observatorio-energia/src/config.py):**
-   - Se añadió `DIVIPOLA_URL = "https://www.datos.gov.co/resource/gdxc-w37w.json"`.
-
-2. **[`src/extract/divipola.py`](observatorio-energia/src/extract/divipola.py):**
-   - Se creó el extractor para descargar mediante paginación SoQL el catálogo oficial de municipios del DANE y almacenarlo en `data/bronze/dane_divipola.parquet`.
-
-3. **[`src/pipeline.py`](observatorio-energia/src/pipeline.py) y [`observatorio-energia/README.md`](observatorio-energia/README.md):**
-   - Se integró `divipola` en la secuencia de ejecución del pipeline y se documentó su origen y propósito de negocio (estandarizar nombres de municipios entre EnerAndes e IDEAM mediante `cod_mpio`).
-
----
-
-## Cuarto Commit – Muestras en `data/sample/` y Perfilamiento de Datos (`#3`)
-
-Link PR:  https://github.com/CesarPuentes/pi4-observatorio-energia-equipo-cesarPuentes/pull/8
-
-Cambios aplicados sobre el código base:
-
-1. **[`src/config.py`](observatorio-energia/src/config.py) y [`src/pipeline.py`](observatorio-energia/src/pipeline.py):**
-   - Se añadieron `DIR_SAMPLE = RAIZ / "data" / "sample"` y `SAMPLE_FILAS = 200`.
-   - Se implementó `exportar_muestras()` dentro del pipeline para exportar automáticamente las primeras 200 filas de cada uno de los 14 archivos Parquet de `data/bronze/` a formato CSV en `data/sample/`, garantizando que `data/bronze/` permanezca excluido por `.gitignore`.
-
-2. **[`src/perfilar.py`](observatorio-energia/src/perfilar.py) y [`docs/perfilamiento.md`](observatorio-energia/docs/perfilamiento.md):**
-   - Se creó el módulo `src.perfilar` que audita los 14 archivos Parquet de `data/bronze/` y genera [`docs/perfilamiento.md`](observatorio-energia/docs/perfilamiento.md) con las tablas de filas, columnas, tipos de datos, porcentaje de nulos, duplicados y rangos de fechas.
-   - Se documentaron **8 hallazgos de calidad con evidencia numérica** (filas parásitas/TOTAL y esquemas dispares en EnerAndes, 38 variantes de municipios para 20 municipios reales, unidades `kWh`/`MWh` mezcladas, 120 duplicados y valores negativos, rezago del IDEAM al `2026-07-24`, comas decimales en DIVIPOLA y duplicados en `xm_listado_recursos`).
+### 3. Esquema Estrella con `dbt` + DuckDB (Capa Oro) y Documentación
+- **Proyecto [`dbt/`](observatorio-energia/dbt/):** Organizado en `dbt/models/staging/` (**11 vistas `stg_*`** sobre `source('plata', ...)`) y `dbt/models/marts/` (**7 dimensiones**: `dim_mes`, `dim_fecha`, `dim_hora`, `dim_municipio`, `dim_segmento`, `dim_recurso`, `dim_estacion`; y **5 tablas de hechos**: `fact_ventas_mensual`, `fact_mercado_horario`, `fact_generacion_recurso`, `fact_hidrologia_diaria`, `fact_clima_diario`) materializadas en `data/observatorio.duckdb`, con el grano declarado en [`dbt/models/marts/schema.yml`](observatorio-energia/dbt/models/marts/schema.yml) y **82 pruebas declarativas** (`unique`, `not_null`, `relationships`) que pasan sin errores (`PASS=105 WARN=0 ERROR=0` en `dbt build`).
+- **Documentación del modelo:**
+  - Diagrama del Esquema Estrella y Grano: [`observatorio-energia/docs/modelo_dimensional.md`](observatorio-energia/docs/modelo_dimensional.md)
+  - Diccionario de Datos de la Capa Oro: [`observatorio-energia/docs/diccionario_datos.md`](observatorio-energia/docs/diccionario_datos.md)
+  - Consultas SQL sobre la Capa Oro: [`observatorio-energia/consultas/oro/`](observatorio-energia/consultas/oro/)
+  - Orquestador único reproducible: `python -m src.transformar` ([`observatorio-energia/src/transformar.py`](observatorio-energia/src/transformar.py))
+  - README principal con resultados de consultas: [`observatorio-energia/README.md`](observatorio-energia/README.md)
 
 ---
 
-## Quinto Commit – Pruebas automáticas con `pytest`, Bitácora y Cierre (`#4`)
+## Parte I – Evidencia de Aprendizaje 1 (EA1): Extracción de Datos (Capa Bronce)
 
-Link PR: https://github.com/CesarPuentes/pi4-observatorio-energia-equipo-cesarPuentes/pull/9
-
-Cambios aplicados sobre el código base:
-
-1. **[`requirements.txt`](observatorio-energia/requirements.txt), [`pyproject.toml`](observatorio-energia/pyproject.toml) y [`tests/test_pipeline.py`](observatorio-energia/tests/test_pipeline.py):**
-   - Se añadió `pytest>=8.0` a las dependencias.
-   - Se implementaron **8 pruebas unitarias** en `tests/test_pipeline.py` que validan la partición de fechas (`ventanas()`), el aplanado JSON de XM (`hourly`, `daily` y `lists`), la construcción de consultas SoQL del IDEAM (`precipitacion` y `temperatura`), la idempotencia (`ya_existe()`) y las columnas de linaje (`guardar_bronce()`).
-
-2. **[`docs/bitacoras/puentes_cesar.md`](observatorio-energia/docs/bitacoras/puentes_cesar.md) y [`observatorio-energia/README.md`](observatorio-energia/README.md):**
-   - Se registró la bitácora individual de las semanas 1 y 2 y se completó el `README.md` con instrucciones reproducibles, tabla de fuentes y declaración de uso de IA.
-   - Se cerró la entrega fusionando a `main` y etiquetando la versión con `git tag ea1 && git push origin ea1`.
+1. **Ampliación de XM (`#1`):** Rango `2024-01-01` a `2026-09-30` y 6 métricas (`PrecBolsNaci`, `DemaReal`, `PorcVoluUtilDiar`, `Gene`, `AporEner`, `ListadoRecursos` en `/lists`).
+2. **Ampliación del IDEAM (`#2`):** Precipitación (`s54a-sgyg`) y temperatura (`sbwg-7ju4`) desde `2025-01-01` filtradas y agregadas en el servidor con SoQL.
+3. **Fuente propia DIVIPOLA (`#2`):** Catálogo oficial DANE (`gdxc-w37w`) en [`src/extract/divipola.py`](observatorio-energia/src/extract/divipola.py).
+4. **Muestras y Perfilamiento (`#3`):** Primeras 200 filas en `data/sample/*.csv` y auditoría en [`observatorio-energia/docs/perfilamiento.md`](observatorio-energia/docs/perfilamiento.md).
+5. **Pruebas y Bitácora (`#4`):** Pruebas en [`observatorio-energia/tests/test_pipeline.py`](observatorio-energia/tests/test_pipeline.py) y bitácora en [`observatorio-energia/docs/bitacoras/puentes_cesar.md`](observatorio-energia/docs/bitacoras/puentes_cesar.md).
