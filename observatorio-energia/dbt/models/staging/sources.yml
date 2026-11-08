@@ -1,0 +1,22 @@
+# Las fuentes de dbt: las tablas de la capa plata que dbt va a leer.
+# Es un archivo YAML: no se ejecuta; dbt lo lee para saber de donde salen los datos.
+
+version: 2
+
+sources:
+  # Fuente "plata": lee directamente los archivos Parquet de data/silver/
+  - name: plata
+    meta:
+      external_location: "data/silver/{name}.parquet"
+    tables:
+      - name: enerandes_ventas
+      - name: xm_precio_bolsa
+      - name: xm_demanda
+      - name: xm_generacion_recurso
+      - name: xm_embalses
+      - name: xm_aportes
+      - name: xm_listado_recursos
+      - name: ideam_precipitacion
+      - name: ideam_temperatura
+      - name: noaa_oni
+      - name: dane_divipola
