@@ -22,9 +22,17 @@ FECHA_FIN = date(2026, 9, 30)       # ultimo dia que se descarga
 # Dos veces .parent: de src/config.py sube a src/ y luego a la raiz del proyecto.
 RAIZ = Path(__file__).resolve().parent.parent
 DIR_INSUMOS = RAIZ / "data" / "insumos"     # el operador / une partes de una ruta
-DIR_BRONZE = RAIZ / "data" / "bronze"       # aqui se guardan los datos descargados
+DIR_BRONZE = RAIZ / "data" / "bronze"       # aqui se guardan los datos descargados (capa bronce)
+DIR_SILVER = RAIZ / "data" / "silver"       # capa plata: los datos ya limpios
+DIR_DOCS = RAIZ / "docs"                    # documentacion: perfilamiento, reporte de calidad
+DIR_GOLD = RAIZ / "data"                    # carpeta donde dbt crea observatorio.duckdb (capa oro)
 DIR_SAMPLE = RAIZ / "data" / "sample"       # muestras de las primeras 200 filas en CSV
 SAMPLE_FILAS = 200                          # cantidad de filas por archivo de muestra
+DUCKDB_ORO = RAIZ / "data" / "observatorio.duckdb"
+DIR_DBT = RAIZ / "dbt"
+DIR_CONSULTAS_ORO = RAIZ / "consultas" / "oro"
+REPORTE_CALIDAD = DIR_DOCS / "reporte_calidad.md"
+
 
 # --- Fuente 1: API de XM (mercado electrico) -------------------------------
 XM_URL = "https://servapibi.xm.com.co/{periodo}"   # periodo: hourly | daily | lists

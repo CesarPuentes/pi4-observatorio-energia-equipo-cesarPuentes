@@ -95,3 +95,19 @@ def guardar_bronce(df: pd.DataFrame, nombre: str, fuente: str, origen: str) -> N
     config.DIR_BRONZE.mkdir(parents=True, exist_ok=True)     # crea data/bronze si no existe
     df.to_parquet(ruta_bronce(nombre), index=False)          # guarda en Parquet (con pyarrow)
     log(f"   + {nombre}.parquet guardado: {len(df):,} filas x {df.shape[1]} columnas")
+
+
+def ruta_plata(nombre: str):
+    """Ruta del archivo en plata: data/silver/<nombre>.parquet"""
+    return config.DIR_SILVER / f"{nombre}.parquet"
+
+
+def guardar_plata(df: pd.DataFrame, nombre: str, schema=None) -> pd.DataFrame:
+    """Valida la tabla con su esquema de pandera (si se indica) y la guarda en data/silver/."""
+    if schema is not None:
+        df = schema.validate(df)
+    config.DIR_SILVER.mkdir(parents=True, exist_ok=True)
+    df.to_parquet(ruta_plata(nombre), index=False)
+    log(f"   + [PLATA] {nombre}.parquet validado y guardado: {len(df):,} filas x {df.shape[1]} columnas")
+    return df
+
