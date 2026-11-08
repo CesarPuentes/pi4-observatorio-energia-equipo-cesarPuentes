@@ -1,0 +1,152 @@
+<section id="punto-4" class="bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        
+        <!-- Header con botón modal -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold font-mono">4</span>
+            <div>
+              <h2 class="text-xl font-bold text-[var(--foreground,#f8fafc)]">
+                Reporte de Calidad Automático (`docs/reporte_calidad.md`)
+              </h2>
+              <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">
+                Auditoría numérica transparente: 24 reglas medidas antes y después en las 5 fuentes
+              </p>
+            </div>
+          </div>
+          <button onclick="abrirModal(4)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer">
+            <span>📁</span> Ver Scripts & Archivos en Disco
+          </button>
+        </div>
+
+        <!-- Cuadrante Pedagógico -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          <div class="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+            <span class="font-bold text-purple-400 uppercase tracking-wide text-[10px]">¿Por qué?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">En ingeniería de datos no basta con decir <em>'limpiamos los datos'</em>: hay que demostrar con auditoría matemática cuántos registros tenían cada problema ANTES y cuántos quedaron DESPUÉS.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-1">
+            <span class="font-bold text-cyan-400 uppercase tracking-wide text-[10px]">¿Cómo?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Cada módulo de <code class="text-cyan-300">src/silver/</code> mide sus reglas antes y después, y <code class="text-cyan-300">src/quality/reporte.py</code> genera automáticamente <code class="text-cyan-300">docs/reporte_calidad.md</code> con 24 reglas y el detalle de cuarentena.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+            <span class="font-bold text-emerald-400 uppercase tracking-wide text-[10px]">¿Para qué?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Para tener una auditoría transparente, numérica y reproducible de las 5 fuentes sin inventar cifras a mano.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+            <span class="font-bold text-amber-400 uppercase tracking-wide text-[10px]">En simple</span>
+            <p class="text-[var(--foreground,#f8fafc)]">El código escribe solo el informe de auditoría comparando el Antes y el Después de cada regla con trazabilidad completa.</p>
+          </div>
+        </div>
+
+        <!-- Tabla de Reglas Antes vs Después -->
+        <div class="overflow-x-auto border border-[var(--border,#334155)] rounded-xl">
+          <table class="w-full text-left text-xs font-mono">
+            <thead class="bg-[var(--background,#0f172a)] text-[var(--muted-foreground,#94a3b8)] border-b border-[var(--border,#334155)]">
+              <tr>
+                <th class="p-3 font-semibold font-sans">#</th>
+                <th class="p-3 font-semibold font-sans">Fuente</th>
+                <th class="p-3 font-semibold font-sans">Problema Detectado</th>
+                <th class="p-3 font-semibold font-sans">Regla Aplicada</th>
+                <th class="p-3 font-semibold font-sans text-right text-rose-400">Antes</th>
+                <th class="p-3 font-semibold font-sans text-right text-emerald-400">Después</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--border,#334155)]">
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-slate-500">1</td>
+                <td class="p-3 font-sans font-medium text-cyan-400">DIVIPOLA</td>
+                <td class="p-3 font-sans">Coma decimal en latitud y longitud</td>
+                <td class="p-3 font-sans">Reemplazar ',' por '.' y convertir a float64</td>
+                <td class="p-3 text-right text-rose-300 font-bold">1,122</td>
+                <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-slate-500">2</td>
+                <td class="p-3 font-sans font-medium text-cyan-400">EnerAndes</td>
+                <td class="p-3 font-sans">Títulos, notas y filas en blanco (2025 y 2026)</td>
+                <td class="p-3 font-sans">Detectar encabezado dinámico y descartar previas</td>
+                <td class="p-3 text-right text-rose-300 font-bold">6</td>
+                <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-slate-500">3</td>
+                <td class="p-3 font-sans font-medium text-cyan-400">EnerAndes</td>
+                <td class="p-3 font-sans">Filas de totales al final de cada hoja</td>
+                <td class="p-3 font-sans">Eliminar filas TOTAL</td>
+                <td class="p-3 text-right text-rose-300 font-bold">4</td>
+                <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-slate-500">4</td>
+                <td class="p-3 font-sans font-medium text-cyan-400">EnerAndes</td>
+                <td class="p-3 font-sans">Filas duplicadas idénticas</td>
+                <td class="p-3 font-sans">Dejar una sola copia por transacción</td>
+                <td class="p-3 text-right text-rose-300 font-bold">120</td>
+                <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-slate-500">5</td>
+                <td class="p-3 font-sans font-medium text-cyan-400">EnerAndes</td>
+                <td class="p-3 font-sans">Fechas en formatos mixtos (mar-24, DD/MM/AAAA)</td>
+                <td class="p-3 font-sans">Normalizar al estándar AAAA-MM</td>
+                <td class="p-3 text-right text-rose-300 font-bold">2,626</td>
+                <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-slate-500">6</td>
+                <td class="p-3 font-sans font-medium text-cyan-400">EnerAndes</td>
+                <td class="p-3 font-sans">Energía en MWh en hoja 2024 (factor 1,000x)</td>
+                <td class="p-3 font-sans">Multiplicar por 1,000 para unificar en kWh</td>
+                <td class="p-3 text-right text-rose-300 font-bold">337</td>
+                <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-slate-500">7</td>
+                <td class="p-3 font-sans font-medium text-cyan-400">EnerAndes</td>
+                <td class="p-3 font-sans">Energía vacía o negativa (incorregible)</td>
+                <td class="p-3 font-sans">Pasar fila a enerandes_cuarentena.parquet</td>
+                <td class="p-3 text-right text-rose-300 font-bold">43</td>
+                <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-slate-500">8</td>
+                <td class="p-3 font-sans font-medium text-cyan-400">XM Horario</td>
+                <td class="p-3 font-sans">24 columnas horarias como texto en bolsa y demanda</td>
+                <td class="p-3 font-sans">Despivotar a filas por fecha y hora (1..24)</td>
+                <td class="p-3 text-right text-rose-300 font-bold">2,008</td>
+                <td class="p-3 text-right text-emerald-400 font-bold">48,192</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-slate-500">9</td>
+                <td class="p-3 font-sans font-medium text-cyan-400">IDEAM</td>
+                <td class="p-3 font-sans">Precipitaciones &gt; 500 mm/día (volcado sensor)</td>
+                <td class="p-3 font-sans">Aislar en ideam_cuarentena.parquet</td>
+                <td class="p-3 text-right text-rose-300 font-bold">7</td>
+                <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-slate-500">10</td>
+                <td class="p-3 font-sans font-medium text-cyan-400">NOAA</td>
+                <td class="p-3 font-sans">Trimestres móviles (DJF..NDJ) sin fecha mensual</td>
+                <td class="p-3 font-sans">Mapear a mes central y calcular fase_enso</td>
+                <td class="p-3 text-right text-rose-300 font-bold">920</td>
+                <td class="p-3 text-right text-emerald-400 font-bold">920</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Banner Disparador Modal Scripts y Archivos -->
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-colors flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2.5 text-slate-300">
+            <span class="text-lg">🔬</span>
+            <div>
+              <span class="font-bold text-cyan-400">Inspección Técnica "Bajo el Capó":</span>
+              <span class="text-slate-400 block sm:inline sm:ml-1">Consulta los scripts involucrados y la ubicación física de archivos en disco (Antes vs. Después).</span>
+            </div>
+          </div>
+          <button onclick="abrirModal(4)" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-medium transition-all text-xs shrink-0 shadow-sm cursor-pointer">
+            <span>📁</span> Abrir Scripts & Archivos ➔
+          </button>
+        </div>
+      </section>

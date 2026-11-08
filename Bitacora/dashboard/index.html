@@ -1,0 +1,2343 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Observatorio Energía y Clima – Guía Interactiva "Bajo el Capó" (EA2)</title>
+  <!-- Tailwind CSS Engine -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <!-- Estilos Personalizados Modulares -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-[var(--background,#0f172a)] text-[var(--foreground,#f8fafc)] antialiased">
+
+  <!-- Header Superior con Métricas Clave -->
+  <header class="sticky top-0 z-40 bg-[var(--card,#1e293b)]/95 backdrop-blur border-b border-[var(--border,#334155)] px-6 py-4 shadow-sm">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-lg shadow-md">
+            ⚡
+          </div>
+          <div>
+            <h1 class="font-bold text-lg leading-tight text-[var(--foreground,#f8fafc)]">
+              Observatorio Energía & Clima Colombia
+            </h1>
+            <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">
+              Guía Visual e Interactiva "Bajo el Capó" · Evidencia de Aprendizaje 2 (EA2)
+            </p>
+          </div>
+        </div>
+      
+        <!-- Métricas Clave de la Entrega -->
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            4,007 ventas limpias
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-400 border border-amber-500/30">
+            43 en cuarentena
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+            25 pytest PASSED
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/15 text-purple-400 border border-purple-500/30">
+            105 dbt PASS
+          </span>
+        </div>
+      </div>
+    </header>
+
+  <!-- Layout Principal con Índice Flotante -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex gap-8">
+    
+    <!-- ÍNDICE FLOTANTE / SIDEBAR STICKY -->
+    <aside class="hidden lg:block w-72 shrink-0">
+          <div class="sticky top-24 bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-5 shadow-lg space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-[var(--border,#334155)]">
+              <span class="text-xs font-bold tracking-wider uppercase text-[var(--muted-foreground,#94a3b8)]">
+                Índice de Contenido
+              </span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono">EA2 Kimball</span>
+            </div>
+
+            <nav class="space-y-1 text-xs">
+              <a href="#panorama" class="group flex items-start gap-2.5 p-2 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/25 transition-all font-semibold mb-1">
+                <span class="w-5 h-5 rounded bg-cyan-500/30 text-cyan-200 flex items-center justify-center shrink-0 font-mono font-bold">🔭</span>
+                <span class="leading-tight">Vista Panorámica: Negocio & Datos</span>
+              </a>
+              <a href="#glosario" class="group flex items-start gap-2.5 p-2 rounded-lg bg-purple-500/15 text-purple-300 border border-purple-500/30 hover:bg-purple-500/25 transition-all font-semibold mb-2">
+                <span class="w-5 h-5 rounded bg-purple-500/30 text-purple-200 flex items-center justify-center shrink-0 font-mono font-bold">📚</span>
+                <span class="leading-tight">Glosario de Datos (Bronce · Plata · Oro)</span>
+              </a>
+              <a href="#punto-1" class="group flex items-start gap-2.5 p-2 rounded-lg hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">
+                <span class="w-5 h-5 rounded bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 font-mono font-bold">1</span>
+                <span class="font-medium">EnerAndes (4 hojas, fechas, MWh y cuarentena)</span>
+              </a>
+              <a href="#punto-2" class="group flex items-start gap-2.5 p-2 rounded-lg hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">
+                <span class="w-5 h-5 rounded bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 font-mono font-bold">2</span>
+                <span class="font-medium">XM, IDEAM, NOAA y DANE DIVIPOLA</span>
+              </a>
+              <a href="#punto-3" class="group flex items-start gap-2.5 p-2 rounded-lg hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">
+                <span class="w-5 h-5 rounded bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 font-mono font-bold">3</span>
+                <span class="font-medium">Pandera (Contratos) y Pytest (25 Tests)</span>
+              </a>
+              <a href="#punto-4" class="group flex items-start gap-2.5 p-2 rounded-lg hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">
+                <span class="w-5 h-5 rounded bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 font-mono font-bold">4</span>
+                <span class="font-medium">Reporte de Calidad (24 Reglas Medidas)</span>
+              </a>
+              <a href="#punto-5" class="group flex items-start gap-2.5 p-2 rounded-lg hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">
+                <span class="w-5 h-5 rounded bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 font-mono font-bold">5</span>
+                <span class="font-medium">Esquema Estrella dbt + DuckDB (Capa Oro)</span>
+              </a>
+              <a href="#punto-6" class="group flex items-start gap-2.5 p-2 rounded-lg hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">
+                <span class="w-5 h-5 rounded bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 font-mono font-bold">6</span>
+                <span class="font-medium">5 Consultas Analíticas de Negocio en Oro</span>
+              </a>
+              <a href="#punto-7" class="group flex items-start gap-2.5 p-2 rounded-lg hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">
+                <span class="w-5 h-5 rounded bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 font-mono font-bold">7</span>
+                <span class="font-medium">Reproducibilidad en 1 Comando & Git</span>
+              </a>
+            </nav>
+
+            <!-- Acceso Rápido Terminal y Modal -->
+            <div class="pt-3 border-t border-[var(--border,#334155)] space-y-2">
+              <button onclick="abrirModal(1)" class="w-full flex items-center justify-center gap-1.5 p-2 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-semibold transition-colors cursor-pointer shadow-sm">
+                <span>📁</span> Ver Scripts & Archivos (Modal)
+              </button>
+              <div class="text-[11px] font-semibold text-[var(--muted-foreground,#94a3b8)]">Comando CLI:</div>
+              <div class="bg-[var(--background,#0f172a)] p-2 rounded-lg font-mono text-[11px] text-cyan-300 flex items-center justify-between border border-[var(--border,#334155)]">
+                <code>python -m src.explorar</code>
+                <button onclick="copiarComando('python -m src.explorar')" class="hover:text-white cursor-pointer" title="Copiar">📋</button>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+    <!-- CONTENIDO CENTRAL: VISTA PANORÁMICA, GLOSARIO Y SECCIONES 1 A 7 -->
+    <main class="flex-1 space-y-12 min-w-0">
+      <!-- ============================================================ -->
+      <!-- SECCIÓN 0: VISTA PANORÁMICA (NEGOCIO & INGENIERÍA DE DATOS)   -->
+      <!-- ============================================================ -->
+      <section id="panorama" class="bg-gradient-to-b from-slate-900 to-[var(--card,#1e293b)] border border-cyan-500/30 rounded-2xl p-6 sm:p-8 shadow-xl space-y-8 relative overflow-hidden">
+  
+        <!-- Glow decorativo superior -->
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Header de la Sección -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white text-xl shadow-lg shadow-cyan-500/20">
+              🔭
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">NARRATIVA GLOBAL</span>
+                <span class="text-xs text-slate-400 font-mono">EA1 Ingesta + EA2 Kimball</span>
+              </div>
+              <h2 class="text-2xl font-black text-white tracking-tight">
+                Vista Panorámica: El Negocio y la Ingeniería de Datos
+              </h2>
+              <p class="text-xs text-slate-400 mt-0.5">
+                De la fluctuación térmica en el Pacífico a la exposición financiera de EnerAndes en Antioquia
+              </p>
+            </div>
+          </div>
+    
+          <div class="flex items-center gap-2">
+            <span class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 font-mono">
+              ⚡ Pipeline End-to-End: <span class="text-cyan-400 font-bold">~22 seg</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- CUADRANTES DE COMPRENSIÓN RÁPIDA -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- ¿Por qué? -->
+          <div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 space-y-2">
+            <div class="flex items-center gap-2 text-rose-400 font-bold text-xs uppercase tracking-wider">
+              <span>❓</span> ¿Por qué importa? (Negocio)
+            </div>
+            <p class="text-slate-300 text-xs leading-relaxed">
+              Colombia es <strong class="text-white">70% hidroeléctrica</strong>. Cuando llega <strong class="text-rose-300">El Niño</strong>, los embalses se secan y se despachan plantas térmicas caras. El precio en la <strong>Bolsa de Energía</strong> se triplica (222 &rarr; 663 COP/kWh), poniendo en riesgo el margen de EnerAndes si compra en bolsa sin cobertura.
+            </p>
+          </div>
+
+          <!-- ¿Cómo? -->
+          <div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-2">
+            <div class="flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-wider">
+              <span>⚙️</span> ¿Cómo se resuelve? (Ingeniería)
+            </div>
+            <p class="text-slate-300 text-xs leading-relaxed">
+              Unificando 5 fuentes heterogéneas mediante la <strong class="text-cyan-300">Arquitectura Medallón</strong>: Ingesta paralela e inmutable en <strong class="text-amber-400">Bronce</strong> (Parquet), contratos Pandera y cuarentena en <strong class="text-slate-300">Plata</strong>, y modelo dimensional Kimball en <strong class="text-yellow-400">Oro</strong> (dbt + DuckDB).
+            </p>
+          </div>
+
+          <!-- ¿Para qué? -->
+          <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-2">
+            <div class="flex items-center gap-2 text-emerald-400 font-bold text-xs uppercase tracking-wider">
+              <span>🎯</span> ¿Para qué sirve? (Analítica)
+            </div>
+            <p class="text-slate-300 text-xs leading-relaxed">
+              Permite <strong class="text-emerald-300">anticipar con 3 a 6 meses</strong> la presión en tarifas eléctricas analizando anomalías oceánicas (NOAA), para fijar contratos bilaterales a largo plazo y mitigar la volatilidad del mercado spot de XM.
+            </p>
+          </div>
+
+          <!-- En simple -->
+          <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-2">
+            <div class="flex items-center gap-2 text-amber-400 font-bold text-xs uppercase tracking-wider">
+              <span>💡</span> En Simple
+            </div>
+            <p class="text-slate-300 text-xs leading-relaxed">
+              Si el agua del Pacífico se calienta medio grado, deja de llover en Antioquia, los embalses caen, la luz sube al triple y EnerAndes pierde dinero. La ingeniería de datos conecta cada eslabón con contratos de calidad y SQL confiable.
+            </p>
+          </div>
+        </div>
+
+        <!-- CADENA CAUSAL: LOS 5 ESLABONES DEL NEGOCIO -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+              <span>🔗</span> La Cadena Causal del Negocio: De la Atmósfera a la Facturación
+            </h3>
+            <span class="text-[11px] text-slate-400">5 fuentes interconectadas en el pipeline</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+            <!-- Eslabón 1: NOAA -->
+            <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-2 relative">
+              <div class="flex items-center justify-between text-xs">
+                <span class="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold font-mono text-[10px]">1. MACRO</span>
+                <span class="text-slate-500 font-mono text-[10px]">NOAA</span>
+              </div>
+              <div class="font-bold text-white text-xs flex items-center gap-1.5">
+                <span>🌊</span> Índice ONI (Pacífico)
+              </div>
+              <p class="text-[11px] text-slate-300 leading-snug">
+                Anomalía térmica superficial &ge; +0.5 °C alerta la gestación de <strong class="text-amber-300">El Niño</strong> con meses de antelación.
+              </p>
+              <div class="pt-1 border-t border-slate-700 text-[10px] text-cyan-400 font-mono">
+                Rango: -2.1 a +2.6 °C
+              </div>
+            </div>
+
+            <!-- Eslabón 2: IDEAM -->
+            <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold font-mono text-[10px]">2. REGIONAL</span>
+                <span class="text-slate-500 font-mono text-[10px]">IDEAM</span>
+              </div>
+              <div class="font-bold text-white text-xs flex items-center gap-1.5">
+                <span>☀️</span> Lluvias en Antioquia
+              </div>
+              <p class="text-[11px] text-slate-300 leading-snug">
+                Mide el estrés hídrico en las cuencas de los embalses estratégicos (Guatapé, Peñol, Ituango).
+              </p>
+              <div class="pt-1 border-t border-slate-700 text-[10px] text-cyan-400 font-mono">
+                Lluvia &darr; 38% | Calor &uarr; 1.8°C
+              </div>
+            </div>
+
+            <!-- Eslabón 3: XM Operación -->
+            <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold font-mono text-[10px]">3. SISTEMA</span>
+                <span class="text-slate-500 font-mono text-[10px]">XM S.A.</span>
+              </div>
+              <div class="font-bold text-white text-xs flex items-center gap-1.5">
+                <span>📉</span> Embalses & Térmicas
+              </div>
+              <p class="text-[11px] text-slate-300 leading-snug">
+                Aportes hídricos caen de 115% a 63%. Para evitar apagones, el despacho térmico sube del 11% al 30%.
+              </p>
+              <div class="pt-1 border-t border-slate-700 text-[10px] text-purple-300 font-mono">
+                Generación térmica &times; 2.7
+              </div>
+            </div>
+
+            <!-- Eslabón 4: XM Mercado -->
+            <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold font-mono text-[10px]">4. PRECIO</span>
+                <span class="text-slate-500 font-mono text-[10px]">XM S.A.</span>
+              </div>
+              <div class="font-bold text-white text-xs flex items-center gap-1.5">
+                <span>📈</span> Bolsa Mayorista
+              </div>
+              <p class="text-[11px] text-slate-300 leading-snug">
+                Las térmicas más caras fijan el precio marginal horario. El spot se triplica en cuestión de semanas.
+              </p>
+              <div class="pt-1 border-t border-slate-700 text-[10px] text-rose-400 font-mono">
+                222 &rarr; 663 COP/kWh
+              </div>
+            </div>
+
+            <!-- Eslabón 5: EnerAndes -->
+            <div class="p-3.5 rounded-xl bg-slate-800/80 border border-emerald-500/30 space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold font-mono text-[10px]">5. IMPACTO</span>
+                <span class="text-slate-500 font-mono text-[10px]">EnerAndes</span>
+              </div>
+              <div class="font-bold text-white text-xs flex items-center gap-1.5">
+                <span>⚡</span> Margen y Ventas
+              </div>
+              <p class="text-[11px] text-slate-300 leading-snug">
+                Comercializa en 20 municipios. Al comprar <strong class="text-emerald-300">22.2% en bolsa</strong>, la subida de precios absorbe el margen si no hay cobertura.
+              </p>
+              <div class="pt-1 border-t border-slate-700 text-[10px] text-emerald-400 font-mono">
+                4,007 ventas analizadas
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LA ARQUITECTURA DE DATOS: MEDALLÓN + KIMBALL -->
+        <div class="space-y-4 pt-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+              <span>🏛️</span> Arquitectura de Ingeniería de Datos: Medallón & Kimball
+            </h3>
+            <span class="text-[11px] text-slate-400">Evolución de Actividad 1 a Actividad 2</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Capa Bronce (EA1) -->
+            <div class="p-4 rounded-xl bg-slate-900/90 border border-amber-600/30 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">🥉</span>
+                  <span class="font-bold text-amber-400 text-sm">Capa Bronce (EA1)</span>
+                </div>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">data/bronze/</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                <strong>Ingesta Multicanal & Persistencia Inmutable:</strong>
+              </p>
+              <ul class="text-[11px] text-slate-300 space-y-1.5 list-disc pl-4">
+                <li><strong>XM Sinergox API:</strong> Paralelismo con <code>ThreadPoolExecutor(6)</code> para ventanas mensuales concurrentes (1,004 días).</li>
+                <li><strong>IDEAM Socrata:</strong> Paginación SoQL de 50k registros en lotes de 7 días ante timeouts.</li>
+                <li><strong>Resiliencia:</strong> Reintentos exponenciales (2s, 4s, 8s) y comprobación de idempotencia.</li>
+                <li><strong>Formato Apache Parquet:</strong> Compresión Snappy columnar (-80% espacio vs CSV) con linaje inmutable (<code>_fuente</code>, <code>_extraido_en</code>).</li>
+              </ul>
+            </div>
+
+            <!-- Capa Plata (EA2) -->
+            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-500/30 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded bg-slate-500/20 text-slate-300 flex items-center justify-center font-bold text-xs">🥈</span>
+                  <span class="font-bold text-slate-200 text-sm">Capa Plata (EA2)</span>
+                </div>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">data/silver/</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                <strong>Limpieza, Contratos y Calidad Certificada:</strong>
+              </p>
+              <ul class="text-[11px] text-slate-300 space-y-1.5 list-disc pl-4">
+                <li><strong>Limpieza Estructural:</strong> Despivote horario (24 cols &rarr; 1 col), conversión MWh a kWh (&times;1,000) y DIVIPOLA DANE (5 dígitos).</li>
+                <li><strong>Contratos Pandera:</strong> <code>DataFrameSchema</code> en tiempo de ejecución validando tipos, regex y rangos antes de persistir.</li>
+                <li><strong>Patrón de Cuarentena:</strong> 43 ventas incompletas y 7 lluvias anómalas aisladas sin detener la ejecución.</li>
+                <li><strong>Pruebas:</strong> Suite de <strong>25 tests Pytest</strong> y reporte de calidad con <strong>24 reglas auditadas</strong>.</li>
+              </ul>
+            </div>
+
+            <!-- Capa Oro (EA2) -->
+            <div class="p-4 rounded-xl bg-slate-900/90 border border-yellow-500/30 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded bg-yellow-500/20 text-yellow-400 flex items-center justify-center font-bold text-xs">🥇</span>
+                  <span class="font-bold text-yellow-300 text-sm">Capa Oro (EA2)</span>
+                </div>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">DuckDB + dbt</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                <strong>Modelo Dimensional Kimball & Analítica:</strong>
+              </p>
+              <ul class="text-[11px] text-slate-300 space-y-1.5 list-disc pl-4">
+                <li><strong>Motor DuckDB OLAP:</strong> Consultas vectorizadas ultra-rápidas en <code>data/observatorio.duckdb</code>.</li>
+                <li><strong>Esquema Estrella:</strong> 5 Tablas de Hechos (Ventas, Mercado, Generación, Clima, Estaciones) y 7 Dimensiones Conformadas.</li>
+                <li><strong>Auditoría dbt:</strong> 105 pruebas de integridad referencial, unicidad y not_null aprobadas al 100% (<code>PASS=105</code>).</li>
+                <li><strong>Valor al Negocio:</strong> 5 consultas SQL clave para responder la correlación clima-precio-ventas.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- BANNER DE ENLACE RÁPIDO HACIA EL DETALLE TÉCNICO -->
+        <div class="p-4 rounded-xl bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-transparent border border-cyan-500/20 flex flex-wrap items-center justify-between gap-4 text-xs">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🚀</span>
+            <div>
+              <span class="font-bold text-white block">A continuación: Los 7 Puntos Técnicos de la Rúbrica EA2</span>
+              <span class="text-slate-400">Inspecciona paso a paso el código, transformaciones antes/después, contratos Pandera y modelos dbt.</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <a href="#punto-1" class="px-3.5 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-semibold transition-all">
+              Comenzar con Punto 1 (EnerAndes) &rarr;
+            </a>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECCIÓN 0B: GLOSARIO INTERACTIVO DE INGENIERÍA DE DATOS       -->
+      <!-- ============================================================ -->
+      <section id="glosario" class="bg-[var(--card,#1e293b)] border border-slate-700/80 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+
+        <!-- Header del Glosario -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white text-xl shadow-lg shadow-purple-500/20">
+              📚
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">FUNDAMENTOS & ARQUITECTURA</span>
+                <span class="text-xs text-slate-400 font-mono">32 Conceptos Clave</span>
+              </div>
+              <h2 class="text-2xl font-black text-white tracking-tight">
+                Glosario de Ingeniería de Datos por Capas
+              </h2>
+              <p class="text-xs text-slate-400 mt-0.5">
+                Guía conceptual sin rodeos: de la ingesta cruda (Bronce) a los contratos (Plata) y el modelado analítico (Oro)
+              </p>
+            </div>
+          </div>
+
+          <!-- Contador dinámico -->
+          <span id="glosario-contador" class="text-xs px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 font-mono">
+            Mostrando 32 de 32 conceptos
+          </span>
+        </div>
+
+        <!-- Barra de Filtros y Buscador Interactivo -->
+        <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-slate-950/70 border border-slate-800">
+          <!-- Pestañas por Capa -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="seleccionarCapaGlosario('todos')" data-capa="todos" class="btn-filtro-glosario px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-500 text-slate-950 transition-all shadow-md cursor-pointer">
+              Todos (32)
+            </button>
+            <button onclick="seleccionarCapaGlosario('bronce')" data-capa="bronce" class="btn-filtro-glosario px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 transition-all cursor-pointer">
+              🥉 Capa Bronce (10)
+            </button>
+            <button onclick="seleccionarCapaGlosario('plata')" data-capa="plata" class="btn-filtro-glosario px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-all cursor-pointer">
+              🥈 Capa Plata (11)
+            </button>
+            <button onclick="seleccionarCapaGlosario('oro')" data-capa="oro" class="btn-filtro-glosario px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-yellow-300 border border-slate-700 transition-all cursor-pointer">
+              🥇 Capa Oro (11)
+            </button>
+          </div>
+
+          <!-- Buscador en tiempo real -->
+          <div class="relative w-full sm:w-72">
+            <input 
+              type="text" 
+              id="glosario-buscador" 
+              oninput="filtrarGlosario()" 
+              placeholder="🔍 Buscar concepto (ej: parquet, duckdb, grano)..." 
+              class="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono transition-colors"
+            />
+          </div>
+        </div>
+
+        <!-- GRID DE TARJETAS DE CONCEPTOS (32 CONCEPTOS) -->
+        <div id="glosario-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+
+          <!-- ========================================== -->
+          <!-- CAPA BRONCE (10 CONCEPTOS)                 -->
+          <!-- ========================================== -->
+
+          <!-- 1. Arquitectura Medallón -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · ARQUITECTURA</span>
+                <span class="text-[10px] text-slate-500 font-mono">EA1 / EA2</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🏛️</span> Arquitectura Medallón
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Patrón de diseño que organiza el almacenamiento en 3 capas progresivas: <strong>Bronce</strong> (crudo e inmutable), <strong>Plata</strong> (limpio y validado) y <strong>Oro</strong> (dimensional para negocio).
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Evita modificar los datos de origen; si una regla de limpieza cambia, no hay que volver a descargar las APIs.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Como refinar petróleo: petróleo crudo (Bronce) &rarr; gasolina refinada (Plata) &rarr; combustible de aviación para el motor (Oro).
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Ubicación: <code>data/bronze/</code> &rarr; <code>silver/</code> &rarr; <code>gold</code>
+            </div>
+          </div>
+
+          <!-- 2. Filas vs Columnas -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · ALMACENAMIENTO</span>
+                <span class="text-[10px] text-slate-500 font-mono">OLTP vs OLAP</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>📊</span> Almacenamiento Filas vs Columnas
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Formato por filas (CSV/Postgres) guarda registro a registro completo. Formato columnar (Parquet) guarda los valores de una misma columna juntos en bloques contiguos.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Al calcular el promedio de <code>precio_bolsa</code> de 3 años, el disco salta directo a esa columna sin leer fechas ni nombres de plantas.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Buscar en un cajón con calcetines mezclados (filas) vs cajones organizados solo para calcetines (columnas).
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Estándar: Apache Parquet
+            </div>
+          </div>
+
+          <!-- 3. Apache Parquet -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · FORMATO</span>
+                <span class="text-[10px] text-slate-500 font-mono">.parquet</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>📦</span> Apache Parquet
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Formato binario, columnar y fuertemente tipado. Incluye estadísticas de cada columna (mínimo, máximo, conteo de nulos) dentro de su propio encabezado (*metadata footer*).
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Si pides fechas de 2024, Parquet descarta los bloques de 2023 sin descomprimirlos (*Predicate Pushdown*).
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Un libro con un índice analítico exacto al final que te dice en qué página está el tema sin leer todo el libro.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Salida: <code>data/bronze/*.parquet</code>
+            </div>
+          </div>
+
+          <!-- 4. Compresión Snappy -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · COMPRESIÓN</span>
+                <span class="text-[10px] text-slate-500 font-mono">Snappy</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🗜️</span> Compresión Snappy
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Algoritmo de compresión de Google diseñado no para obtener el tamaño más minúsculo, sino para descomprimir a velocidades extremas (&gt;250 MB/s por núcleo).
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Reduce el archivo de EnerAndes y XM un 80% frente a CSV sin ralentizar la CPU durante las consultas de DuckDB.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Doblar una camiseta de forma rápida y sencilla para que quepa en la maleta y se desdoble en un segundo.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Parámetro: <code>compression='snappy'</code>
+            </div>
+          </div>
+
+          <!-- 5. Linaje e Inmutabilidad -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · AUDITORÍA</span>
+                <span class="text-[10px] text-slate-500 font-mono">Trazabilidad</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🧬</span> Linaje e Inmutabilidad en Bronce
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Los datos crudos nunca se editan ni se sobreescriben. Se les agregan metadatos técnicos: cuándo se bajaron (<code>_extraido_en</code>) y de dónde vinieron (<code>_fuente</code>).
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Permite a cualquier auditor comprobar exactamente qué respondió la API de XM el día en que se corrió el pipeline.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> La caja negra de un avión: un registro inmodificable con fecha y hora exactas de cada suceso.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Código: <code>src/extract/*.py</code>
+            </div>
+          </div>
+
+          <!-- 6. APIs Heterogéneas -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · INGESTA</span>
+                <span class="text-[10px] text-slate-500 font-mono">REST / SoQL</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🌐</span> APIs Heterogéneas & Multicanal
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Conectividad con orígenes que hablan distintos protocolos: API REST corporativa (XM Sinergox), API Socrata SoQL de datos abiertos (IDEAM), archivo ASCII HTTP (NOAA) y hojas Excel locales.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Cada fuente tiene su propio conector en <code>src/extract/</code> encapsulado para abstraer sus rarezas.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Un traductor simultáneo en las Naciones Unidas capaz de escuchar 5 idiomas distintos y pasarlos a un mismo canal.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Módulos: <code>src/extract/xm.py</code>, <code>ideam.py</code>
+            </div>
+          </div>
+
+          <!-- 7. Concurrencia y Paralelismo -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · RENDIMIENTO</span>
+                <span class="text-[10px] text-slate-500 font-mono">ThreadPool</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>⚡</span> Concurrencia (`ThreadPoolExecutor`)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Ejecutar múltiples peticiones de red simultáneas en hilos paralelos mientras se espera la respuesta de los servidores externos.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Descarga 1,004 días de XM divididos en 36 ventanas mensuales con 6 trabajadores en solo ~15 segundos en lugar de 3 minutos.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Poner a 6 cajeros a atender a los clientes en paralelo en vez de una sola fila kilométrica.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Código: <code>ThreadPoolExecutor(max_workers=6)</code>
+            </div>
+          </div>
+
+          <!-- 8. Resiliencia & Reintentos Exponenciales -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · RESILIENCIA</span>
+                <span class="text-[10px] text-slate-500 font-mono">Backoff</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🛡️</span> Reintentos Exponenciales (*Exponential Backoff*)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Si una petición HTTP falla por microcorte de red, no abortar de inmediato. Esperar 2 segundos; si vuelve a fallar, esperar 4 segundos; luego 8 segundos.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Evita que una descarga de 3 años de datos se caiga en el día 990 por un parpadeo de la API pública.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Llamar a alguien que está ocupado: esperar 2 min antes de volver a marcar en vez de marcar 50 veces seguidas.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Función: <code>hacer_solicitud_con_reintentos()</code>
+            </div>
+          </div>
+
+          <!-- 9. Idempotencia -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · ROBUSTEZ</span>
+                <span class="text-[10px] text-slate-500 font-mono">Idempotencia</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🔄</span> Idempotencia en Pipelines
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Propiedad matemática: $f(f(x)) = f(x)$. Ejecutar el pipeline 1 vez o 100 veces seguidas deja el sistema exactamente en el mismo estado sin duplicar registros.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> El script verifica si el archivo Parquet mensual ya existe; si ya está completo, no lo vuelve a pedir a la API.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> El botón del ascensor: presionar el botón 5 veces no hace que subas a un piso 5 veces más alto.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Archivo: <code>src/utils.py</code>
+            </div>
+          </div>
+
+          <!-- 10. Ventanas de Tiempo y Paginación -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · PARTICIÓN</span>
+                <span class="text-[10px] text-slate-500 font-mono">Chunks</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>📅</span> Ventanas Temporales & Paginación SoQL
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Descargar grandes volúmenes de datos fraccionando las consultas por intervalos (semanales o mensuales) y por límites de registros (`$limit`, `$offset`).
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> IDEAM rechaza consultas que pidan más de 50,000 filas o tarden más de 30 segundos. Las ventanas de 7 días resuelven esto.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Mudar una biblioteca caja por caja en lugar de intentar cargar todos los estantes en un solo viaje.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Código: <code>src/extract/ideam.py</code>
+            </div>
+          </div>
+
+          <!-- ========================================== -->
+          <!-- CAPA PLATA (11 CONCEPTOS)                  -->
+          <!-- ========================================== -->
+
+          <!-- 11. Datos Parásitos -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · LIMPIEZA</span>
+                <span class="text-[10px] text-rose-400 font-mono">Excel Glitches</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🦠</span> Datos Parásitos & Basura Estructural
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Contenido humano incrustado en hojas de cálculo que no son datos reales: títulos decorativos, encabezados que arrancan en la fila 4, subtotales intermedios y filas de "TOTAL GENERAL".
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> En EnerAndes, si no eliminas la fila "TOTAL 2024", la suma de ventas se duplica artificialmente (doble conteo catastrófico).
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Pesar a una persona en una báscula con la mochila y los zapatos puestos: el peso no corresponde a la persona.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Detección: <code>src/silver/enerandes.py</code>
+            </div>
+          </div>
+
+          <!-- 12. Despivote / Melting -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · MODELADO</span>
+                <span class="text-[10px] text-slate-500 font-mono">Unpivot / Melt</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>📐</span> Despivote Horario (*Unpivoting / Melting*)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Transformar una tabla ancha (con 24 columnas: `hora_01`, `hora_02`... `hora_24`) en una tabla larga y vertical con dos columnas: `hora` y `valor`.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Las bases de datos no pueden indexar ni hacer `GROUP BY` eficiente sobre 24 columnas separadas. Al despivotar, una sola consulta SQL calcula promedios horarios.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Desenrollar una alfombra doblada a lo ancho para que entre recta por un pasillo estrecho.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Función: <code>pd.melt()</code> en <code>src/silver/xm.py</code>
+            </div>
+          </div>
+
+          <!-- 13. Homogeneización de Unidades -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · NORMALIZACIÓN</span>
+                <span class="text-[10px] text-slate-500 font-mono">MWh &rarr; kWh</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>⚖️</span> Homogeneización de Escalas & Fechas
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Convertir medidas heterogéneas a un estándar común (ej. pasar Megavatios-hora a Kilovatios-hora multiplicando por 1,000) y estandarizar formatos de fecha mixtos a `YYYY-MM`.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Las hojas 2023-2024 de EnerAndes venían en kWh, pero 2025-2026 venían en MWh. Sumarlas directo hubiera subestimado las ventas mil veces.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Sumar distancias en metros y kilómetros sin convertir: decir que 1 km + 500 m son 501.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Regla: <code>energia_kwh = MWh * 1000</code>
+            </div>
+          </div>
+
+          <!-- 14. Estandarización DIVIPOLA -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · GEOGRAFÍA</span>
+                <span class="text-[10px] text-slate-500 font-mono">DANE DIVIPOLA</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🗺️</span> Estandarización Territorial (DIVIPOLA)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Cruce con el nomenclátor de la División Político-Administrativa del DANE para asignar un código numérico único de 5 dígitos a cada municipio de Colombia.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Resuelve errores ortográficos: *"Sta Fe"*, *"Santa Fé"* y *"Santa Fe de Antioquia"* se unifican bajo el código único `05042`.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> El número de cédula de una persona: no importa si escriben mal su nombre o apodo, el número de identificación nunca cambia.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Llave foránea: <code>codigo_divipola</code> (5 dígitos)
+            </div>
+          </div>
+
+          <!-- 15. Contratos de Datos con Pandera -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · CONTRATOS</span>
+                <span class="text-[10px] text-cyan-400 font-mono">Pandera</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>📜</span> Contratos de Datos en Runtime (Pandera)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Un esquema formal programado en Python (`DataFrameSchema`) que audita cada tabla antes de guardarla en Plata: valida tipos de datos, expresiones regulares (`^\d{5}$`) y rangos (`>= 0`).
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Si una fila tiene energía negativa o un municipio inventado, Pandera lanza un `SchemaErrors` y bloquea la escritura.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> El control de aduanas en el aeropuerto: si no tienes pasaporte vigente y visa válida, no puedes ingresar al país.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Archivo: <code>src/quality/esquemas.py</code>
+            </div>
+          </div>
+
+          <!-- 16. Patrón de Cuarentena -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · AISLAMIENTO</span>
+                <span class="text-[10px] text-amber-400 font-mono">Dead Letter</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🚧</span> Patrón de Cuarentena (*Dead Letter Queue*)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Desviar los registros defectuosos no corregibles hacia un archivo separado de cuarentena con el motivo del fallo, permitiendo que el pipeline siga adelante con los datos sanos.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> 43 ventas de EnerAndes que venían sin energía ni dinero y 7 lluvias anómalas de IDEAM quedaron aisladas para auditoría sin frenar el observatorio.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Una cinta transportadora en una fábrica de manzanas: las manzanas golpeadas caen a una canasta lateral mientras las buenas siguen al empaque.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Salida: <code>data/quarantine/*.parquet</code>
+            </div>
+          </div>
+
+          <!-- 17. Deduplicación y Claves Naturales -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · INTEGRIDAD</span>
+                <span class="text-[10px] text-slate-500 font-mono">Deduplicación</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>✂️</span> Deduplicación Defensiva
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Eliminación de filas exactamente repetidas provocadas por solapamientos de fechas entre hojas de Excel o reintentos de ingesta.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Se descartaron 2 duplicados exactos en EnerAndes conservando siempre la primera ocurrencia (`drop_duplicates()`).
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Borrar los correos duplicados cuando alguien presiona dos veces el botón de "Enviar".
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Métricas: 2 duplicados descartados
+            </div>
+          </div>
+
+          <!-- 18. Imputación Semántica -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · NULOS</span>
+                <span class="text-[10px] text-slate-500 font-mono">Imputación</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🏷️</span> Imputación Semántica de Nulos
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Tratar campos vacíos no inventando números ficticios (como ponerle cero a la lluvia), sino asignando una categoría explícita como *"No informado"*.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> 23 registros de EnerAndes tenían el segmento en blanco; se clasificaron como *"No informado"* para no perder la energía ni distorsionar los gráficos.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Ponerle la etiqueta "Remitente Desconocido" a un paquete postal en vez de inventar un nombre falso.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Código: <code>fillna('No informado')</code>
+            </div>
+          </div>
+
+          <!-- 19. Pruebas Automatizadas con Pytest -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · TESTING</span>
+                <span class="text-[10px] text-emerald-400 font-mono">Pytest</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🧪</span> Pruebas Unitarias de Regresión (Pytest)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Conjunto de aserciones programadas que se ejecutan automáticamente para verificar que el código no rompa reglas previas cuando alguien hace un cambio.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Suite de 25 pruebas que certifican que EnerAndes no tiene nulos en llaves, que los MWh se convirtieron a kWh y que Pandera atrapa anomalías.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> La revisión técnico-mecánica obligatoria de un carro antes de salir a la carretera.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Comando: <code>pytest tests/ -v</code> (25 PASSED)
+            </div>
+          </div>
+
+          <!-- 20. Reporte de Calidad Automático -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · AUDITORÍA</span>
+                <span class="text-[10px] text-slate-500 font-mono">Reporte</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>📋</span> Reporte de Calidad Automático (Antes vs Después)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Documento generado por el mismo código que registra cuántas anomalías existían en Bronce y cuántas quedaron resueltas en Plata para cada regla.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Genera <code>docs/reporte_calidad.md</code> con 24 reglas auditadas demostrando con números que el pipeline no oculta problemas.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> El análisis de sangre de un laboratorio clínico que compara tus valores antes y después de un tratamiento.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Script: <code>src/quality/reporte.py</code>
+            </div>
+          </div>
+
+          <!-- 21. Tipado Estricto & Casteo -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · PARSING</span>
+                <span class="text-[10px] text-slate-500 font-mono">Casting</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🔢</span> Tipado Estricto & Casteo (*Type Casting*)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Convertir cadenas de texto que contienen números (`"125.40"`, `"12,500"`) a tipos numéricos binarios reales (`Float64`, `Int64`), resolviendo puntos y comas.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> La API de XM entregaba 24 columnas horarias como texto con coma decimal (`"245,67"`). Sin casteo, cualquier suma arroja error o concatena texto.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Enviar un texto con el número "10" y pedirle a la calculadora que lo sume: primero debe interpretarlo como valor matemático.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Conversión: <code>str.replace(',', '.').astype(float)</code>
+            </div>
+          </div>
+
+          <!-- ========================================== -->
+          <!-- CAPA ORO (11 CONCEPTOS)                    -->
+          <!-- ========================================== -->
+
+          <!-- 22. DuckDB Motor OLAP -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · MOTOR BD</span>
+                <span class="text-[10px] text-yellow-300 font-mono">DuckDB OLAP</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🦆</span> DuckDB (Motor OLAP Embebido)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Base de datos analítica en memoria sin servidor (*in-process*). Ejecuta consultas SQL vectorizadas ultra-rápidas leyendo archivos Parquet directamente.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Almacena toda la capa oro en un único archivo (`data/observatorio.duckdb`) sin instalar servicios pesados ni configurar puertos de red.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Como tener una biblioteca entera dentro de un pendrive de alta velocidad que abres en cualquier computador sin pedir permiso.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Base de datos: <code>data/observatorio.duckdb</code>
+            </div>
+          </div>
+
+          <!-- 23. dbt (Data Build Tool) -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · ORQUESTACIÓN</span>
+                <span class="text-[10px] text-orange-400 font-mono">dbt-duckdb</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🔨</span> dbt (Data Build Tool)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Marco de trabajo estándar de la industria que permite crear pipelines de transformación escribiendo solo sentencias `SELECT` en SQL, encargándose del linaje, documentación y pruebas.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Convierte las tablas limpias de Plata en el modelo dimensional en estrella con un solo comando (`dbt build`).
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Un director de orquesta que le da la partitura (SQL) a cada músico y asegura que entren en el compás exacto.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Proyecto: <code>dbt_project/</code>
+            </div>
+          </div>
+
+          <!-- 24. Capa Staging en SQL -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · TRANSFORMACIÓN</span>
+                <span class="text-[10px] text-slate-500 font-mono">stg_*.sql</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🪜</span> Capa Staging en dbt
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Modelos SQL intermedios (materializados como vistas ligeras) que limpian nombres, unifican tipos y aíslan las tablas crudas de la lógica de negocio final.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> El observatorio tiene 11 vistas de staging (`stg_enerandes`, `stg_xm_precio_bolsa`) para que los hechos y dimensiones no dependan de nombres crudos.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> La antesala de un quirófano: esterilizar los instrumentos antes de ingresar a la sala de operaciones.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Vistas: <code>models/staging/stg_*.sql</code> (11 modelos)
+            </div>
+          </div>
+
+          <!-- 25. DAG en dbt -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · LINAJE</span>
+                <span class="text-[10px] text-slate-500 font-mono">DAG Lineage</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🕸️</span> DAG (Grafo Acíclico Dirigido)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Red de dependencias calculada por dbt a través de la función `{{ ref('...') }}`. Garantiza que los modelos aguas abajo solo se ejecuten cuando sus dependencias aguas arriba hayan terminado con éxito.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Sabe que primero debe construir `stg_enerandes`, luego `dim_municipio` y finalmente `fact_ventas_mensual` sin crear bucles.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> El árbol genealógico de una receta de cocina: no puedes hornear el pastel antes de batir los huevos.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Referencias: <code>{{ ref('stg_enerandes') }}</code>
+            </div>
+          </div>
+
+          <!-- 26. Esquema Estrella Kimball -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · DIMENSIONAL</span>
+                <span class="text-[10px] text-amber-300 font-mono">Star Schema</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>⭐</span> Esquema Estrella (*Star Schema*)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Técnica de modelado analítico de Ralph Kimball donde una **Tabla de Hechos** central se une directamente con múltiples **Tablas de Dimensión** mediante llaves foráneas.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Reduce la cantidad de `JOIN` necesarios, permitiendo a analistas y tableros PowerBI/DuckDB responder preguntas en milisegundos.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> El sol en el centro (hechos de ventas) rodeado por los planetas en órbita (fechas, municipios, clientes).
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Estructura: 5 Hechos + 7 Dimensiones
+            </div>
+          </div>
+
+          <!-- 27. Tablas de Hechos -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · MÉTRICAS</span>
+                <span class="text-[10px] text-yellow-300 font-mono">Fact Tables</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>📈</span> Tablas de Hechos (*Fact Tables*)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Tablas que almacenan eventos numéricos cuantitativos del negocio (medidas que se pueden sumar, promediar o contar) acompañadas de llaves foráneas.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> <code>fact_ventas_mensual</code> guarda `energia_kwh`, `valor_cop` y `clientes`. <code>fact_mercado_horario</code> guarda precios y demanda.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> La lista de compras con los precios de cada artículo y el total pagado en la caja registradora.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Modelos: <code>models/marts/fact_*.sql</code>
+            </div>
+          </div>
+
+          <!-- 28. Dimensiones Conformadas -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · CONTEXTO</span>
+                <span class="text-[10px] text-yellow-300 font-mono">Conformed Dims</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🌐</span> Dimensiones Conformadas (*Conformed Dims*)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Tablas de contexto maestras compartidas por múltiples tablas de hechos. Garantizan una única versión de la verdad en toda la organización.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> <code>dim_fecha</code> (con la fase ENSO de la NOAA) es usada tanto por las ventas de EnerAndes como por los precios horarios de XM y el clima de IDEAM.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> El calendario gregoriano: todo el mundo en la empresa entiende exactamente qué es "el tercer trimestre de 2024".
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Modelos: <code>dim_fecha.sql</code>, <code>dim_municipio.sql</code>
+            </div>
+          </div>
+
+          <!-- 29. El Grano del Hecho -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · KIMBALL</span>
+                <span class="text-[10px] text-rose-400 font-mono">Fact Grain</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🎯</span> El Grano del Hecho (*Fact Grain*)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> La respuesta exacta y rigurosa a: <em>"¿Qué representa una sola fila de esta tabla?"</em>. Es el mandamiento #1 del modelado dimensional.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> En <code>fact_ventas_mensual</code>, el grano es: <strong>1 mes &times; 1 municipio &times; 1 segmento &times; 1 tipo de compra</strong>. Si mezclas granos, duplicas cifras.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> La resolución de una foto: saber si cada píxel mide 1 milímetro o 1 kilómetro cuadrado para no engañar a la vista.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Definido explícitamente en cada modelo dbt
+            </div>
+          </div>
+
+          <!-- 30. Pruebas de Integridad dbt -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · TESTING</span>
+                <span class="text-[10px] text-emerald-400 font-mono">105 PASS</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>🛡️</span> Pruebas de Integridad dbt (`tests`)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Reglas declaradas en archivos `.yml` que dbt valida automáticamente: unicidad (`unique`), campos obligatorios (`not_null`) y llaves foráneas válidas (`relationships`).
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> 105 pruebas pasan con cero errores, garantizando que ninguna venta apunte a un municipio inexistente en `dim_municipio`.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Los inspectores de construcción que revisan que cada columna de un edificio esté firmemente anclada al cimiento.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Archivos: <code>models/**/schema.yml</code> (105 dbt tests)
+            </div>
+          </div>
+
+          <!-- 31. Materialización en dbt -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · FÍSICO/LÓGICO</span>
+                <span class="text-[10px] text-slate-500 font-mono">View vs Table</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>💾</span> Materialización (`view` vs `table`)
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> La forma en que dbt persiste un modelo: una `view` es una consulta virtual que no ocupa espacio en disco; una `table` se escribe físicamente en DuckDB para máxima velocidad.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Las capas de staging son vistas (`materialized='view'`), mientras que las dimensiones y hechos son tablas físicas (`materialized='table'`).
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Ver una película en streaming (vista virtual) vs descargarla al disco duro para verla sin esperar (tabla física).
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 Configuración: <code>dbt_project.yml</code>
+            </div>
+          </div>
+
+          <!-- 32. Analítica Causal Multiescala -->
+          <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · NEGOCIO</span>
+                <span class="text-[10px] text-emerald-400 font-mono">Causal SQL</span>
+              </div>
+              <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+                <span>💡</span> Analítica Causal Multiescala
+              </h3>
+              <p class="text-slate-300 leading-relaxed">
+                <strong>¿Qué es?</strong> Consultas analíticas complejas que combinan diferentes niveles temporales (datos horarios de bolsa + datos diarios de lluvias + datos mensuales de ventas) para encontrar correlaciones reales.
+              </p>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                <strong>¿En el proyecto?</strong> Permite demostrar que cuando la NOAA declaró El Niño fuerte (+1.8°C en el ONI), el precio de bolsa subió un 198% y la exposición de EnerAndes superó los 25,000 millones COP.
+              </p>
+              <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+                💡 <strong>Analogía:</strong> Conectar la señal del satélite meteorológico con el precio del paraguas en la tienda de la esquina.
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+              📁 5 Consultas: Sección 6 del Dashboard
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Mensaje de no resultados (cuando la búsqueda no coincide) -->
+        <div id="glosario-vacio" class="hidden p-8 rounded-xl bg-slate-950 text-center space-y-2 border border-slate-800">
+          <div class="text-2xl">🔍</div>
+          <div class="text-sm font-bold text-slate-300">No se encontraron conceptos para tu búsqueda</div>
+          <div class="text-xs text-slate-500">Prueba con términos como: <code>parquet</code>, <code>duckdb</code>, <code>cuarentena</code>, <code>kimball</code>, <code>dbt</code> o <code>grano</code>.</div>
+        </div>
+
+      </section>
+
+      <section id="punto-1" class="bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        
+              <!-- Header con botón modal -->
+              <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+                <div class="flex items-center gap-3">
+                  <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold font-mono">1</span>
+                  <div>
+                    <h2 class="text-xl font-bold text-[var(--foreground,#f8fafc)]">
+                      Limpieza Completa de EnerAndes (Hojas 2023 a 2026)
+                    </h2>
+                    <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">
+                      De 4 hojas heterogéneas con títulos y MWh a 1 sola tabla unificada en Plata + Cuarentena
+                    </p>
+                  </div>
+                </div>
+                <button onclick="abrirModal(1)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer">
+                  <span>📁</span> Ver Scripts & Archivos en Disco
+                </button>
+              </div>
+
+              <!-- Ficha Pedagógica Cuadrante -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+                  <span class="font-bold text-purple-400 uppercase tracking-wide text-[10px]">¿Por qué?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">En clase solo se limpió la hoja 2023. Las hojas 2024, 2025 y 2026 traen títulos antes del encabezado, filas TOTAL, 4 formatos de fecha, 347 filas en MWh, 32 nombres de municipios y 43 filas sin energía válida.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-1">
+                  <span class="font-bold text-cyan-400 uppercase tracking-wide text-[10px]">¿Cómo?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Detectamos la fila de encabezado dinámicamente, multiplicamos MWh por 1,000, parseamos las 4 fechas a <code class="text-cyan-300">YYYY-MM</code>, mapeamos municipios al DANE, marcamos segmento faltante como <em>'No informado'</em> y aislamos energía &le; 0.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+                  <span class="font-bold text-emerald-400 uppercase tracking-wide text-[10px]">¿Para qué?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Para consolidar <strong>4,007 ventas válidas</strong> listas para cobrar y analizar, y aislar <strong>43 filas</strong> en cuarentena con su motivo explícito sin perder evidencia contable.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+                  <span class="font-bold text-amber-400 uppercase tracking-wide text-[10px]">En simple</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Juntamos los 4 años en una sola tabla limpia y homogénea en kWh, sacando a cuarentena las filas que no tienen energía para no inflar ni distorsionar las sumas.</p>
+                </div>
+              </div>
+
+              <!-- Problema Estructural en Hojas 2025 y 2026 -->
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <h3 class="text-sm font-semibold text-[var(--foreground,#f8fafc)] flex items-center gap-2">
+                    <span>⚠️</span> Problema Estructural: Títulos decorativos y filas parásitas
+                  </h3>
+                  <span class="text-[11px] text-[var(--muted-foreground,#94a3b8)]">Hojas 2025 y 2026 en Capa Bronce</span>
+                </div>
+
+                <div class="bg-[var(--background,#0f172a)] rounded-xl border border-[var(--border,#334155)] p-4 font-mono text-xs overflow-x-auto space-y-1">
+                  <div class="text-red-400/80">Fila 0: "EnerAndes S.A.S. E.S.P. - Reporte de ventas 2025 - Gerencia Comercial" <span class="text-red-500 font-bold">&larr; Título decorativo (se descarta)</span></div>
+                  <div class="text-red-400/80">Fila 1: "Fuente: sistema comercial. Uso interno." <span class="text-red-500 font-bold">&larr; Nota interna (se descarta)</span></div>
+                  <div class="text-slate-500">Fila 2: NaN, NaN, NaN, NaN, NaN <span class="text-red-500 font-bold">&larr; Fila en blanco (se descarta)</span></div>
+                  <div class="text-emerald-400 font-bold">Fila 3: mes | municipio | segmento | tipo compra | consumo (kWh) | facturado <span class="text-emerald-500">&larr; ¡Encabezado Real!</span></div>
+                  <div class="text-slate-400">Fila 4: 06/2025 | Apartadó | Comercial | Bolsa | 121318 | 143967156 &larr; Primera venta transaccional</div>
+                  <div class="text-slate-600">... (1,112 filas transaccionales más) ...</div>
+                  <div class="text-amber-400">Fila 1116: TOTAL | NaN | NaN | NaN | NaN | NaN <span class="text-amber-500 font-bold">&larr; Fila TOTAL (se descarta)</span></div>
+                </div>
+              </div>
+
+              <!-- TABLA COMPARATIVA LADO A LADO: LA MISMA FILA ANTES VS DESPUÉS -->
+              <div class="space-y-3">
+                <h3 class="text-sm font-semibold text-[var(--foreground,#f8fafc)] flex items-center gap-2">
+                  <span>🔍</span> Comparación Lado a Lado: LA MISMA FILA en Bronce (Antes) &rarr; en Plata (Después)
+                </h3>
+          
+                <div class="overflow-x-auto border border-[var(--border,#334155)] rounded-xl">
+                  <table class="w-full text-left text-xs">
+                    <thead class="bg-[var(--background,#0f172a)] text-[var(--muted-foreground,#94a3b8)] border-b border-[var(--border,#334155)]">
+                      <tr>
+                        <th class="p-3 font-semibold">Caso / Regla</th>
+                        <th class="p-3 font-semibold text-rose-400">ANTES (Capa Bronce - Dato Crudo)</th>
+                        <th class="p-3 font-semibold text-emerald-400">➔ DESPUÉS (Capa Plata / Cuarentena)</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-[var(--border,#334155)] font-mono">
+                      <!-- Fila 1: MWh a kWh -->
+                      <tr class="hover:bg-slate-800/40">
+                        <td class="p-3 font-sans font-medium text-cyan-300">
+                          MWh a kWh + Fecha en texto
+                          <span class="block text-[10px] text-[var(--muted-foreground,#94a3b8)] font-sans">Hoja 2024, fila 1112</span>
+                        </td>
+                        <td class="p-3 text-rose-300 bg-rose-500/5">
+                          periodo: <strong class="text-rose-400">'jul-24'</strong><br>
+                          energia: <strong class="text-rose-400">'479.907'</strong> | unidad: <strong class="text-rose-400">'MWh'</strong>
+                        </td>
+                        <td class="p-3 text-emerald-300 bg-emerald-500/5">
+                          periodo: <strong class="text-emerald-400">'2024-07'</strong> | divipola: <strong>'05045'</strong><br>
+                          energia_kwh: <strong class="text-emerald-400">479,907.0</strong> <span class="text-[10px] bg-emerald-500/20 px-1.5 py-0.5 rounded text-emerald-300">&times;1,000 OK</span>
+                        </td>
+                      </tr>
+
+                      <!-- Fila 2: Fecha DD/MM/AAAA en 2026 -->
+                      <tr class="hover:bg-slate-800/40">
+                        <td class="p-3 font-sans font-medium text-cyan-300">
+                          Formato DD/MM/AAAA
+                          <span class="block text-[10px] text-[var(--muted-foreground,#94a3b8)] font-sans">Hoja 2026, fila 837</span>
+                        </td>
+                        <td class="p-3 text-rose-300 bg-rose-500/5">
+                          fecha: <strong class="text-rose-400">'01/03/2026'</strong><br>
+                          municipio: 'Turbo' | compra: 'Bolsa'
+                        </td>
+                        <td class="p-3 text-emerald-300 bg-emerald-500/5">
+                          periodo: <strong class="text-emerald-400">'2026-03'</strong> | divipola: <strong>'05837'</strong><br>
+                          municipio: 'Turbo' | tipo_compra: 'Bolsa'
+                        </td>
+                      </tr>
+
+                      <!-- Fila 3: Duplicado exacto -->
+                      <tr class="hover:bg-slate-800/40">
+                        <td class="p-3 font-sans font-medium text-cyan-300">
+                          Duplicado exacto
+                          <span class="block text-[10px] text-[var(--muted-foreground,#94a3b8)] font-sans">Hoja 2023, filas 30 y 31</span>
+                        </td>
+                        <td class="p-3 text-rose-300 bg-rose-500/5">
+                          <strong class="text-rose-400">2 filas idénticas</strong> en el mismo mes y municipio<br>
+                          2023-04 | Rionegro | Comercial | Bolsa
+                        </td>
+                        <td class="p-3 text-emerald-300 bg-emerald-500/5">
+                          <strong class="text-emerald-400">1 sola fila conservada</strong> (120 duplicados eliminados)<br>
+                          energia_kwh: 125,400 | valor_cop: 125,000,000
+                        </td>
+                      </tr>
+
+                      <!-- Fila 4: Segmento vacío -->
+                      <tr class="hover:bg-slate-800/40">
+                        <td class="p-3 font-sans font-medium text-cyan-300">
+                          Segmento comercial vacío
+                          <span class="block text-[10px] text-[var(--muted-foreground,#94a3b8)] font-sans">Hoja 2024, fila 104</span>
+                        </td>
+                        <td class="p-3 text-rose-300 bg-rose-500/5">
+                          segmento: <strong class="text-rose-400">NaN</strong> (celda vacía)<br>
+                          periodo: '10/2024' | municipio: 'Girardota'
+                        </td>
+                        <td class="p-3 text-emerald-300 bg-emerald-500/5">
+                          segmento: <strong class="text-emerald-400">'No informado'</strong> <span class="text-[10px] bg-amber-500/20 px-1.5 py-0.5 rounded text-amber-300">Regla clase</span><br>
+                          periodo: '2024-10' | divipola: '05308'
+                        </td>
+                      </tr>
+
+                      <!-- Fila 5: Energía Negativa -> Cuarentena -->
+                      <tr class="hover:bg-slate-800/40">
+                        <td class="p-3 font-sans font-medium text-rose-400">
+                          Energía negativa (&lt; 0)
+                          <span class="block text-[10px] text-[var(--muted-foreground,#94a3b8)] font-sans">Hoja 2023, fila 82</span>
+                        </td>
+                        <td class="p-3 text-rose-300 bg-rose-500/5">
+                          energia_kwh: <strong class="text-rose-400">'-594733'</strong> (físicamente absurdo)<br>
+                          periodo: '2023-06' | municipio: 'Turbo'
+                        </td>
+                        <td class="p-3 text-amber-300 bg-amber-500/5 font-semibold">
+                          <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] uppercase">A Cuarentena</span><br>
+                          motivo: <span class="text-amber-400">'Energia negativa (&lt; 0)'</span><br>
+                          <span class="text-[10px] text-[var(--muted-foreground,#94a3b8)]">Archivo: enerandes_cuarentena.parquet</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Banner Disparador Modal Scripts y Archivos -->
+              <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-colors flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-2.5 text-slate-300">
+                  <span class="text-lg">🔬</span>
+                  <div>
+                    <span class="font-bold text-cyan-400">Inspección Técnica "Bajo el Capó":</span>
+                    <span class="text-slate-400 block sm:inline sm:ml-1">Consulta los scripts involucrados y la ubicación física de archivos en disco (Antes vs. Después).</span>
+                  </div>
+                </div>
+                <button onclick="abrirModal(1)" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-medium transition-all text-xs shrink-0 shadow-sm cursor-pointer">
+                  <span>📁</span> Abrir Scripts & Archivos ➔
+                </button>
+              </div>
+
+              <!-- Balance Numérico -->
+              <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] flex flex-wrap items-center justify-between gap-4 text-xs">
+                <div>
+                  <span class="text-[var(--muted-foreground,#94a3b8)]">Balance de Filas:</span>
+                  <span class="font-mono ml-2 text-slate-300">4,184 brutas &minus; 14 parásitas &minus; 120 duplicadas &minus; 43 en cuarentena</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold font-mono">
+                    = 4,007 filas limpias en Plata
+                  </span>
+                </div>
+              </div>
+            </section>
+
+      <section id="punto-2" class="bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        
+              <!-- Header con botón modal -->
+              <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+                <div class="flex items-center gap-3">
+                  <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold font-mono">2</span>
+                  <div>
+                    <h2 class="text-xl font-bold text-[var(--foreground,#f8fafc)]">
+                      Limpieza de XM, IDEAM, NOAA y DANE DIVIPOLA
+                    </h2>
+                    <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">
+                      Despivotar horas, tipar números, cruzar estaciones con municipios y etiquetar ENSO
+                    </p>
+                  </div>
+                </div>
+                <button onclick="abrirModal(2)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer">
+                  <span>📁</span> Ver Scripts & Archivos en Disco
+                </button>
+              </div>
+
+              <!-- Cuadrante Pedagógico -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+                  <span class="font-bold text-purple-400 uppercase tracking-wide text-[10px]">¿Por qué?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">XM entrega 24 columnas horarias en texto y 2.47M de celdas vacías; IDEAM trae volcados de sensor de hasta 3,081 mm/día; NOAA viene por trimestres móviles y DIVIPOLA trae coordenadas con comas decimales.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-1">
+                  <span class="font-bold text-cyan-400 uppercase tracking-wide text-[10px]">¿Cómo?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Despivotamos con <code class="text-cyan-300">melt</code> a filas por fecha y hora (1..24), enviamos 7 lluvias &gt; 500 mm a cuarentena, asignamos trimestres NOAA a su mes central con <code class="text-cyan-300">fase_enso</code> y cambiamos <code class="text-cyan-300">,</code> por <code class="text-cyan-300">.</code> en DIVIPOLA.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+                  <span class="font-bold text-emerald-400 uppercase tracking-wide text-[10px]">¿Para qué?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Para que todas las tablas tengan claves comunes (<code class="text-emerald-300">fecha</code>, <code class="text-emerald-300">hora</code>, <code class="text-emerald-300">cod_mpio</code>, <code class="text-emerald-300">codigo_recurso</code>) y tipos float nativos para el modelo estrella.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+                  <span class="font-bold text-amber-400 uppercase tracking-wide text-[10px]">En simple</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Pusimos a las 4 fuentes restantes a hablar el mismo idioma: horas numéricas, municipios homologados, meses con su etiqueta climática y sin lluvias falsas.</p>
+                </div>
+              </div>
+
+              <!-- Muestra Comparativa Otras Fuentes -->
+              <div class="space-y-3">
+                <h3 class="text-sm font-semibold text-[var(--foreground,#f8fafc)] flex items-center gap-2">
+                  <span>🔬</span> Transformaciones Clave Lado a Lado
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+                  <!-- XM Horario -->
+                  <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-2">
+                    <div class="font-sans font-bold text-cyan-400 flex items-center justify-between">
+                      <span>XM Precio Bolsa (Despivote)</span>
+                      <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20">1,004 &rarr; 24,096 filas</span>
+                    </div>
+                    <div class="text-rose-300/90 text-[11px] bg-rose-500/10 p-2 rounded">
+                      <strong>ANTES (1 fila ancha por día):</strong><br>
+                      Date='2024-01-01', Hour01='251.91', Hour04='281.91', Hour20='301.23' (str)
+                    </div>
+                    <div class="text-emerald-300 text-[11px] bg-emerald-500/10 p-2 rounded">
+                      <strong>➔ DESPUÉS (24 filas individuales por día):</strong><br>
+                      fecha='2024-01-01', hora=1, precio=251.91 COP/kWh<br>
+                      fecha='2024-01-01', hora=20, precio=301.23 COP/kWh (float)
+                    </div>
+                  </div>
+
+                  <!-- IDEAM Cuarentena -->
+                  <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-2">
+                    <div class="font-sans font-bold text-amber-400 flex items-center justify-between">
+                      <span>IDEAM Precipitación (Cuarentena)</span>
+                      <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20">7 lecturas extremas</span>
+                    </div>
+                    <div class="text-rose-300/90 text-[11px] bg-rose-500/10 p-2 rounded">
+                      <strong>ANTES (Volcado acumulado de sensor):</strong><br>
+                      SAN CARLOS (2026-07-24): <strong>3,081.8 mm/día</strong> (¡físicamente imposible!)
+                    </div>
+                    <div class="text-amber-300 text-[11px] bg-amber-500/10 p-2 rounded">
+                      <strong>➔ DESPUÉS (En ideam_cuarentena.parquet):</strong><br>
+                      motivo: 'precipitacion_diaria_fuera_de_rango_fisico_0_500_mm'<br>
+                      <span class="text-emerald-300">En Plata solo quedan las 29,797 lluvias reales en [0, 456 mm]</span>
+                    </div>
+                  </div>
+
+                  <!-- NOAA ONI -->
+                  <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-2">
+                    <div class="font-sans font-bold text-blue-400 flex items-center justify-between">
+                      <span>NOAA Índice ONI (Mes Central & ENSO)</span>
+                      <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20">920 meses históricos</span>
+                    </div>
+                    <div class="text-rose-300/90 text-[11px] bg-rose-500/10 p-2 rounded">
+                      <strong>ANTES (Texto trimestral móvil):</strong><br>
+                      YR='2026', SEAS='JAS', ANOM='2.16' (texto sin fecha mensual)
+                    </div>
+                    <div class="text-emerald-300 text-[11px] bg-emerald-500/10 p-2 rounded">
+                      <strong>➔ DESPUÉS (Mes central + Clasificación):</strong><br>
+                      fecha='2026-08-01', periodo='2026-08', oni=2.16, <strong>fase_enso='El Niño'</strong>
+                    </div>
+                  </div>
+
+                  <!-- DANE DIVIPOLA -->
+                  <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-2">
+                    <div class="font-sans font-bold text-emerald-400 flex items-center justify-between">
+                      <span>DANE DIVIPOLA (Coordenadas)</span>
+                      <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20">1,122 municipios</span>
+                    </div>
+                    <div class="text-rose-300/90 text-[11px] bg-rose-500/10 p-2 rounded">
+                      <strong>ANTES (Coma decimal como texto):</strong><br>
+                      cod_mpio='05001', latitud='6,246631', longitud='-75,581775'
+                    </div>
+                    <div class="text-emerald-300 text-[11px] bg-emerald-500/10 p-2 rounded">
+                      <strong>➔ DESPUÉS (Números float64 validados):</strong><br>
+                      cod_mpio='05001', latitud=6.246631, longitud=-75.581775 (float)
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Banner Disparador Modal Scripts y Archivos -->
+              <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-colors flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-2.5 text-slate-300">
+                  <span class="text-lg">🔬</span>
+                  <div>
+                    <span class="font-bold text-cyan-400">Inspección Técnica "Bajo el Capó":</span>
+                    <span class="text-slate-400 block sm:inline sm:ml-1">Consulta los scripts involucrados y la ubicación física de archivos en disco (Antes vs. Después).</span>
+                  </div>
+                </div>
+                <button onclick="abrirModal(2)" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-medium transition-all text-xs shrink-0 shadow-sm cursor-pointer">
+                  <span>📁</span> Abrir Scripts & Archivos ➔
+                </button>
+              </div>
+            </section>
+
+      <section id="punto-3" class="bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        
+              <!-- Header con botón modal -->
+              <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+                <div class="flex items-center gap-3">
+                  <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold font-mono">3</span>
+                  <div>
+                    <h2 class="text-xl font-bold text-[var(--foreground,#f8fafc)]">
+                      Contratos con Pandera y Pruebas Unitarias con Pytest
+                    </h2>
+                    <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">
+                      Inspector automático de datos en la puerta de salida + 25 pruebas que se ejecutan en 1.2 segundos
+                    </p>
+                  </div>
+                </div>
+                <button onclick="abrirModal(3)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer">
+                  <span>📁</span> Ver Scripts & Archivos en Disco
+                </button>
+              </div>
+
+              <!-- Cuadrante Pedagógico -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+                  <span class="font-bold text-purple-400 uppercase tracking-wide text-[10px]">¿Por qué?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Si mañana cambia una hoja de Excel o la API e introduce un nulo, un negativo o un texto corrupto, necesitamos que el pipeline falle de inmediato antes de dañar la Capa Plata.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-1">
+                  <span class="font-bold text-cyan-400 uppercase tracking-wide text-[10px]">¿Cómo?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Definimos contratos <code class="text-cyan-300">pa.DataFrameSchema</code> en <code class="text-cyan-300">src/quality/esquemas.py</code> y creamos 17 pruebas en <code class="text-cyan-300">tests/test_limpieza.py</code> (7 de clase + 10 del equipo) más 8 de extracción (25 tests en total).</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+                  <span class="font-bold text-emerald-400 uppercase tracking-wide text-[10px]">¿Para qué?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Para bloquear de forma automática tablas que incumplan tipos, rangos o dominios y verificar todas las reglas en ~1.2 segundos con <code class="text-emerald-300">pytest</code>.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+                  <span class="font-bold text-amber-400 uppercase tracking-wide text-[10px]">En simple</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Pusimos un inspector automático (Pandera) a la salida de cada tabla y 25 pruebas rápidas (pytest) que comprueban cada regla con datos pequeños.</p>
+                </div>
+              </div>
+
+              <!-- Simulador Interactivo de Pandera -->
+              <div class="p-5 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <h3 class="text-sm font-bold text-cyan-400">⚡ Simulador Interactivo: ¿Cómo bloquea Pandera un dato corrupto?</h3>
+                    <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">Haz clic en los botones para simular qué responde el inspector ante datos inválidos</p>
+                  </div>
+                  <div class="flex gap-2">
+                    <button onclick="probarPandera('malo')" class="px-3 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 text-xs font-semibold border border-rose-500/40 transition-colors cursor-pointer">
+                      Simular Fila Corrupta
+                    </button>
+                    <button onclick="probarPandera('bueno')" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 text-xs font-semibold border border-emerald-500/40 transition-colors cursor-pointer">
+                      Simular Fila Válida
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Cuadro de Inspección -->
+                <div id="pantalla-pandera" class="p-3.5 rounded-lg bg-slate-900 border border-slate-800 font-mono text-xs space-y-2">
+                  <div class="text-slate-400">// Selecciona una prueba arriba para ver la respuesta del contrato Pandera...</div>
+                </div>
+              </div>
+
+              <!-- Explicación de Pytest: ¿Por qué dicen PASSED? -->
+              <div class="p-5 rounded-xl bg-cyan-950/20 border border-cyan-800/30 space-y-3">
+                <h3 class="text-sm font-bold text-cyan-300 flex items-center gap-2">
+                  <span>💡</span> ¿Por qué los 25 tests dicen PASSED en verde si algunos prueban datos erróneos?
+                </h3>
+                <p class="text-xs leading-relaxed text-slate-300">
+                  En herramientas de prueba como <code class="text-cyan-300">pytest</code>, <span class="text-emerald-400 font-bold">PASSED</span> no significa <em>"el dato es perfecto"</em>, sino: <strong class="text-white">"el código reaccionó exactamente como estaba previsto ante este escenario"</strong>.
+                </p>
+                <div class="bg-[var(--background,#0f172a)] p-3 rounded-lg border border-[var(--border,#334155)] font-mono text-xs text-slate-300 space-y-1">
+                  <span class="text-slate-500"># Ejemplo real en tests/test_limpieza.py:</span><br>
+                  <span class="text-purple-400">with</span> pytest.raises(pa.errors.SchemaError):<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;ESQUEMA_VENTAS.validate(df_con_energia_negativa)<br>
+                  <span class="text-emerald-400">&rarr; Si Pandera DETECTA el error y lanza SchemaError: el test es un ÉXITO (PASSED ✔).</span><br>
+                  <span class="text-rose-400">&rarr; Si Pandera se callara y dejara pasar el error: el test FALLARÍA (FAILED ✘).</span>
+                </div>
+              </div>
+
+              <!-- Resumen de los 25 Tests -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center text-xs">
+                <div class="p-3 rounded-xl bg-slate-800/50 border border-slate-700">
+                  <div class="text-lg font-bold text-emerald-400 font-mono">7 Tests</div>
+                  <div class="text-slate-400 mt-1">Clase (26 oct / 4 nov)</div>
+                  <div class="text-[10px] text-slate-500">Tildes, alias, duplicados, cuarentena</div>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-800/50 border border-slate-700">
+                  <div class="text-lg font-bold text-cyan-400 font-mono">+10 Tests</div>
+                  <div class="text-slate-400 mt-1">Nuevos del Equipo</div>
+                  <div class="text-[10px] text-slate-500">MWh, 4 fechas, IDEAM, XM, NOAA, Pandera</div>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-800/50 border border-slate-700">
+                  <div class="text-lg font-bold text-purple-400 font-mono">+8 Tests</div>
+                  <div class="text-slate-400 mt-1">Extracción (EA1)</div>
+                  <div class="text-[10px] text-slate-500">Ventanas XM, SoQL IDEAM, linaje</div>
+                </div>
+              </div>
+
+              <!-- Banner Disparador Modal Scripts y Archivos -->
+              <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-colors flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-2.5 text-slate-300">
+                  <span class="text-lg">🔬</span>
+                  <div>
+                    <span class="font-bold text-cyan-400">Inspección Técnica "Bajo el Capó":</span>
+                    <span class="text-slate-400 block sm:inline sm:ml-1">Consulta los scripts involucrados y la ubicación física de archivos en disco (Antes vs. Después).</span>
+                  </div>
+                </div>
+                <button onclick="abrirModal(3)" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-medium transition-all text-xs shrink-0 shadow-sm cursor-pointer">
+                  <span>📁</span> Abrir Scripts & Archivos ➔
+                </button>
+              </div>
+            </section>
+
+      <section id="punto-4" class="bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        
+              <!-- Header con botón modal -->
+              <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+                <div class="flex items-center gap-3">
+                  <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold font-mono">4</span>
+                  <div>
+                    <h2 class="text-xl font-bold text-[var(--foreground,#f8fafc)]">
+                      Reporte de Calidad Automático (`docs/reporte_calidad.md`)
+                    </h2>
+                    <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">
+                      Auditoría numérica transparente: 24 reglas medidas antes y después en las 5 fuentes
+                    </p>
+                  </div>
+                </div>
+                <button onclick="abrirModal(4)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer">
+                  <span>📁</span> Ver Scripts & Archivos en Disco
+                </button>
+              </div>
+
+              <!-- Cuadrante Pedagógico -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+                  <span class="font-bold text-purple-400 uppercase tracking-wide text-[10px]">¿Por qué?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">En ingeniería de datos no basta con decir <em>'limpiamos los datos'</em>: hay que demostrar con auditoría matemática cuántos registros tenían cada problema ANTES y cuántos quedaron DESPUÉS.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-1">
+                  <span class="font-bold text-cyan-400 uppercase tracking-wide text-[10px]">¿Cómo?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Cada módulo de <code class="text-cyan-300">src/silver/</code> mide sus reglas antes y después, y <code class="text-cyan-300">src/quality/reporte.py</code> genera automáticamente <code class="text-cyan-300">docs/reporte_calidad.md</code> con 24 reglas y el detalle de cuarentena.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+                  <span class="font-bold text-emerald-400 uppercase tracking-wide text-[10px]">¿Para qué?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Para tener una auditoría transparente, numérica y reproducible de las 5 fuentes sin inventar cifras a mano.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+                  <span class="font-bold text-amber-400 uppercase tracking-wide text-[10px]">En simple</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">El código escribe solo el informe de auditoría comparando el Antes y el Después de cada regla con trazabilidad completa.</p>
+                </div>
+              </div>
+
+              <!-- Tabla de Reglas Antes vs Después -->
+              <div class="overflow-x-auto border border-[var(--border,#334155)] rounded-xl">
+                <table class="w-full text-left text-xs font-mono">
+                  <thead class="bg-[var(--background,#0f172a)] text-[var(--muted-foreground,#94a3b8)] border-b border-[var(--border,#334155)]">
+                    <tr>
+                      <th class="p-3 font-semibold font-sans">#</th>
+                      <th class="p-3 font-semibold font-sans">Fuente</th>
+                      <th class="p-3 font-semibold font-sans">Problema Detectado</th>
+                      <th class="p-3 font-semibold font-sans">Regla Aplicada</th>
+                      <th class="p-3 font-semibold font-sans text-right text-rose-400">Antes</th>
+                      <th class="p-3 font-semibold font-sans text-right text-emerald-400">Después</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-[var(--border,#334155)]">
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-slate-500">1</td>
+                      <td class="p-3 font-sans font-medium text-cyan-400">DIVIPOLA</td>
+                      <td class="p-3 font-sans">Coma decimal en latitud y longitud</td>
+                      <td class="p-3 font-sans">Reemplazar ',' por '.' y convertir a float64</td>
+                      <td class="p-3 text-right text-rose-300 font-bold">1,122</td>
+                      <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-slate-500">2</td>
+                      <td class="p-3 font-sans font-medium text-cyan-400">EnerAndes</td>
+                      <td class="p-3 font-sans">Títulos, notas y filas en blanco (2025 y 2026)</td>
+                      <td class="p-3 font-sans">Detectar encabezado dinámico y descartar previas</td>
+                      <td class="p-3 text-right text-rose-300 font-bold">6</td>
+                      <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-slate-500">3</td>
+                      <td class="p-3 font-sans font-medium text-cyan-400">EnerAndes</td>
+                      <td class="p-3 font-sans">Filas de totales al final de cada hoja</td>
+                      <td class="p-3 font-sans">Eliminar filas TOTAL</td>
+                      <td class="p-3 text-right text-rose-300 font-bold">4</td>
+                      <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-slate-500">4</td>
+                      <td class="p-3 font-sans font-medium text-cyan-400">EnerAndes</td>
+                      <td class="p-3 font-sans">Filas duplicadas idénticas</td>
+                      <td class="p-3 font-sans">Dejar una sola copia por transacción</td>
+                      <td class="p-3 text-right text-rose-300 font-bold">120</td>
+                      <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-slate-500">5</td>
+                      <td class="p-3 font-sans font-medium text-cyan-400">EnerAndes</td>
+                      <td class="p-3 font-sans">Fechas en formatos mixtos (mar-24, DD/MM/AAAA)</td>
+                      <td class="p-3 font-sans">Normalizar al estándar AAAA-MM</td>
+                      <td class="p-3 text-right text-rose-300 font-bold">2,626</td>
+                      <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-slate-500">6</td>
+                      <td class="p-3 font-sans font-medium text-cyan-400">EnerAndes</td>
+                      <td class="p-3 font-sans">Energía en MWh en hoja 2024 (factor 1,000x)</td>
+                      <td class="p-3 font-sans">Multiplicar por 1,000 para unificar en kWh</td>
+                      <td class="p-3 text-right text-rose-300 font-bold">337</td>
+                      <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-slate-500">7</td>
+                      <td class="p-3 font-sans font-medium text-cyan-400">EnerAndes</td>
+                      <td class="p-3 font-sans">Energía vacía o negativa (incorregible)</td>
+                      <td class="p-3 font-sans">Pasar fila a enerandes_cuarentena.parquet</td>
+                      <td class="p-3 text-right text-rose-300 font-bold">43</td>
+                      <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-slate-500">8</td>
+                      <td class="p-3 font-sans font-medium text-cyan-400">XM Horario</td>
+                      <td class="p-3 font-sans">24 columnas horarias como texto en bolsa y demanda</td>
+                      <td class="p-3 font-sans">Despivotar a filas por fecha y hora (1..24)</td>
+                      <td class="p-3 text-right text-rose-300 font-bold">2,008</td>
+                      <td class="p-3 text-right text-emerald-400 font-bold">48,192</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-slate-500">9</td>
+                      <td class="p-3 font-sans font-medium text-cyan-400">IDEAM</td>
+                      <td class="p-3 font-sans">Precipitaciones &gt; 500 mm/día (volcado sensor)</td>
+                      <td class="p-3 font-sans">Aislar en ideam_cuarentena.parquet</td>
+                      <td class="p-3 text-right text-rose-300 font-bold">7</td>
+                      <td class="p-3 text-right text-emerald-400 font-bold">0</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-slate-500">10</td>
+                      <td class="p-3 font-sans font-medium text-cyan-400">NOAA</td>
+                      <td class="p-3 font-sans">Trimestres móviles (DJF..NDJ) sin fecha mensual</td>
+                      <td class="p-3 font-sans">Mapear a mes central y calcular fase_enso</td>
+                      <td class="p-3 text-right text-rose-300 font-bold">920</td>
+                      <td class="p-3 text-right text-emerald-400 font-bold">920</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Banner Disparador Modal Scripts y Archivos -->
+              <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-colors flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-2.5 text-slate-300">
+                  <span class="text-lg">🔬</span>
+                  <div>
+                    <span class="font-bold text-cyan-400">Inspección Técnica "Bajo el Capó":</span>
+                    <span class="text-slate-400 block sm:inline sm:ml-1">Consulta los scripts involucrados y la ubicación física de archivos en disco (Antes vs. Después).</span>
+                  </div>
+                </div>
+                <button onclick="abrirModal(4)" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-medium transition-all text-xs shrink-0 shadow-sm cursor-pointer">
+                  <span>📁</span> Abrir Scripts & Archivos ➔
+                </button>
+              </div>
+            </section>
+
+      <section id="punto-5" class="bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        
+              <!-- Header con botón modal -->
+              <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+                <div class="flex items-center gap-3">
+                  <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold font-mono">5</span>
+                  <div>
+                    <h2 class="text-xl font-bold text-[var(--foreground,#f8fafc)]">
+                      Esquema Estrella en DuckDB con dbt (Capa Oro)
+                    </h2>
+                    <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">
+                      11 Vistas Staging + 7 Dimensiones Conformes + 5 Tablas de Hechos · 82 Pruebas de Integridad
+                    </p>
+                  </div>
+                </div>
+                <button onclick="abrirModal(5)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer">
+                  <span>📁</span> Ver Scripts & Archivos en Disco
+                </button>
+              </div>
+
+              <!-- Cuadrante Pedagógico -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+                  <span class="font-bold text-purple-400 uppercase tracking-wide text-[10px]">¿Por qué?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Las tablas de Plata siguen organizadas según cada proveedor origen. Para cruzarlas fácilmente en BI necesitamos un modelo dimensional en estrella (Kimball) con dimensiones conformadas y hechos con grano claro.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-1">
+                  <span class="font-bold text-cyan-400 uppercase tracking-wide text-[10px]">¿Cómo?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Configuramos <code class="text-cyan-300">dbt/</code> sobre <code class="text-cyan-300">data/observatorio.duckdb</code> con 11 vistas en <code class="text-cyan-300">staging/</code> (<code class="text-cyan-300">stg_*</code>) y 12 tablas en <code class="text-cyan-300">marts/</code> (7 dimensiones y 5 hechos), protegidas por 82 pruebas automáticas (<code class="text-cyan-300">unique</code>, <code class="text-cyan-300">not_null</code>, <code class="text-cyan-300">relationships</code>).</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+                  <span class="font-bold text-emerald-400 uppercase tracking-wide text-[10px]">¿Para qué?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Para garantizar con <code class="text-emerald-300">dbt build</code> (<span class="text-emerald-400 font-bold">PASS=105</span>) que todas las tablas analíticas tengan grano definido, cero duplicados y 100 % de integridad referencial.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+                  <span class="font-bold text-amber-400 uppercase tracking-wide text-[10px]">En simple</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Armamos en DuckDB el esquema estrella con las tablas de 'quién/dónde/cuándo' (dimensiones) y las tablas de mediciones numéricas (hechos).</p>
+                </div>
+              </div>
+
+              <!-- Arquitectura Staging -> Marts -->
+              <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-3">
+                <div class="text-xs font-bold text-slate-300 uppercase tracking-wide">
+                  Flujo de Modelado Dimensional (Kimball):
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono text-center">
+                  <div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+                    <span class="text-cyan-400 font-bold block mb-1">1. Sources (Plata)</span>
+                    11 Parquets en <code class="text-slate-300">data/silver/</code>
+                  </div>
+                  <div class="p-3 rounded-lg bg-blue-900/30 border border-blue-800/40">
+                    <span class="text-blue-300 font-bold block mb-1">2. Staging (11 Vistas)</span>
+                    <code class="text-blue-200">stg_ventas</code>, <code class="text-blue-200">stg_xm_*</code>, etc.
+                  </div>
+                  <div class="p-3 rounded-lg bg-purple-900/30 border border-purple-800/40">
+                    <span class="text-purple-300 font-bold block mb-1">3. Marts (12 Tablas)</span>
+                    7 Dimensiones + 5 Hechos
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tabla de Modelos en DuckDB -->
+              <div class="overflow-x-auto border border-[var(--border,#334155)] rounded-xl">
+                <table class="w-full text-left text-xs font-mono">
+                  <thead class="bg-[var(--background,#0f172a)] text-[var(--muted-foreground,#94a3b8)] border-b border-[var(--border,#334155)]">
+                    <tr>
+                      <th class="p-3 font-semibold font-sans">Modelo en dbt / DuckDB</th>
+                      <th class="p-3 font-semibold font-sans">Tipo / Rol</th>
+                      <th class="p-3 font-semibold font-sans">Grano Declarado</th>
+                      <th class="p-3 font-semibold font-sans text-right">Filas</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-[var(--border,#334155)]">
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-cyan-300 font-bold">dim_mes</td>
+                      <td class="p-3 font-sans"><span class="badge-pill bg-blue-500/20 text-blue-300">Dimensión</span></td>
+                      <td class="p-3 font-sans text-slate-300">1 fila por mes calendario (periodo YYYY-MM) con ONI y fase ENSO</td>
+                      <td class="p-3 text-right font-bold text-white">45</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-cyan-300 font-bold">dim_fecha</td>
+                      <td class="p-3 font-sans"><span class="badge-pill bg-blue-500/20 text-blue-300">Dimensión</span></td>
+                      <td class="p-3 font-sans text-slate-300">1 fila por día calendario (2023-01-01 a 2026-12-31)</td>
+                      <td class="p-3 text-right font-bold text-white">1,461</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-cyan-300 font-bold">dim_hora</td>
+                      <td class="p-3 font-sans"><span class="badge-pill bg-blue-500/20 text-blue-300">Dimensión</span></td>
+                      <td class="p-3 font-sans text-slate-300">1 fila por hora del día (1 a 24) con franja Pico/Valle/Intermedia</td>
+                      <td class="p-3 text-right font-bold text-white">24</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-cyan-300 font-bold">dim_municipio</td>
+                      <td class="p-3 font-sans"><span class="badge-pill bg-blue-500/20 text-blue-300">Dimensión</span></td>
+                      <td class="p-3 font-sans text-slate-300">1 fila por municipio oficial de Colombia con subregión Antioquia</td>
+                      <td class="p-3 text-right font-bold text-white">1,122</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-cyan-300 font-bold">dim_segmento</td>
+                      <td class="p-3 font-sans"><span class="badge-pill bg-blue-500/20 text-blue-300">Dimensión</span></td>
+                      <td class="p-3 font-sans text-slate-300">1 fila por combinación de segmento y modalidad de compra</td>
+                      <td class="p-3 text-right font-bold text-white">8</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-cyan-300 font-bold">dim_recurso</td>
+                      <td class="p-3 font-sans"><span class="badge-pill bg-blue-500/20 text-blue-300">Dimensión</span></td>
+                      <td class="p-3 font-sans text-slate-300">1 fila por planta o recurso generador del SIN</td>
+                      <td class="p-3 text-right font-bold text-white">2,501</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-3 text-cyan-300 font-bold">dim_estacion</td>
+                      <td class="p-3 font-sans"><span class="badge-pill bg-blue-500/20 text-blue-300">Dimensión</span></td>
+                      <td class="p-3 font-sans text-slate-300">1 fila por estación hidrometeorológica del IDEAM en Antioquia</td>
+                      <td class="p-3 text-right font-bold text-white">73</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40 bg-purple-500/5">
+                      <td class="p-3 text-purple-300 font-bold">fact_ventas_mensual</td>
+                      <td class="p-3 font-sans"><span class="badge-pill bg-purple-500/20 text-purple-300">Hecho</span></td>
+                      <td class="p-3 font-sans text-slate-300">1 fila por mes (periodo) &times; municipio (divipola) &times; segmento_id</td>
+                      <td class="p-3 text-right font-bold text-emerald-400">4,007</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40 bg-purple-500/5">
+                      <td class="p-3 text-purple-300 font-bold">fact_mercado_horario</td>
+                      <td class="p-3 font-sans"><span class="badge-pill bg-purple-500/20 text-purple-300">Hecho</span></td>
+                      <td class="p-3 font-sans text-slate-300">1 fila por fecha diaria &times; hora operativa (1 a 24)</td>
+                      <td class="p-3 text-right font-bold text-emerald-400">24,096</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40 bg-purple-500/5">
+                      <td class="p-3 text-purple-300 font-bold">fact_generacion_recurso</td>
+                      <td class="p-3 font-sans"><span class="badge-pill bg-purple-500/20 text-purple-300">Hecho</span></td>
+                      <td class="p-3 font-sans text-slate-300">1 fila por fecha &times; hora &times; planta generadora</td>
+                      <td class="p-3 text-right font-bold text-emerald-400">5,935,449</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40 bg-purple-500/5">
+                      <td class="p-3 text-purple-300 font-bold">fact_hidrologia_diaria</td>
+                      <td class="p-3 font-sans"><span class="badge-pill bg-purple-500/20 text-purple-300">Hecho</span></td>
+                      <td class="p-3 font-sans text-slate-300">1 fila por fecha con volumen útil de embalses y aportes</td>
+                      <td class="p-3 text-right font-bold text-emerald-400">1,004</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/40 bg-purple-500/5">
+                      <td class="p-3 text-purple-300 font-bold">fact_clima_diario</td>
+                      <td class="p-3 font-sans"><span class="badge-pill bg-purple-500/20 text-purple-300">Hecho</span></td>
+                      <td class="p-3 font-sans text-slate-300">1 fila por fecha &times; estación del IDEAM con lluvia y temperatura</td>
+                      <td class="p-3 text-right font-bold text-emerald-400">30,271</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Banner Disparador Modal Scripts y Archivos -->
+              <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-colors flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-2.5 text-slate-300">
+                  <span class="text-lg">🔬</span>
+                  <div>
+                    <span class="font-bold text-cyan-400">Inspección Técnica "Bajo el Capó":</span>
+                    <span class="text-slate-400 block sm:inline sm:ml-1">Consulta los scripts involucrados y la ubicación física de archivos en disco (Antes vs. Después).</span>
+                  </div>
+                </div>
+                <button onclick="abrirModal(5)" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-medium transition-all text-xs shrink-0 shadow-sm cursor-pointer">
+                  <span>📁</span> Abrir Scripts & Archivos ➔
+                </button>
+              </div>
+            </section>
+
+      <section id="punto-6" class="bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        
+              <!-- Header con botón modal -->
+              <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+                <div class="flex items-center gap-3">
+                  <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold font-mono">6</span>
+                  <div>
+                    <h2 class="text-xl font-bold text-[var(--foreground,#f8fafc)]">
+                      Consultas SQL de Negocio sobre el Esquema Estrella
+                    </h2>
+                    <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">
+                      Demostración real de cómo el modelo responde las preguntas de impacto del fenómeno El Niño
+                    </p>
+                  </div>
+                </div>
+                <button onclick="abrirModal(6)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer">
+                  <span>📁</span> Ver Scripts & Archivos en Disco
+                </button>
+              </div>
+
+              <!-- Cuadrante Pedagógico -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+                  <span class="font-bold text-purple-400 uppercase tracking-wide text-[10px]">¿Por qué?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">El modelo estrella debe demostrar con datos reales que responde la cadena causal del reto (cómo impacta El Niño a los embalses, la generación térmica, el precio de bolsa y las ventas de EnerAndes en Antioquia).</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-1">
+                  <span class="font-bold text-cyan-400 uppercase tracking-wide text-[10px]">¿Cómo?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Documentamos el diagrama y grano en <code class="text-cyan-300">docs/modelo_dimensional.md</code>, el catálogo en <code class="text-cyan-300">docs/diccionario_datos.md</code> y programamos 5 consultas SQL analíticas en <code class="text-cyan-300">consultas/oro/*.sql</code>.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+                  <span class="font-bold text-emerald-400 uppercase tracking-wide text-[10px]">¿Para qué?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Para comprobar de extremo a extremo el impacto del clima sobre la energía y dejar listas las consultas que alimentarán el dashboard de la Entrega 3.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+                  <span class="font-bold text-amber-400 uppercase tracking-wide text-[10px]">En simple</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Probamos el esquema estrella con 5 preguntas reales de negocio y demostramos que en El Niño la generación térmica sube al 30 % y el precio de bolsa casi se triplica.</p>
+                </div>
+              </div>
+
+              <!-- Consulta 1 y 2 en tarjetas interactivas -->
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <!-- Card Consulta 1 -->
+                <div class="p-5 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-amber-400">01_enso_hidrologia_y_precio.sql</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">ENSO &rarr; Bolsa</span>
+                  </div>
+                  <p class="text-xs text-slate-300">
+                    ¿Cómo impacta la fase ENSO al precio promedio de bolsa y a los embalses en Colombia?
+                  </p>
+                  <div class="overflow-x-auto text-[11px] font-mono">
+                    <table class="w-full text-left">
+                      <thead class="text-slate-400 border-b border-slate-700">
+                        <tr><th>Fase</th><th class="text-right">Embalses</th><th class="text-right">Aportes GWh</th><th class="text-right">Precio COP</th></tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-800">
+                        <tr class="text-rose-400 font-bold"><td>El Niño</td><td class="text-right">61.9 %</td><td class="text-right">143.3</td><td class="text-right">663.0</td></tr>
+                        <tr class="text-slate-300"><td>Neutral</td><td class="text-right">64.1 %</td><td class="text-right">228.3</td><td class="text-right">413.8</td></tr>
+                        <tr class="text-blue-400 font-bold"><td>La Niña</td><td class="text-right">83.5 %</td><td class="text-right">215.5</td><td class="text-right">222.8</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-[11px] text-rose-300">
+                    <strong>Hallazgo:</strong> En <strong>El Niño</strong>, los aportes caen a 143 GWh/día (-37 %) y el precio de bolsa casi se triplica frente a La Niña (663 COP vs 222 COP).
+                  </div>
+                </div>
+
+                <!-- Card Consulta 2 -->
+                <div class="p-5 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-cyan-400">02_matriz_generacion_por_fase_enso.sql</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono">Sustitución Térmica</span>
+                  </div>
+                  <p class="text-xs text-slate-300">
+                    ¿Qué tipo de energía entra a suplir la caída hidráulica durante la sequía de El Niño?
+                  </p>
+                  <div class="overflow-x-auto text-[11px] font-mono">
+                    <table class="w-full text-left">
+                      <thead class="text-slate-400 border-b border-slate-700">
+                        <tr><th>Fase</th><th>Tecnología</th><th class="text-right">GWh</th><th class="text-right">% Matriz</th></tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-800">
+                        <tr class="text-amber-300"><td>El Niño</td><td>HIDRÁULICA</td><td class="text-right">36,489</td><td class="text-right">63.0 %</td></tr>
+                        <tr class="text-rose-400 font-bold"><td>El Niño</td><td>TÉRMICA</td><td class="text-right">17,231</td><td class="text-right">29.8 %</td></tr>
+                        <tr class="text-blue-300"><td>La Niña</td><td>HIDRÁULICA</td><td class="text-right">17,629</td><td class="text-right">81.6 %</td></tr>
+                        <tr class="text-slate-400"><td>La Niña</td><td>TÉRMICA</td><td class="text-right">2,467</td><td class="text-right">11.4 %</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-[11px] text-cyan-300">
+                    <strong>Hallazgo:</strong> La generación térmica casi se <strong>triplica (11.4 % &rarr; 29.8 %)</strong> para compensar la sequía, encareciendo el precio marginal.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Consulta 3, 4 y 5 en acordeón compacto -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700 space-y-1.5">
+                  <div class="font-bold text-amber-300">03 · Hora Pico del SIN</div>
+                  <p class="text-slate-300">La hora más tensionada es la <strong>Hora 20 (19:00 - 20:00)</strong> con <strong>10,909 MWh</strong> de demanda y precio medio de <strong>658.9 COP/kWh</strong>.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700 space-y-1.5">
+                  <div class="font-bold text-cyan-300">04 · Exposición de EnerAndes</div>
+                  <p class="text-slate-300">EnerAndes compra en bolsa el <strong>~22.2 %</strong> de su energía en Medellín (276 GWh), Bello e Itagüí, expuesta directamente al precio de bolsa.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700 space-y-1.5">
+                  <div class="font-bold text-purple-300">05 · Clima IDEAM &times; Ventas</div>
+                  <p class="text-slate-300">Cruce exacto por <code class="text-purple-300">dim_municipio</code> entre estaciones meteorológicas (Rionegro 784 mm, Medellín 505 mm) y consumo eléctrico municipal.</p>
+                </div>
+              </div>
+
+              <!-- Banner Disparador Modal Scripts y Archivos -->
+              <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-colors flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-2.5 text-slate-300">
+                  <span class="text-lg">🔬</span>
+                  <div>
+                    <span class="font-bold text-cyan-400">Inspección Técnica "Bajo el Capó":</span>
+                    <span class="text-slate-400 block sm:inline sm:ml-1">Consulta los scripts involucrados y la ubicación física de archivos en disco (Antes vs. Después).</span>
+                  </div>
+                </div>
+                <button onclick="abrirModal(6)" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-medium transition-all text-xs shrink-0 shadow-sm cursor-pointer">
+                  <span>📁</span> Abrir Scripts & Archivos ➔
+                </button>
+              </div>
+            </section>
+
+      <section id="punto-7" class="bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        
+              <!-- Header con botón modal -->
+              <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+                <div class="flex items-center gap-3">
+                  <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold font-mono">7</span>
+                  <div>
+                    <h2 class="text-xl font-bold text-[var(--foreground,#f8fafc)]">
+                      Reproducibilidad en 1 Comando & Higiene de Git
+                    </h2>
+                    <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">
+                      Ejecución de todo el pipeline en 22 segundos sin subir binarios pesados al repositorio
+                    </p>
+                  </div>
+                </div>
+                <button onclick="abrirModal(7)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer">
+                  <span>📁</span> Ver Scripts & Archivos en Disco
+                </button>
+              </div>
+
+              <!-- Cuadrante Pedagógico -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+                  <span class="font-bold text-purple-400 uppercase tracking-wide text-[10px]">¿Por qué?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Ejecutar 5 scripts sueltos y luego comandos manuales de dbt propicia errores de orden, y subir <code class="text-purple-300">data/silver/</code> o <code class="text-purple-300">*.duckdb</code> a GitHub contamina el repositorio con archivos binarios pesados.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-1">
+                  <span class="font-bold text-cyan-400 uppercase tracking-wide text-[10px]">¿Cómo?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Creamos el orquestador <code class="text-cyan-300">src/transformar.py</code> (<code class="text-cyan-300">python -m src.transformar</code>) que ejecuta toda la Capa Plata, el reporte de calidad y <code class="text-cyan-300">dbt build</code> en un solo paso, y configuramos <code class="text-cyan-300">.gitignore</code>.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+                  <span class="font-bold text-emerald-400 uppercase tracking-wide text-[10px]">¿Para qué?</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Para permitir que cualquier evaluador o integrante reconstruya Plata + Oro + 82 pruebas de dbt con un único comando en ~22 segundos manteniendo limpio el repositorio.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+                  <span class="font-bold text-amber-400 uppercase tracking-wide text-[10px]">En simple</span>
+                  <p class="text-[var(--foreground,#f8fafc)]">Un solo comando (<code class="text-amber-300">python -m src.transformar</code>) reconstruye y verifica todo el proyecto sin subir bases de datos pesadas a Git.</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <!-- Comando Reproducible -->
+                <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-2">
+                  <span class="font-bold text-emerald-400">1. Construir Plata + Reporte + Oro:</span>
+                  <div class="code-block bg-slate-900 border border-slate-800 text-emerald-300 flex items-center justify-between">
+                    <code>python -m src.transformar</code>
+                    <button onclick="copiarComando('python -m src.transformar')" class="hover:text-white cursor-pointer" title="Copiar">📋</button>
+                  </div>
+                  <p class="text-slate-400">Limpia las 5 fuentes, escribe <code class="text-slate-300">docs/reporte_calidad.md</code> y corre <code class="text-slate-300">dbt build</code> en ~22 segundos.</p>
+                </div>
+
+                <!-- Pruebas y Consultas -->
+                <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-2">
+                  <span class="font-bold text-cyan-400">2. Ejecutar Pruebas y Consultas:</span>
+                  <div class="code-block bg-slate-900 border border-slate-800 text-cyan-300 flex items-center justify-between">
+                    <code>python -m pytest -v</code>
+                    <button onclick="copiarComando('python -m pytest -v')" class="hover:text-white cursor-pointer" title="Copiar">📋</button>
+                  </div>
+                  <div class="code-block bg-slate-900 border border-slate-800 text-purple-300 flex items-center justify-between">
+                    <code>python -m src.consultar --solo-oro</code>
+                    <button onclick="copiarComando('python -m src.consultar --solo-oro')" class="hover:text-white cursor-pointer" title="Copiar">📋</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Protección .gitignore -->
+              <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-xs space-y-2">
+                <span class="font-bold text-amber-400 flex items-center gap-1.5">
+                  <span>🛡️</span> Protección del Repositorio (.gitignore activo):
+                </span>
+                <p class="text-slate-300">
+                  Están excluidos de Git: <code class="text-amber-300">data/bronze/</code>, <code class="text-amber-300">data/silver/</code>, <code class="text-amber-300">data/observatorio.duckdb</code>, <code class="text-amber-300">dbt/target/</code>, <code class="text-amber-300">dbt/logs/</code> y <code class="text-amber-300">dbt/.user.yml</code>, manteniendo el repositorio liviano y el código 100 % reproducible desde scripts.
+                </p>
+              </div>
+
+              <!-- Banner Disparador Modal Scripts y Archivos -->
+              <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-colors flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-2.5 text-slate-300">
+                  <span class="text-lg">🔬</span>
+                  <div>
+                    <span class="font-bold text-cyan-400">Inspección Técnica "Bajo el Capó":</span>
+                    <span class="text-slate-400 block sm:inline sm:ml-1">Consulta los scripts involucrados y la ubicación física de archivos en disco (Antes vs. Después).</span>
+                  </div>
+                </div>
+                <button onclick="abrirModal(7)" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-medium transition-all text-xs shrink-0 shadow-sm cursor-pointer">
+                  <span>📁</span> Abrir Scripts & Archivos ➔
+                </button>
+              </div>
+            </section>
+    </main>
+  </div>
+
+  <!-- MODAL INTERACTIVO DE INSPECCIÓN TÉCNICA (SCRIPTS Y ARCHIVOS) -->
+  <div id="modal-detalle" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto" onclick="clickBackdrop(event)">
+      <div id="modal-card" class="relative w-full max-w-4xl bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden my-auto flex flex-col max-h-[90vh]">
+      
+        <!-- Header Modal -->
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-950/80 shrink-0">
+          <div class="flex items-center gap-3">
+            <span id="modal-punto-num" class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 font-bold font-mono text-sm flex items-center justify-center">1</span>
+            <div>
+              <h3 id="modal-titulo" class="font-bold text-base text-white">Detalle Técnico</h3>
+              <p id="modal-subtitulo" class="text-xs text-slate-400">Scripts involucrados y rutas físicas en disco</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button onclick="navegarModal(-1)" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono transition-colors cursor-pointer" title="Punto anterior (←)">◀ Ant</button>
+            <button onclick="navegarModal(1)" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono transition-colors cursor-pointer" title="Punto siguiente (→)">Sig ▶</button>
+            <button onclick="cerrarModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-rose-500/20 hover:text-rose-400 text-slate-400 flex items-center justify-center font-bold text-base transition-colors ml-2 cursor-pointer" title="Cerrar (Esc)">✕</button>
+          </div>
+        </div>
+
+        <!-- Pestañas de Navegación del Modal -->
+        <div class="flex border-b border-slate-800 bg-slate-950/40 px-6 gap-6 text-xs font-medium shrink-0">
+          <button id="modal-tab-todo-btn" onclick="cambiarTabModal('todo')" class="py-2.5 border-b-2 border-cyan-400 text-cyan-400 font-semibold flex items-center gap-1.5 transition-colors cursor-pointer">
+            <span>👁️</span> Vista Completa
+          </button>
+          <button id="modal-tab-scripts-btn" onclick="cambiarTabModal('scripts')" class="py-2.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-1.5 transition-colors cursor-pointer">
+            <span>📜</span> Scripts Involucrados
+          </button>
+          <button id="modal-tab-archivos-btn" onclick="cambiarTabModal('archivos')" class="py-2.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-1.5 transition-colors cursor-pointer">
+            <span>📁</span> Archivos en Disco (Antes vs Después)
+          </button>
+        </div>
+
+        <!-- Cuerpo con Scroll Interno -->
+        <div class="p-6 overflow-y-auto space-y-6 flex-1 text-xs">
+          <!-- Sección Scripts -->
+          <div id="modal-sec-scripts" class="space-y-3">
+            <div class="flex items-center justify-between pb-1 border-b border-slate-800">
+              <span class="font-bold text-cyan-400 flex items-center gap-2">
+                <span>📜</span> Scripts y Modelos Involucrados en este Paso:
+              </span>
+              <span class="text-[10px] text-slate-400 font-mono">Python / SQL / dbt / Tests</span>
+            </div>
+            <div id="modal-scripts-container" class="grid grid-cols-1 md:grid-cols-2 gap-2.5"></div>
+          </div>
+
+          <!-- Sección Archivos en Disco -->
+          <div id="modal-sec-archivos" class="space-y-3">
+            <div class="flex items-center justify-between pb-1 border-b border-slate-800">
+              <span class="font-bold text-emerald-400 flex items-center gap-2">
+                <span>📁</span> Dónde Ver los Archivos Físicamente en tu Disco:
+              </span>
+              <span class="text-[10px] text-slate-500 font-mono">Ubicación relativa desde observatorio-energia/</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div class="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 space-y-2">
+                <span class="font-bold text-rose-400 block text-[11px] uppercase tracking-wider flex items-center gap-1.5">
+                  <span>📄</span> ANTES (Capa Bronce / Entradas):
+                </span>
+                <div id="modal-archivos-antes" class="space-y-1.5 font-mono text-[11px]"></div>
+              </div>
+              <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 space-y-2">
+                <span class="font-bold text-emerald-400 block text-[11px] uppercase tracking-wider flex items-center gap-1.5">
+                  <span>➔</span> DESPUÉS (Capa Plata / Oro / Salidas):
+                </span>
+                <div id="modal-archivos-despues" class="space-y-1.5 font-mono text-[11px]"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comando Terminal Rápido -->
+          <div id="modal-comando-box" class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-[11px]">
+              <span id="modal-comando-label" class="font-bold text-slate-300 flex items-center gap-1.5">
+                <span>💻</span> Inspección rápida por terminal:
+              </span>
+              <button id="modal-copiar-btn" onclick="copiarComandoModal()" class="text-cyan-400 hover:text-white font-mono font-medium flex items-center gap-1 cursor-pointer">
+                <span>📋</span> Copiar comando
+              </button>
+            </div>
+            <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800 font-mono text-[11px] text-cyan-300 overflow-x-auto">
+              <code id="modal-comando-code">...</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Modal -->
+        <div class="flex items-center justify-between px-6 py-3 border-t border-slate-800 bg-slate-950/80 text-xs text-slate-400 shrink-0">
+          <span class="text-[11px] text-slate-400">
+            💡 Navega con <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 font-mono text-[10px] text-slate-300">←</kbd> y <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 font-mono text-[10px] text-slate-300">→</kbd> entre los 7 puntos, o <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 font-mono text-[10px] text-slate-300">Esc</kbd> para cerrar.
+          </span>
+          <button onclick="cerrarModal()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold transition-colors text-xs cursor-pointer">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+
+  <!-- Scripts JavaScript Modulares -->
+  <script src="js/data.js"></script>
+  <script src="js/simulador.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/glosario.js"></script>
+</body>
+</html>

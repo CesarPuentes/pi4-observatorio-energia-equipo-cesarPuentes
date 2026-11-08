@@ -1,0 +1,129 @@
+<section id="punto-2" class="bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        
+        <!-- Header con botón modal -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold font-mono">2</span>
+            <div>
+              <h2 class="text-xl font-bold text-[var(--foreground,#f8fafc)]">
+                Limpieza de XM, IDEAM, NOAA y DANE DIVIPOLA
+              </h2>
+              <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">
+                Despivotar horas, tipar números, cruzar estaciones con municipios y etiquetar ENSO
+              </p>
+            </div>
+          </div>
+          <button onclick="abrirModal(2)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer">
+            <span>📁</span> Ver Scripts & Archivos en Disco
+          </button>
+        </div>
+
+        <!-- Cuadrante Pedagógico -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          <div class="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+            <span class="font-bold text-purple-400 uppercase tracking-wide text-[10px]">¿Por qué?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">XM entrega 24 columnas horarias en texto y 2.47M de celdas vacías; IDEAM trae volcados de sensor de hasta 3,081 mm/día; NOAA viene por trimestres móviles y DIVIPOLA trae coordenadas con comas decimales.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-1">
+            <span class="font-bold text-cyan-400 uppercase tracking-wide text-[10px]">¿Cómo?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Despivotamos con <code class="text-cyan-300">melt</code> a filas por fecha y hora (1..24), enviamos 7 lluvias &gt; 500 mm a cuarentena, asignamos trimestres NOAA a su mes central con <code class="text-cyan-300">fase_enso</code> y cambiamos <code class="text-cyan-300">,</code> por <code class="text-cyan-300">.</code> en DIVIPOLA.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+            <span class="font-bold text-emerald-400 uppercase tracking-wide text-[10px]">¿Para qué?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Para que todas las tablas tengan claves comunes (<code class="text-emerald-300">fecha</code>, <code class="text-emerald-300">hora</code>, <code class="text-emerald-300">cod_mpio</code>, <code class="text-emerald-300">codigo_recurso</code>) y tipos float nativos para el modelo estrella.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+            <span class="font-bold text-amber-400 uppercase tracking-wide text-[10px]">En simple</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Pusimos a las 4 fuentes restantes a hablar el mismo idioma: horas numéricas, municipios homologados, meses con su etiqueta climática y sin lluvias falsas.</p>
+          </div>
+        </div>
+
+        <!-- Muestra Comparativa Otras Fuentes -->
+        <div class="space-y-3">
+          <h3 class="text-sm font-semibold text-[var(--foreground,#f8fafc)] flex items-center gap-2">
+            <span>🔬</span> Transformaciones Clave Lado a Lado
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+            <!-- XM Horario -->
+            <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-2">
+              <div class="font-sans font-bold text-cyan-400 flex items-center justify-between">
+                <span>XM Precio Bolsa (Despivote)</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20">1,004 &rarr; 24,096 filas</span>
+              </div>
+              <div class="text-rose-300/90 text-[11px] bg-rose-500/10 p-2 rounded">
+                <strong>ANTES (1 fila ancha por día):</strong><br>
+                Date='2024-01-01', Hour01='251.91', Hour04='281.91', Hour20='301.23' (str)
+              </div>
+              <div class="text-emerald-300 text-[11px] bg-emerald-500/10 p-2 rounded">
+                <strong>➔ DESPUÉS (24 filas individuales por día):</strong><br>
+                fecha='2024-01-01', hora=1, precio=251.91 COP/kWh<br>
+                fecha='2024-01-01', hora=20, precio=301.23 COP/kWh (float)
+              </div>
+            </div>
+
+            <!-- IDEAM Cuarentena -->
+            <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-2">
+              <div class="font-sans font-bold text-amber-400 flex items-center justify-between">
+                <span>IDEAM Precipitación (Cuarentena)</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20">7 lecturas extremas</span>
+              </div>
+              <div class="text-rose-300/90 text-[11px] bg-rose-500/10 p-2 rounded">
+                <strong>ANTES (Volcado acumulado de sensor):</strong><br>
+                SAN CARLOS (2026-07-24): <strong>3,081.8 mm/día</strong> (¡físicamente imposible!)
+              </div>
+              <div class="text-amber-300 text-[11px] bg-amber-500/10 p-2 rounded">
+                <strong>➔ DESPUÉS (En ideam_cuarentena.parquet):</strong><br>
+                motivo: 'precipitacion_diaria_fuera_de_rango_fisico_0_500_mm'<br>
+                <span class="text-emerald-300">En Plata solo quedan las 29,797 lluvias reales en [0, 456 mm]</span>
+              </div>
+            </div>
+
+            <!-- NOAA ONI -->
+            <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-2">
+              <div class="font-sans font-bold text-blue-400 flex items-center justify-between">
+                <span>NOAA Índice ONI (Mes Central & ENSO)</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20">920 meses históricos</span>
+              </div>
+              <div class="text-rose-300/90 text-[11px] bg-rose-500/10 p-2 rounded">
+                <strong>ANTES (Texto trimestral móvil):</strong><br>
+                YR='2026', SEAS='JAS', ANOM='2.16' (texto sin fecha mensual)
+              </div>
+              <div class="text-emerald-300 text-[11px] bg-emerald-500/10 p-2 rounded">
+                <strong>➔ DESPUÉS (Mes central + Clasificación):</strong><br>
+                fecha='2026-08-01', periodo='2026-08', oni=2.16, <strong>fase_enso='El Niño'</strong>
+              </div>
+            </div>
+
+            <!-- DANE DIVIPOLA -->
+            <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-2">
+              <div class="font-sans font-bold text-emerald-400 flex items-center justify-between">
+                <span>DANE DIVIPOLA (Coordenadas)</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20">1,122 municipios</span>
+              </div>
+              <div class="text-rose-300/90 text-[11px] bg-rose-500/10 p-2 rounded">
+                <strong>ANTES (Coma decimal como texto):</strong><br>
+                cod_mpio='05001', latitud='6,246631', longitud='-75,581775'
+              </div>
+              <div class="text-emerald-300 text-[11px] bg-emerald-500/10 p-2 rounded">
+                <strong>➔ DESPUÉS (Números float64 validados):</strong><br>
+                cod_mpio='05001', latitud=6.246631, longitud=-75.581775 (float)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Banner Disparador Modal Scripts y Archivos -->
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-colors flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2.5 text-slate-300">
+            <span class="text-lg">🔬</span>
+            <div>
+              <span class="font-bold text-cyan-400">Inspección Técnica "Bajo el Capó":</span>
+              <span class="text-slate-400 block sm:inline sm:ml-1">Consulta los scripts involucrados y la ubicación física de archivos en disco (Antes vs. Después).</span>
+            </div>
+          </div>
+          <button onclick="abrirModal(2)" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-medium transition-all text-xs shrink-0 shadow-sm cursor-pointer">
+            <span>📁</span> Abrir Scripts & Archivos ➔
+          </button>
+        </div>
+      </section>

@@ -1,0 +1,188 @@
+<section id="punto-1" class="bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        
+        <!-- Header con botón modal -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold font-mono">1</span>
+            <div>
+              <h2 class="text-xl font-bold text-[var(--foreground,#f8fafc)]">
+                Limpieza Completa de EnerAndes (Hojas 2023 a 2026)
+              </h2>
+              <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">
+                De 4 hojas heterogéneas con títulos y MWh a 1 sola tabla unificada en Plata + Cuarentena
+              </p>
+            </div>
+          </div>
+          <button onclick="abrirModal(1)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer">
+            <span>📁</span> Ver Scripts & Archivos en Disco
+          </button>
+        </div>
+
+        <!-- Ficha Pedagógica Cuadrante -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          <div class="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+            <span class="font-bold text-purple-400 uppercase tracking-wide text-[10px]">¿Por qué?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">En clase solo se limpió la hoja 2023. Las hojas 2024, 2025 y 2026 traen títulos antes del encabezado, filas TOTAL, 4 formatos de fecha, 347 filas en MWh, 32 nombres de municipios y 43 filas sin energía válida.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-1">
+            <span class="font-bold text-cyan-400 uppercase tracking-wide text-[10px]">¿Cómo?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Detectamos la fila de encabezado dinámicamente, multiplicamos MWh por 1,000, parseamos las 4 fechas a <code class="text-cyan-300">YYYY-MM</code>, mapeamos municipios al DANE, marcamos segmento faltante como <em>'No informado'</em> y aislamos energía &le; 0.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+            <span class="font-bold text-emerald-400 uppercase tracking-wide text-[10px]">¿Para qué?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Para consolidar <strong>4,007 ventas válidas</strong> listas para cobrar y analizar, y aislar <strong>43 filas</strong> en cuarentena con su motivo explícito sin perder evidencia contable.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+            <span class="font-bold text-amber-400 uppercase tracking-wide text-[10px]">En simple</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Juntamos los 4 años en una sola tabla limpia y homogénea en kWh, sacando a cuarentena las filas que no tienen energía para no inflar ni distorsionar las sumas.</p>
+          </div>
+        </div>
+
+        <!-- Problema Estructural en Hojas 2025 y 2026 -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-semibold text-[var(--foreground,#f8fafc)] flex items-center gap-2">
+              <span>⚠️</span> Problema Estructural: Títulos decorativos y filas parásitas
+            </h3>
+            <span class="text-[11px] text-[var(--muted-foreground,#94a3b8)]">Hojas 2025 y 2026 en Capa Bronce</span>
+          </div>
+
+          <div class="bg-[var(--background,#0f172a)] rounded-xl border border-[var(--border,#334155)] p-4 font-mono text-xs overflow-x-auto space-y-1">
+            <div class="text-red-400/80">Fila 0: "EnerAndes S.A.S. E.S.P. - Reporte de ventas 2025 - Gerencia Comercial" <span class="text-red-500 font-bold">&larr; Título decorativo (se descarta)</span></div>
+            <div class="text-red-400/80">Fila 1: "Fuente: sistema comercial. Uso interno." <span class="text-red-500 font-bold">&larr; Nota interna (se descarta)</span></div>
+            <div class="text-slate-500">Fila 2: NaN, NaN, NaN, NaN, NaN <span class="text-red-500 font-bold">&larr; Fila en blanco (se descarta)</span></div>
+            <div class="text-emerald-400 font-bold">Fila 3: mes | municipio | segmento | tipo compra | consumo (kWh) | facturado <span class="text-emerald-500">&larr; ¡Encabezado Real!</span></div>
+            <div class="text-slate-400">Fila 4: 06/2025 | Apartadó | Comercial | Bolsa | 121318 | 143967156 &larr; Primera venta transaccional</div>
+            <div class="text-slate-600">... (1,112 filas transaccionales más) ...</div>
+            <div class="text-amber-400">Fila 1116: TOTAL | NaN | NaN | NaN | NaN | NaN <span class="text-amber-500 font-bold">&larr; Fila TOTAL (se descarta)</span></div>
+          </div>
+        </div>
+
+        <!-- TABLA COMPARATIVA LADO A LADO: LA MISMA FILA ANTES VS DESPUÉS -->
+        <div class="space-y-3">
+          <h3 class="text-sm font-semibold text-[var(--foreground,#f8fafc)] flex items-center gap-2">
+            <span>🔍</span> Comparación Lado a Lado: LA MISMA FILA en Bronce (Antes) &rarr; en Plata (Después)
+          </h3>
+          
+          <div class="overflow-x-auto border border-[var(--border,#334155)] rounded-xl">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-[var(--background,#0f172a)] text-[var(--muted-foreground,#94a3b8)] border-b border-[var(--border,#334155)]">
+                <tr>
+                  <th class="p-3 font-semibold">Caso / Regla</th>
+                  <th class="p-3 font-semibold text-rose-400">ANTES (Capa Bronce - Dato Crudo)</th>
+                  <th class="p-3 font-semibold text-emerald-400">➔ DESPUÉS (Capa Plata / Cuarentena)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-[var(--border,#334155)] font-mono">
+                <!-- Fila 1: MWh a kWh -->
+                <tr class="hover:bg-slate-800/40">
+                  <td class="p-3 font-sans font-medium text-cyan-300">
+                    MWh a kWh + Fecha en texto
+                    <span class="block text-[10px] text-[var(--muted-foreground,#94a3b8)] font-sans">Hoja 2024, fila 1112</span>
+                  </td>
+                  <td class="p-3 text-rose-300 bg-rose-500/5">
+                    periodo: <strong class="text-rose-400">'jul-24'</strong><br>
+                    energia: <strong class="text-rose-400">'479.907'</strong> | unidad: <strong class="text-rose-400">'MWh'</strong>
+                  </td>
+                  <td class="p-3 text-emerald-300 bg-emerald-500/5">
+                    periodo: <strong class="text-emerald-400">'2024-07'</strong> | divipola: <strong>'05045'</strong><br>
+                    energia_kwh: <strong class="text-emerald-400">479,907.0</strong> <span class="text-[10px] bg-emerald-500/20 px-1.5 py-0.5 rounded text-emerald-300">&times;1,000 OK</span>
+                  </td>
+                </tr>
+
+                <!-- Fila 2: Fecha DD/MM/AAAA en 2026 -->
+                <tr class="hover:bg-slate-800/40">
+                  <td class="p-3 font-sans font-medium text-cyan-300">
+                    Formato DD/MM/AAAA
+                    <span class="block text-[10px] text-[var(--muted-foreground,#94a3b8)] font-sans">Hoja 2026, fila 837</span>
+                  </td>
+                  <td class="p-3 text-rose-300 bg-rose-500/5">
+                    fecha: <strong class="text-rose-400">'01/03/2026'</strong><br>
+                    municipio: 'Turbo' | compra: 'Bolsa'
+                  </td>
+                  <td class="p-3 text-emerald-300 bg-emerald-500/5">
+                    periodo: <strong class="text-emerald-400">'2026-03'</strong> | divipola: <strong>'05837'</strong><br>
+                    municipio: 'Turbo' | tipo_compra: 'Bolsa'
+                  </td>
+                </tr>
+
+                <!-- Fila 3: Duplicado exacto -->
+                <tr class="hover:bg-slate-800/40">
+                  <td class="p-3 font-sans font-medium text-cyan-300">
+                    Duplicado exacto
+                    <span class="block text-[10px] text-[var(--muted-foreground,#94a3b8)] font-sans">Hoja 2023, filas 30 y 31</span>
+                  </td>
+                  <td class="p-3 text-rose-300 bg-rose-500/5">
+                    <strong class="text-rose-400">2 filas idénticas</strong> en el mismo mes y municipio<br>
+                    2023-04 | Rionegro | Comercial | Bolsa
+                  </td>
+                  <td class="p-3 text-emerald-300 bg-emerald-500/5">
+                    <strong class="text-emerald-400">1 sola fila conservada</strong> (120 duplicados eliminados)<br>
+                    energia_kwh: 125,400 | valor_cop: 125,000,000
+                  </td>
+                </tr>
+
+                <!-- Fila 4: Segmento vacío -->
+                <tr class="hover:bg-slate-800/40">
+                  <td class="p-3 font-sans font-medium text-cyan-300">
+                    Segmento comercial vacío
+                    <span class="block text-[10px] text-[var(--muted-foreground,#94a3b8)] font-sans">Hoja 2024, fila 104</span>
+                  </td>
+                  <td class="p-3 text-rose-300 bg-rose-500/5">
+                    segmento: <strong class="text-rose-400">NaN</strong> (celda vacía)<br>
+                    periodo: '10/2024' | municipio: 'Girardota'
+                  </td>
+                  <td class="p-3 text-emerald-300 bg-emerald-500/5">
+                    segmento: <strong class="text-emerald-400">'No informado'</strong> <span class="text-[10px] bg-amber-500/20 px-1.5 py-0.5 rounded text-amber-300">Regla clase</span><br>
+                    periodo: '2024-10' | divipola: '05308'
+                  </td>
+                </tr>
+
+                <!-- Fila 5: Energía Negativa -> Cuarentena -->
+                <tr class="hover:bg-slate-800/40">
+                  <td class="p-3 font-sans font-medium text-rose-400">
+                    Energía negativa (&lt; 0)
+                    <span class="block text-[10px] text-[var(--muted-foreground,#94a3b8)] font-sans">Hoja 2023, fila 82</span>
+                  </td>
+                  <td class="p-3 text-rose-300 bg-rose-500/5">
+                    energia_kwh: <strong class="text-rose-400">'-594733'</strong> (físicamente absurdo)<br>
+                    periodo: '2023-06' | municipio: 'Turbo'
+                  </td>
+                  <td class="p-3 text-amber-300 bg-amber-500/5 font-semibold">
+                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] uppercase">A Cuarentena</span><br>
+                    motivo: <span class="text-amber-400">'Energia negativa (&lt; 0)'</span><br>
+                    <span class="text-[10px] text-[var(--muted-foreground,#94a3b8)]">Archivo: enerandes_cuarentena.parquet</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Banner Disparador Modal Scripts y Archivos -->
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-colors flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2.5 text-slate-300">
+            <span class="text-lg">🔬</span>
+            <div>
+              <span class="font-bold text-cyan-400">Inspección Técnica "Bajo el Capó":</span>
+              <span class="text-slate-400 block sm:inline sm:ml-1">Consulta los scripts involucrados y la ubicación física de archivos en disco (Antes vs. Después).</span>
+            </div>
+          </div>
+          <button onclick="abrirModal(1)" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-medium transition-all text-xs shrink-0 shadow-sm cursor-pointer">
+            <span>📁</span> Abrir Scripts & Archivos ➔
+          </button>
+        </div>
+
+        <!-- Balance Numérico -->
+        <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] flex flex-wrap items-center justify-between gap-4 text-xs">
+          <div>
+            <span class="text-[var(--muted-foreground,#94a3b8)]">Balance de Filas:</span>
+            <span class="font-mono ml-2 text-slate-300">4,184 brutas &minus; 14 parásitas &minus; 120 duplicadas &minus; 43 en cuarentena</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold font-mono">
+              = 4,007 filas limpias en Plata
+            </span>
+          </div>
+        </div>
+      </section>

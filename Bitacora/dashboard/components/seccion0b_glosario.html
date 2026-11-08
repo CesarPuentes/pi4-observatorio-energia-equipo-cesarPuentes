@@ -1,0 +1,886 @@
+<!-- ============================================================ -->
+<!-- SECCIÓN 0B: GLOSARIO INTERACTIVO DE INGENIERÍA DE DATOS       -->
+<!-- ============================================================ -->
+<section id="glosario" class="bg-[var(--card,#1e293b)] border border-slate-700/80 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+
+  <!-- Header del Glosario -->
+  <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white text-xl shadow-lg shadow-purple-500/20">
+        📚
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">FUNDAMENTOS & ARQUITECTURA</span>
+          <span class="text-xs text-slate-400 font-mono">32 Conceptos Clave</span>
+        </div>
+        <h2 class="text-2xl font-black text-white tracking-tight">
+          Glosario de Ingeniería de Datos por Capas
+        </h2>
+        <p class="text-xs text-slate-400 mt-0.5">
+          Guía conceptual sin rodeos: de la ingesta cruda (Bronce) a los contratos (Plata) y el modelado analítico (Oro)
+        </p>
+      </div>
+    </div>
+
+    <!-- Contador dinámico -->
+    <span id="glosario-contador" class="text-xs px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 font-mono">
+      Mostrando 32 de 32 conceptos
+    </span>
+  </div>
+
+  <!-- Barra de Filtros y Buscador Interactivo -->
+  <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-slate-950/70 border border-slate-800">
+    <!-- Pestañas por Capa -->
+    <div class="flex flex-wrap items-center gap-2">
+      <button onclick="seleccionarCapaGlosario('todos')" data-capa="todos" class="btn-filtro-glosario px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-500 text-slate-950 transition-all shadow-md cursor-pointer">
+        Todos (32)
+      </button>
+      <button onclick="seleccionarCapaGlosario('bronce')" data-capa="bronce" class="btn-filtro-glosario px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 transition-all cursor-pointer">
+        🥉 Capa Bronce (10)
+      </button>
+      <button onclick="seleccionarCapaGlosario('plata')" data-capa="plata" class="btn-filtro-glosario px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-all cursor-pointer">
+        🥈 Capa Plata (11)
+      </button>
+      <button onclick="seleccionarCapaGlosario('oro')" data-capa="oro" class="btn-filtro-glosario px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-yellow-300 border border-slate-700 transition-all cursor-pointer">
+        🥇 Capa Oro (11)
+      </button>
+    </div>
+
+    <!-- Buscador en tiempo real -->
+    <div class="relative w-full sm:w-72">
+      <input 
+        type="text" 
+        id="glosario-buscador" 
+        oninput="filtrarGlosario()" 
+        placeholder="🔍 Buscar concepto (ej: parquet, duckdb, grano)..." 
+        class="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono transition-colors"
+      />
+    </div>
+  </div>
+
+  <!-- GRID DE TARJETAS DE CONCEPTOS (32 CONCEPTOS) -->
+  <div id="glosario-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+
+    <!-- ========================================== -->
+    <!-- CAPA BRONCE (10 CONCEPTOS)                 -->
+    <!-- ========================================== -->
+
+    <!-- 1. Arquitectura Medallón -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · ARQUITECTURA</span>
+          <span class="text-[10px] text-slate-500 font-mono">EA1 / EA2</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🏛️</span> Arquitectura Medallón
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Patrón de diseño que organiza el almacenamiento en 3 capas progresivas: <strong>Bronce</strong> (crudo e inmutable), <strong>Plata</strong> (limpio y validado) y <strong>Oro</strong> (dimensional para negocio).
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Evita modificar los datos de origen; si una regla de limpieza cambia, no hay que volver a descargar las APIs.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Como refinar petróleo: petróleo crudo (Bronce) &rarr; gasolina refinada (Plata) &rarr; combustible de aviación para el motor (Oro).
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Ubicación: <code>data/bronze/</code> &rarr; <code>silver/</code> &rarr; <code>gold</code>
+      </div>
+    </div>
+
+    <!-- 2. Filas vs Columnas -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · ALMACENAMIENTO</span>
+          <span class="text-[10px] text-slate-500 font-mono">OLTP vs OLAP</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>📊</span> Almacenamiento Filas vs Columnas
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Formato por filas (CSV/Postgres) guarda registro a registro completo. Formato columnar (Parquet) guarda los valores de una misma columna juntos en bloques contiguos.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Al calcular el promedio de <code>precio_bolsa</code> de 3 años, el disco salta directo a esa columna sin leer fechas ni nombres de plantas.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Buscar en un cajón con calcetines mezclados (filas) vs cajones organizados solo para calcetines (columnas).
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Estándar: Apache Parquet
+      </div>
+    </div>
+
+    <!-- 3. Apache Parquet -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · FORMATO</span>
+          <span class="text-[10px] text-slate-500 font-mono">.parquet</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>📦</span> Apache Parquet
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Formato binario, columnar y fuertemente tipado. Incluye estadísticas de cada columna (mínimo, máximo, conteo de nulos) dentro de su propio encabezado (*metadata footer*).
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Si pides fechas de 2024, Parquet descarta los bloques de 2023 sin descomprimirlos (*Predicate Pushdown*).
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Un libro con un índice analítico exacto al final que te dice en qué página está el tema sin leer todo el libro.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Salida: <code>data/bronze/*.parquet</code>
+      </div>
+    </div>
+
+    <!-- 4. Compresión Snappy -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · COMPRESIÓN</span>
+          <span class="text-[10px] text-slate-500 font-mono">Snappy</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🗜️</span> Compresión Snappy
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Algoritmo de compresión de Google diseñado no para obtener el tamaño más minúsculo, sino para descomprimir a velocidades extremas (&gt;250 MB/s por núcleo).
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Reduce el archivo de EnerAndes y XM un 80% frente a CSV sin ralentizar la CPU durante las consultas de DuckDB.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Doblar una camiseta de forma rápida y sencilla para que quepa en la maleta y se desdoble en un segundo.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Parámetro: <code>compression='snappy'</code>
+      </div>
+    </div>
+
+    <!-- 5. Linaje e Inmutabilidad -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · AUDITORÍA</span>
+          <span class="text-[10px] text-slate-500 font-mono">Trazabilidad</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🧬</span> Linaje e Inmutabilidad en Bronce
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Los datos crudos nunca se editan ni se sobreescriben. Se les agregan metadatos técnicos: cuándo se bajaron (<code>_extraido_en</code>) y de dónde vinieron (<code>_fuente</code>).
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Permite a cualquier auditor comprobar exactamente qué respondió la API de XM el día en que se corrió el pipeline.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> La caja negra de un avión: un registro inmodificable con fecha y hora exactas de cada suceso.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Código: <code>src/extract/*.py</code>
+      </div>
+    </div>
+
+    <!-- 6. APIs Heterogéneas -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · INGESTA</span>
+          <span class="text-[10px] text-slate-500 font-mono">REST / SoQL</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🌐</span> APIs Heterogéneas & Multicanal
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Conectividad con orígenes que hablan distintos protocolos: API REST corporativa (XM Sinergox), API Socrata SoQL de datos abiertos (IDEAM), archivo ASCII HTTP (NOAA) y hojas Excel locales.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Cada fuente tiene su propio conector en <code>src/extract/</code> encapsulado para abstraer sus rarezas.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Un traductor simultáneo en las Naciones Unidas capaz de escuchar 5 idiomas distintos y pasarlos a un mismo canal.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Módulos: <code>src/extract/xm.py</code>, <code>ideam.py</code>
+      </div>
+    </div>
+
+    <!-- 7. Concurrencia y Paralelismo -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · RENDIMIENTO</span>
+          <span class="text-[10px] text-slate-500 font-mono">ThreadPool</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>⚡</span> Concurrencia (`ThreadPoolExecutor`)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Ejecutar múltiples peticiones de red simultáneas en hilos paralelos mientras se espera la respuesta de los servidores externos.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Descarga 1,004 días de XM divididos en 36 ventanas mensuales con 6 trabajadores en solo ~15 segundos en lugar de 3 minutos.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Poner a 6 cajeros a atender a los clientes en paralelo en vez de una sola fila kilométrica.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Código: <code>ThreadPoolExecutor(max_workers=6)</code>
+      </div>
+    </div>
+
+    <!-- 8. Resiliencia & Reintentos Exponenciales -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · RESILIENCIA</span>
+          <span class="text-[10px] text-slate-500 font-mono">Backoff</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🛡️</span> Reintentos Exponenciales (*Exponential Backoff*)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Si una petición HTTP falla por microcorte de red, no abortar de inmediato. Esperar 2 segundos; si vuelve a fallar, esperar 4 segundos; luego 8 segundos.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Evita que una descarga de 3 años de datos se caiga en el día 990 por un parpadeo de la API pública.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Llamar a alguien que está ocupado: esperar 2 min antes de volver a marcar en vez de marcar 50 veces seguidas.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Función: <code>hacer_solicitud_con_reintentos()</code>
+      </div>
+    </div>
+
+    <!-- 9. Idempotencia -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · ROBUSTEZ</span>
+          <span class="text-[10px] text-slate-500 font-mono">Idempotencia</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🔄</span> Idempotencia en Pipelines
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Propiedad matemática: $f(f(x)) = f(x)$. Ejecutar el pipeline 1 vez o 100 veces seguidas deja el sistema exactamente en el mismo estado sin duplicar registros.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> El script verifica si el archivo Parquet mensual ya existe; si ya está completo, no lo vuelve a pedir a la API.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> El botón del ascensor: presionar el botón 5 veces no hace que subas a un piso 5 veces más alto.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Archivo: <code>src/utils.py</code>
+      </div>
+    </div>
+
+    <!-- 10. Ventanas de Tiempo y Paginación -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-amber-600/30 space-y-2.5 flex flex-col justify-between" data-capa="bronce">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">🥉 BRONCE · PARTICIÓN</span>
+          <span class="text-[10px] text-slate-500 font-mono">Chunks</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>📅</span> Ventanas Temporales & Paginación SoQL
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Descargar grandes volúmenes de datos fraccionando las consultas por intervalos (semanales o mensuales) y por límites de registros (`$limit`, `$offset`).
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> IDEAM rechaza consultas que pidan más de 50,000 filas o tarden más de 30 segundos. Las ventanas de 7 días resuelven esto.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Mudar una biblioteca caja por caja en lugar de intentar cargar todos los estantes en un solo viaje.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Código: <code>src/extract/ideam.py</code>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CAPA PLATA (11 CONCEPTOS)                  -->
+    <!-- ========================================== -->
+
+    <!-- 11. Datos Parásitos -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · LIMPIEZA</span>
+          <span class="text-[10px] text-rose-400 font-mono">Excel Glitches</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🦠</span> Datos Parásitos & Basura Estructural
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Contenido humano incrustado en hojas de cálculo que no son datos reales: títulos decorativos, encabezados que arrancan en la fila 4, subtotales intermedios y filas de "TOTAL GENERAL".
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> En EnerAndes, si no eliminas la fila "TOTAL 2024", la suma de ventas se duplica artificialmente (doble conteo catastrófico).
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Pesar a una persona en una báscula con la mochila y los zapatos puestos: el peso no corresponde a la persona.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Detección: <code>src/silver/enerandes.py</code>
+      </div>
+    </div>
+
+    <!-- 12. Despivote / Melting -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · MODELADO</span>
+          <span class="text-[10px] text-slate-500 font-mono">Unpivot / Melt</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>📐</span> Despivote Horario (*Unpivoting / Melting*)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Transformar una tabla ancha (con 24 columnas: `hora_01`, `hora_02`... `hora_24`) en una tabla larga y vertical con dos columnas: `hora` y `valor`.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Las bases de datos no pueden indexar ni hacer `GROUP BY` eficiente sobre 24 columnas separadas. Al despivotar, una sola consulta SQL calcula promedios horarios.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Desenrollar una alfombra doblada a lo ancho para que entre recta por un pasillo estrecho.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Función: <code>pd.melt()</code> en <code>src/silver/xm.py</code>
+      </div>
+    </div>
+
+    <!-- 13. Homogeneización de Unidades -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · NORMALIZACIÓN</span>
+          <span class="text-[10px] text-slate-500 font-mono">MWh &rarr; kWh</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>⚖️</span> Homogeneización de Escalas & Fechas
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Convertir medidas heterogéneas a un estándar común (ej. pasar Megavatios-hora a Kilovatios-hora multiplicando por 1,000) y estandarizar formatos de fecha mixtos a `YYYY-MM`.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Las hojas 2023-2024 de EnerAndes venían en kWh, pero 2025-2026 venían en MWh. Sumarlas directo hubiera subestimado las ventas mil veces.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Sumar distancias en metros y kilómetros sin convertir: decir que 1 km + 500 m son 501.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Regla: <code>energia_kwh = MWh * 1000</code>
+      </div>
+    </div>
+
+    <!-- 14. Estandarización DIVIPOLA -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · GEOGRAFÍA</span>
+          <span class="text-[10px] text-slate-500 font-mono">DANE DIVIPOLA</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🗺️</span> Estandarización Territorial (DIVIPOLA)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Cruce con el nomenclátor de la División Político-Administrativa del DANE para asignar un código numérico único de 5 dígitos a cada municipio de Colombia.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Resuelve errores ortográficos: *"Sta Fe"*, *"Santa Fé"* y *"Santa Fe de Antioquia"* se unifican bajo el código único `05042`.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> El número de cédula de una persona: no importa si escriben mal su nombre o apodo, el número de identificación nunca cambia.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Llave foránea: <code>codigo_divipola</code> (5 dígitos)
+      </div>
+    </div>
+
+    <!-- 15. Contratos de Datos con Pandera -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · CONTRATOS</span>
+          <span class="text-[10px] text-cyan-400 font-mono">Pandera</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>📜</span> Contratos de Datos en Runtime (Pandera)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Un esquema formal programado en Python (`DataFrameSchema`) que audita cada tabla antes de guardarla en Plata: valida tipos de datos, expresiones regulares (`^\d{5}$`) y rangos (`>= 0`).
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Si una fila tiene energía negativa o un municipio inventado, Pandera lanza un `SchemaErrors` y bloquea la escritura.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> El control de aduanas en el aeropuerto: si no tienes pasaporte vigente y visa válida, no puedes ingresar al país.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Archivo: <code>src/quality/esquemas.py</code>
+      </div>
+    </div>
+
+    <!-- 16. Patrón de Cuarentena -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · AISLAMIENTO</span>
+          <span class="text-[10px] text-amber-400 font-mono">Dead Letter</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🚧</span> Patrón de Cuarentena (*Dead Letter Queue*)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Desviar los registros defectuosos no corregibles hacia un archivo separado de cuarentena con el motivo del fallo, permitiendo que el pipeline siga adelante con los datos sanos.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> 43 ventas de EnerAndes que venían sin energía ni dinero y 7 lluvias anómalas de IDEAM quedaron aisladas para auditoría sin frenar el observatorio.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Una cinta transportadora en una fábrica de manzanas: las manzanas golpeadas caen a una canasta lateral mientras las buenas siguen al empaque.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Salida: <code>data/quarantine/*.parquet</code>
+      </div>
+    </div>
+
+    <!-- 17. Deduplicación y Claves Naturales -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · INTEGRIDAD</span>
+          <span class="text-[10px] text-slate-500 font-mono">Deduplicación</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>✂️</span> Deduplicación Defensiva
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Eliminación de filas exactamente repetidas provocadas por solapamientos de fechas entre hojas de Excel o reintentos de ingesta.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Se descartaron 2 duplicados exactos en EnerAndes conservando siempre la primera ocurrencia (`drop_duplicates()`).
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Borrar los correos duplicados cuando alguien presiona dos veces el botón de "Enviar".
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Métricas: 2 duplicados descartados
+      </div>
+    </div>
+
+    <!-- 18. Imputación Semántica -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · NULOS</span>
+          <span class="text-[10px] text-slate-500 font-mono">Imputación</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🏷️</span> Imputación Semántica de Nulos
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Tratar campos vacíos no inventando números ficticios (como ponerle cero a la lluvia), sino asignando una categoría explícita como *"No informado"*.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> 23 registros de EnerAndes tenían el segmento en blanco; se clasificaron como *"No informado"* para no perder la energía ni distorsionar los gráficos.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Ponerle la etiqueta "Remitente Desconocido" a un paquete postal en vez de inventar un nombre falso.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Código: <code>fillna('No informado')</code>
+      </div>
+    </div>
+
+    <!-- 19. Pruebas Automatizadas con Pytest -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · TESTING</span>
+          <span class="text-[10px] text-emerald-400 font-mono">Pytest</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🧪</span> Pruebas Unitarias de Regresión (Pytest)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Conjunto de aserciones programadas que se ejecutan automáticamente para verificar que el código no rompa reglas previas cuando alguien hace un cambio.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Suite de 25 pruebas que certifican que EnerAndes no tiene nulos en llaves, que los MWh se convirtieron a kWh y que Pandera atrapa anomalías.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> La revisión técnico-mecánica obligatoria de un carro antes de salir a la carretera.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Comando: <code>pytest tests/ -v</code> (25 PASSED)
+      </div>
+    </div>
+
+    <!-- 20. Reporte de Calidad Automático -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · AUDITORÍA</span>
+          <span class="text-[10px] text-slate-500 font-mono">Reporte</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>📋</span> Reporte de Calidad Automático (Antes vs Después)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Documento generado por el mismo código que registra cuántas anomalías existían en Bronce y cuántas quedaron resueltas en Plata para cada regla.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Genera <code>docs/reporte_calidad.md</code> con 24 reglas auditadas demostrando con números que el pipeline no oculta problemas.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> El análisis de sangre de un laboratorio clínico que compara tus valores antes y después de un tratamiento.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Script: <code>src/quality/reporte.py</code>
+      </div>
+    </div>
+
+    <!-- 21. Tipado Estricto & Casteo -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-slate-500/30 space-y-2.5 flex flex-col justify-between" data-capa="plata">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-slate-500/20 text-slate-300 border border-slate-500/30">🥈 PLATA · PARSING</span>
+          <span class="text-[10px] text-slate-500 font-mono">Casting</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🔢</span> Tipado Estricto & Casteo (*Type Casting*)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Convertir cadenas de texto que contienen números (`"125.40"`, `"12,500"`) a tipos numéricos binarios reales (`Float64`, `Int64`), resolviendo puntos y comas.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> La API de XM entregaba 24 columnas horarias como texto con coma decimal (`"245,67"`). Sin casteo, cualquier suma arroja error o concatena texto.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Enviar un texto con el número "10" y pedirle a la calculadora que lo sume: primero debe interpretarlo como valor matemático.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Conversión: <code>str.replace(',', '.').astype(float)</code>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CAPA ORO (11 CONCEPTOS)                    -->
+    <!-- ========================================== -->
+
+    <!-- 22. DuckDB Motor OLAP -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · MOTOR BD</span>
+          <span class="text-[10px] text-yellow-300 font-mono">DuckDB OLAP</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🦆</span> DuckDB (Motor OLAP Embebido)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Base de datos analítica en memoria sin servidor (*in-process*). Ejecuta consultas SQL vectorizadas ultra-rápidas leyendo archivos Parquet directamente.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Almacena toda la capa oro en un único archivo (`data/observatorio.duckdb`) sin instalar servicios pesados ni configurar puertos de red.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Como tener una biblioteca entera dentro de un pendrive de alta velocidad que abres en cualquier computador sin pedir permiso.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Base de datos: <code>data/observatorio.duckdb</code>
+      </div>
+    </div>
+
+    <!-- 23. dbt (Data Build Tool) -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · ORQUESTACIÓN</span>
+          <span class="text-[10px] text-orange-400 font-mono">dbt-duckdb</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🔨</span> dbt (Data Build Tool)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Marco de trabajo estándar de la industria que permite crear pipelines de transformación escribiendo solo sentencias `SELECT` en SQL, encargándose del linaje, documentación y pruebas.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Convierte las tablas limpias de Plata en el modelo dimensional en estrella con un solo comando (`dbt build`).
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Un director de orquesta que le da la partitura (SQL) a cada músico y asegura que entren en el compás exacto.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Proyecto: <code>dbt_project/</code>
+      </div>
+    </div>
+
+    <!-- 24. Capa Staging en SQL -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · TRANSFORMACIÓN</span>
+          <span class="text-[10px] text-slate-500 font-mono">stg_*.sql</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🪜</span> Capa Staging en dbt
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Modelos SQL intermedios (materializados como vistas ligeras) que limpian nombres, unifican tipos y aíslan las tablas crudas de la lógica de negocio final.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> El observatorio tiene 11 vistas de staging (`stg_enerandes`, `stg_xm_precio_bolsa`) para que los hechos y dimensiones no dependan de nombres crudos.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> La antesala de un quirófano: esterilizar los instrumentos antes de ingresar a la sala de operaciones.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Vistas: <code>models/staging/stg_*.sql</code> (11 modelos)
+      </div>
+    </div>
+
+    <!-- 25. DAG en dbt -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · LINAJE</span>
+          <span class="text-[10px] text-slate-500 font-mono">DAG Lineage</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🕸️</span> DAG (Grafo Acíclico Dirigido)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Red de dependencias calculada por dbt a través de la función `{{ ref('...') }}`. Garantiza que los modelos aguas abajo solo se ejecuten cuando sus dependencias aguas arriba hayan terminado con éxito.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Sabe que primero debe construir `stg_enerandes`, luego `dim_municipio` y finalmente `fact_ventas_mensual` sin crear bucles.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> El árbol genealógico de una receta de cocina: no puedes hornear el pastel antes de batir los huevos.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Referencias: <code>{{ ref('stg_enerandes') }}</code>
+      </div>
+    </div>
+
+    <!-- 26. Esquema Estrella Kimball -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · DIMENSIONAL</span>
+          <span class="text-[10px] text-amber-300 font-mono">Star Schema</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>⭐</span> Esquema Estrella (*Star Schema*)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Técnica de modelado analítico de Ralph Kimball donde una **Tabla de Hechos** central se une directamente con múltiples **Tablas de Dimensión** mediante llaves foráneas.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Reduce la cantidad de `JOIN` necesarios, permitiendo a analistas y tableros PowerBI/DuckDB responder preguntas en milisegundos.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> El sol en el centro (hechos de ventas) rodeado por los planetas en órbita (fechas, municipios, clientes).
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Estructura: 5 Hechos + 7 Dimensiones
+      </div>
+    </div>
+
+    <!-- 27. Tablas de Hechos -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · MÉTRICAS</span>
+          <span class="text-[10px] text-yellow-300 font-mono">Fact Tables</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>📈</span> Tablas de Hechos (*Fact Tables*)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Tablas que almacenan eventos numéricos cuantitativos del negocio (medidas que se pueden sumar, promediar o contar) acompañadas de llaves foráneas.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> <code>fact_ventas_mensual</code> guarda `energia_kwh`, `valor_cop` y `clientes`. <code>fact_mercado_horario</code> guarda precios y demanda.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> La lista de compras con los precios de cada artículo y el total pagado en la caja registradora.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Modelos: <code>models/marts/fact_*.sql</code>
+      </div>
+    </div>
+
+    <!-- 28. Dimensiones Conformadas -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · CONTEXTO</span>
+          <span class="text-[10px] text-yellow-300 font-mono">Conformed Dims</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🌐</span> Dimensiones Conformadas (*Conformed Dims*)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Tablas de contexto maestras compartidas por múltiples tablas de hechos. Garantizan una única versión de la verdad en toda la organización.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> <code>dim_fecha</code> (con la fase ENSO de la NOAA) es usada tanto por las ventas de EnerAndes como por los precios horarios de XM y el clima de IDEAM.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> El calendario gregoriano: todo el mundo en la empresa entiende exactamente qué es "el tercer trimestre de 2024".
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Modelos: <code>dim_fecha.sql</code>, <code>dim_municipio.sql</code>
+      </div>
+    </div>
+
+    <!-- 29. El Grano del Hecho -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · KIMBALL</span>
+          <span class="text-[10px] text-rose-400 font-mono">Fact Grain</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🎯</span> El Grano del Hecho (*Fact Grain*)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> La respuesta exacta y rigurosa a: <em>"¿Qué representa una sola fila de esta tabla?"</em>. Es el mandamiento #1 del modelado dimensional.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> En <code>fact_ventas_mensual</code>, el grano es: <strong>1 mes &times; 1 municipio &times; 1 segmento &times; 1 tipo de compra</strong>. Si mezclas granos, duplicas cifras.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> La resolución de una foto: saber si cada píxel mide 1 milímetro o 1 kilómetro cuadrado para no engañar a la vista.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Definido explícitamente en cada modelo dbt
+      </div>
+    </div>
+
+    <!-- 30. Pruebas de Integridad dbt -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · TESTING</span>
+          <span class="text-[10px] text-emerald-400 font-mono">105 PASS</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>🛡️</span> Pruebas de Integridad dbt (`tests`)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Reglas declaradas en archivos `.yml` que dbt valida automáticamente: unicidad (`unique`), campos obligatorios (`not_null`) y llaves foráneas válidas (`relationships`).
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> 105 pruebas pasan con cero errores, garantizando que ninguna venta apunte a un municipio inexistente en `dim_municipio`.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Los inspectores de construcción que revisan que cada columna de un edificio esté firmemente anclada al cimiento.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Archivos: <code>models/**/schema.yml</code> (105 dbt tests)
+      </div>
+    </div>
+
+    <!-- 31. Materialización en dbt -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · FÍSICO/LÓGICO</span>
+          <span class="text-[10px] text-slate-500 font-mono">View vs Table</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>💾</span> Materialización (`view` vs `table`)
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> La forma en que dbt persiste un modelo: una `view` es una consulta virtual que no ocupa espacio en disco; una `table` se escribe físicamente en DuckDB para máxima velocidad.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Las capas de staging son vistas (`materialized='view'`), mientras que las dimensiones y hechos son tablas físicas (`materialized='table'`).
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Ver una película en streaming (vista virtual) vs descargarla al disco duro para verla sin esperar (tabla física).
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 Configuración: <code>dbt_project.yml</code>
+      </div>
+    </div>
+
+    <!-- 32. Analítica Causal Multiescala -->
+    <div class="tarjeta-concepto p-4 rounded-xl bg-slate-900/80 border border-yellow-500/30 space-y-2.5 flex flex-col justify-between" data-capa="oro">
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🥇 ORO · NEGOCIO</span>
+          <span class="text-[10px] text-emerald-400 font-mono">Causal SQL</span>
+        </div>
+        <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+          <span>💡</span> Analítica Causal Multiescala
+        </h3>
+        <p class="text-slate-300 leading-relaxed">
+          <strong>¿Qué es?</strong> Consultas analíticas complejas que combinan diferentes niveles temporales (datos horarios de bolsa + datos diarios de lluvias + datos mensuales de ventas) para encontrar correlaciones reales.
+        </p>
+        <p class="text-slate-400 text-[11px] leading-relaxed">
+          <strong>¿En el proyecto?</strong> Permite demostrar que cuando la NOAA declaró El Niño fuerte (+1.8°C en el ONI), el precio de bolsa subió un 198% y la exposición de EnerAndes superó los 25,000 millones COP.
+        </p>
+        <div class="p-2 rounded bg-slate-950 text-slate-400 text-[10px] italic">
+          💡 <strong>Analogía:</strong> Conectar la señal del satélite meteorológico con el precio del paraguas en la tienda de la esquina.
+        </div>
+      </div>
+      <div class="pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
+        📁 5 Consultas: Sección 6 del Dashboard
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Mensaje de no resultados (cuando la búsqueda no coincide) -->
+  <div id="glosario-vacio" class="hidden p-8 rounded-xl bg-slate-950 text-center space-y-2 border border-slate-800">
+    <div class="text-2xl">🔍</div>
+    <div class="text-sm font-bold text-slate-300">No se encontraron conceptos para tu búsqueda</div>
+    <div class="text-xs text-slate-500">Prueba con términos como: <code>parquet</code>, <code>duckdb</code>, <code>cuarentena</code>, <code>kimball</code>, <code>dbt</code> o <code>grano</code>.</div>
+  </div>
+
+</section>

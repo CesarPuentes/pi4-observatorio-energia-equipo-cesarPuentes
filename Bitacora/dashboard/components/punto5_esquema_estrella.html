@@ -1,0 +1,163 @@
+<section id="punto-5" class="bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        
+        <!-- Header con botón modal -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold font-mono">5</span>
+            <div>
+              <h2 class="text-xl font-bold text-[var(--foreground,#f8fafc)]">
+                Esquema Estrella en DuckDB con dbt (Capa Oro)
+              </h2>
+              <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">
+                11 Vistas Staging + 7 Dimensiones Conformes + 5 Tablas de Hechos · 82 Pruebas de Integridad
+              </p>
+            </div>
+          </div>
+          <button onclick="abrirModal(5)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer">
+            <span>📁</span> Ver Scripts & Archivos en Disco
+          </button>
+        </div>
+
+        <!-- Cuadrante Pedagógico -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          <div class="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+            <span class="font-bold text-purple-400 uppercase tracking-wide text-[10px]">¿Por qué?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Las tablas de Plata siguen organizadas según cada proveedor origen. Para cruzarlas fácilmente en BI necesitamos un modelo dimensional en estrella (Kimball) con dimensiones conformadas y hechos con grano claro.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-1">
+            <span class="font-bold text-cyan-400 uppercase tracking-wide text-[10px]">¿Cómo?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Configuramos <code class="text-cyan-300">dbt/</code> sobre <code class="text-cyan-300">data/observatorio.duckdb</code> con 11 vistas en <code class="text-cyan-300">staging/</code> (<code class="text-cyan-300">stg_*</code>) y 12 tablas en <code class="text-cyan-300">marts/</code> (7 dimensiones y 5 hechos), protegidas por 82 pruebas automáticas (<code class="text-cyan-300">unique</code>, <code class="text-cyan-300">not_null</code>, <code class="text-cyan-300">relationships</code>).</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+            <span class="font-bold text-emerald-400 uppercase tracking-wide text-[10px]">¿Para qué?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Para garantizar con <code class="text-emerald-300">dbt build</code> (<span class="text-emerald-400 font-bold">PASS=105</span>) que todas las tablas analíticas tengan grano definido, cero duplicados y 100 % de integridad referencial.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+            <span class="font-bold text-amber-400 uppercase tracking-wide text-[10px]">En simple</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Armamos en DuckDB el esquema estrella con las tablas de 'quién/dónde/cuándo' (dimensiones) y las tablas de mediciones numéricas (hechos).</p>
+          </div>
+        </div>
+
+        <!-- Arquitectura Staging -> Marts -->
+        <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-3">
+          <div class="text-xs font-bold text-slate-300 uppercase tracking-wide">
+            Flujo de Modelado Dimensional (Kimball):
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono text-center">
+            <div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700">
+              <span class="text-cyan-400 font-bold block mb-1">1. Sources (Plata)</span>
+              11 Parquets en <code class="text-slate-300">data/silver/</code>
+            </div>
+            <div class="p-3 rounded-lg bg-blue-900/30 border border-blue-800/40">
+              <span class="text-blue-300 font-bold block mb-1">2. Staging (11 Vistas)</span>
+              <code class="text-blue-200">stg_ventas</code>, <code class="text-blue-200">stg_xm_*</code>, etc.
+            </div>
+            <div class="p-3 rounded-lg bg-purple-900/30 border border-purple-800/40">
+              <span class="text-purple-300 font-bold block mb-1">3. Marts (12 Tablas)</span>
+              7 Dimensiones + 5 Hechos
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de Modelos en DuckDB -->
+        <div class="overflow-x-auto border border-[var(--border,#334155)] rounded-xl">
+          <table class="w-full text-left text-xs font-mono">
+            <thead class="bg-[var(--background,#0f172a)] text-[var(--muted-foreground,#94a3b8)] border-b border-[var(--border,#334155)]">
+              <tr>
+                <th class="p-3 font-semibold font-sans">Modelo en dbt / DuckDB</th>
+                <th class="p-3 font-semibold font-sans">Tipo / Rol</th>
+                <th class="p-3 font-semibold font-sans">Grano Declarado</th>
+                <th class="p-3 font-semibold font-sans text-right">Filas</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--border,#334155)]">
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-cyan-300 font-bold">dim_mes</td>
+                <td class="p-3 font-sans"><span class="badge-pill bg-blue-500/20 text-blue-300">Dimensión</span></td>
+                <td class="p-3 font-sans text-slate-300">1 fila por mes calendario (periodo YYYY-MM) con ONI y fase ENSO</td>
+                <td class="p-3 text-right font-bold text-white">45</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-cyan-300 font-bold">dim_fecha</td>
+                <td class="p-3 font-sans"><span class="badge-pill bg-blue-500/20 text-blue-300">Dimensión</span></td>
+                <td class="p-3 font-sans text-slate-300">1 fila por día calendario (2023-01-01 a 2026-12-31)</td>
+                <td class="p-3 text-right font-bold text-white">1,461</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-cyan-300 font-bold">dim_hora</td>
+                <td class="p-3 font-sans"><span class="badge-pill bg-blue-500/20 text-blue-300">Dimensión</span></td>
+                <td class="p-3 font-sans text-slate-300">1 fila por hora del día (1 a 24) con franja Pico/Valle/Intermedia</td>
+                <td class="p-3 text-right font-bold text-white">24</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-cyan-300 font-bold">dim_municipio</td>
+                <td class="p-3 font-sans"><span class="badge-pill bg-blue-500/20 text-blue-300">Dimensión</span></td>
+                <td class="p-3 font-sans text-slate-300">1 fila por municipio oficial de Colombia con subregión Antioquia</td>
+                <td class="p-3 text-right font-bold text-white">1,122</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-cyan-300 font-bold">dim_segmento</td>
+                <td class="p-3 font-sans"><span class="badge-pill bg-blue-500/20 text-blue-300">Dimensión</span></td>
+                <td class="p-3 font-sans text-slate-300">1 fila por combinación de segmento y modalidad de compra</td>
+                <td class="p-3 text-right font-bold text-white">8</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-cyan-300 font-bold">dim_recurso</td>
+                <td class="p-3 font-sans"><span class="badge-pill bg-blue-500/20 text-blue-300">Dimensión</span></td>
+                <td class="p-3 font-sans text-slate-300">1 fila por planta o recurso generador del SIN</td>
+                <td class="p-3 text-right font-bold text-white">2,501</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="p-3 text-cyan-300 font-bold">dim_estacion</td>
+                <td class="p-3 font-sans"><span class="badge-pill bg-blue-500/20 text-blue-300">Dimensión</span></td>
+                <td class="p-3 font-sans text-slate-300">1 fila por estación hidrometeorológica del IDEAM en Antioquia</td>
+                <td class="p-3 text-right font-bold text-white">73</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40 bg-purple-500/5">
+                <td class="p-3 text-purple-300 font-bold">fact_ventas_mensual</td>
+                <td class="p-3 font-sans"><span class="badge-pill bg-purple-500/20 text-purple-300">Hecho</span></td>
+                <td class="p-3 font-sans text-slate-300">1 fila por mes (periodo) &times; municipio (divipola) &times; segmento_id</td>
+                <td class="p-3 text-right font-bold text-emerald-400">4,007</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40 bg-purple-500/5">
+                <td class="p-3 text-purple-300 font-bold">fact_mercado_horario</td>
+                <td class="p-3 font-sans"><span class="badge-pill bg-purple-500/20 text-purple-300">Hecho</span></td>
+                <td class="p-3 font-sans text-slate-300">1 fila por fecha diaria &times; hora operativa (1 a 24)</td>
+                <td class="p-3 text-right font-bold text-emerald-400">24,096</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40 bg-purple-500/5">
+                <td class="p-3 text-purple-300 font-bold">fact_generacion_recurso</td>
+                <td class="p-3 font-sans"><span class="badge-pill bg-purple-500/20 text-purple-300">Hecho</span></td>
+                <td class="p-3 font-sans text-slate-300">1 fila por fecha &times; hora &times; planta generadora</td>
+                <td class="p-3 text-right font-bold text-emerald-400">5,935,449</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40 bg-purple-500/5">
+                <td class="p-3 text-purple-300 font-bold">fact_hidrologia_diaria</td>
+                <td class="p-3 font-sans"><span class="badge-pill bg-purple-500/20 text-purple-300">Hecho</span></td>
+                <td class="p-3 font-sans text-slate-300">1 fila por fecha con volumen útil de embalses y aportes</td>
+                <td class="p-3 text-right font-bold text-emerald-400">1,004</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40 bg-purple-500/5">
+                <td class="p-3 text-purple-300 font-bold">fact_clima_diario</td>
+                <td class="p-3 font-sans"><span class="badge-pill bg-purple-500/20 text-purple-300">Hecho</span></td>
+                <td class="p-3 font-sans text-slate-300">1 fila por fecha &times; estación del IDEAM con lluvia y temperatura</td>
+                <td class="p-3 text-right font-bold text-emerald-400">30,271</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Banner Disparador Modal Scripts y Archivos -->
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-colors flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2.5 text-slate-300">
+            <span class="text-lg">🔬</span>
+            <div>
+              <span class="font-bold text-cyan-400">Inspección Técnica "Bajo el Capó":</span>
+              <span class="text-slate-400 block sm:inline sm:ml-1">Consulta los scripts involucrados y la ubicación física de archivos en disco (Antes vs. Después).</span>
+            </div>
+          </div>
+          <button onclick="abrirModal(5)" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-medium transition-all text-xs shrink-0 shadow-sm cursor-pointer">
+            <span>📁</span> Abrir Scripts & Archivos ➔
+          </button>
+        </div>
+      </section>
