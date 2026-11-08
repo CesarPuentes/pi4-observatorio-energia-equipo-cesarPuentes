@@ -1,28 +1,52 @@
 """
-Ejecuta las consultas SQL de la carpeta consultas/ con DuckDB, directo sobre Parquet.
+Ejecuta las consultas SQL de negocio sobre la Capa Oro (data/gold/observatorio.duckdb)
+y/o sobre la Capa Bronce (consultas/*.sql).
 
 Uso:
-    python -m src.consultar
+    python -m src.consultar            # ejecuta las consultas de la capa oro (y bronce si se pide --bronce)
+    python -m src.consultar --bronce   # ejecuta las consultas de bronce
 """
-# ---------------------------------------------------------------------------
-# IMPORTS
-# ---------------------------------------------------------------------------
-import os       # os: funciones del sistema operativo; os.chdir() cambia de carpeta
+import os
+import sys
 
-import duckdb   # duckdb: motor SQL que lee archivos Parquet sin base de datos
+import duckdb
 
-from src import config       # configuracion central (para saber la carpeta raiz)
-from src.utils import log    # mensajes con hora
+from src import config
+from src.utils import log
+
+
+def ejecutar_consultas_oro() -> None:
+    """Ejecuta las consultas analiticas de `consultas/oro/*.sql` contra el esquema estrella en DuckDB."""
+    if not config.DUCKDB_ORO.exists():
+        raise FileNotFoundError(
+            f"No existe {config.DUCKDB_ORO}. Ejecute primero: python -m src.transformar"
+        )
+    con = duckdb.connect(str(config.DUCKDB_ORO), read_only=True)
+    for archivo in sorted(config.DIR_CONSULTAS_ORO.glob("*.sql")):
+        log(f"[ORO] Consulta: {archivo.name}")
+        sql = archivo.read_text(encoding="utf-8")
+        print(con.sql(sql).df().to_string(index=False))
+        print()
+    con.close()
+
+
+def ejecutar_consultas_bronce() -> None:
+    """Ejecuta las consultas exploratorias iniciales sobre los Parquet de la capa bronce."""
+    os.chdir(config.RAIZ)
+    con = duckdb.connect()
+    for archivo in sorted((config.RAIZ / "consultas").glob("*.sql")):
+        log(f"[BRONCE] Consulta: {archivo.name}")
+        sql = archivo.read_text(encoding="utf-8")
+        print(con.sql(sql).df().to_string(index=False))
+        print()
+    con.close()
 
 
 def main() -> None:
-    os.chdir(config.RAIZ)               # las rutas de los .sql son relativas a la raiz
-    con = duckdb.connect()              # base de datos en memoria: no crea archivos
-    for archivo in sorted((config.RAIZ / "consultas").glob("*.sql")):   # cada .sql, en orden
-        log(f"Consulta: {archivo.name}")
-        sql = archivo.read_text(encoding="utf-8")          # el texto de la consulta
-        print(con.sql(sql).df().to_string(index=False))    # ejecutar, pasar a tabla y mostrar
-        print()                                            # linea en blanco
+    if "--bronce" in sys.argv:
+        ejecutar_consultas_bronce()
+    else:
+        ejecutar_consultas_oro()
 
 
 if __name__ == "__main__":
