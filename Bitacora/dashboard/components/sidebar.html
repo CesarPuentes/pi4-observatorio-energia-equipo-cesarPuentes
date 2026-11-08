@@ -1,0 +1,61 @@
+<aside class="hidden lg:block w-72 shrink-0">
+      <div class="sticky top-24 bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-5 shadow-lg space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-[var(--border,#334155)]">
+          <span class="text-xs font-bold tracking-wider uppercase text-[var(--muted-foreground,#94a3b8)]">
+            Índice de Contenido
+          </span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono">EA2 Kimball</span>
+        </div>
+
+        <nav class="space-y-1 text-xs">
+          <a href="#panorama" class="group flex items-start gap-2.5 p-2 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/25 transition-all font-semibold mb-1">
+            <span class="w-5 h-5 rounded bg-cyan-500/30 text-cyan-200 flex items-center justify-center shrink-0 font-mono font-bold">🔭</span>
+            <span class="leading-tight">Vista Panorámica: Negocio & Datos</span>
+          </a>
+          <a href="#glosario" class="group flex items-start gap-2.5 p-2 rounded-lg bg-purple-500/15 text-purple-300 border border-purple-500/30 hover:bg-purple-500/25 transition-all font-semibold mb-2">
+            <span class="w-5 h-5 rounded bg-purple-500/30 text-purple-200 flex items-center justify-center shrink-0 font-mono font-bold">📚</span>
+            <span class="leading-tight">Glosario de Datos (Bronce · Plata · Oro)</span>
+          </a>
+          <a href="#punto-1" class="group flex items-start gap-2.5 p-2 rounded-lg hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">
+            <span class="w-5 h-5 rounded bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 font-mono font-bold">1</span>
+            <span class="font-medium">EnerAndes (4 hojas, fechas, MWh y cuarentena)</span>
+          </a>
+          <a href="#punto-2" class="group flex items-start gap-2.5 p-2 rounded-lg hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">
+            <span class="w-5 h-5 rounded bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 font-mono font-bold">2</span>
+            <span class="font-medium">XM, IDEAM, NOAA y DANE DIVIPOLA</span>
+          </a>
+          <a href="#punto-3" class="group flex items-start gap-2.5 p-2 rounded-lg hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">
+            <span class="w-5 h-5 rounded bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 font-mono font-bold">3</span>
+            <span class="font-medium">Pandera (Contratos) y Pytest (25 Tests)</span>
+          </a>
+          <a href="#punto-4" class="group flex items-start gap-2.5 p-2 rounded-lg hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">
+            <span class="w-5 h-5 rounded bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 font-mono font-bold">4</span>
+            <span class="font-medium">Reporte de Calidad (24 Reglas Medidas)</span>
+          </a>
+          <a href="#punto-5" class="group flex items-start gap-2.5 p-2 rounded-lg hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">
+            <span class="w-5 h-5 rounded bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 font-mono font-bold">5</span>
+            <span class="font-medium">Esquema Estrella dbt + DuckDB (Capa Oro)</span>
+          </a>
+          <a href="#punto-6" class="group flex items-start gap-2.5 p-2 rounded-lg hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">
+            <span class="w-5 h-5 rounded bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 font-mono font-bold">6</span>
+            <span class="font-medium">5 Consultas Analíticas de Negocio en Oro</span>
+          </a>
+          <a href="#punto-7" class="group flex items-start gap-2.5 p-2 rounded-lg hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">
+            <span class="w-5 h-5 rounded bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 font-mono font-bold">7</span>
+            <span class="font-medium">Reproducibilidad en 1 Comando & Git</span>
+          </a>
+        </nav>
+
+        <!-- Acceso Rápido Terminal y Modal -->
+        <div class="pt-3 border-t border-[var(--border,#334155)] space-y-2">
+          <button onclick="abrirModal(1)" class="w-full flex items-center justify-center gap-1.5 p-2 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-semibold transition-colors cursor-pointer shadow-sm">
+            <span>📁</span> Ver Scripts & Archivos (Modal)
+          </button>
+          <div class="text-[11px] font-semibold text-[var(--muted-foreground,#94a3b8)]">Comando CLI:</div>
+          <div class="bg-[var(--background,#0f172a)] p-2 rounded-lg font-mono text-[11px] text-cyan-300 flex items-center justify-between border border-[var(--border,#334155)]">
+            <code>python -m src.explorar</code>
+            <button onclick="copiarComando('python -m src.explorar')" class="hover:text-white cursor-pointer" title="Copiar">📋</button>
+          </div>
+        </div>
+      </div>
+    </aside>

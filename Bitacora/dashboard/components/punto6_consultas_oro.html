@@ -1,0 +1,126 @@
+<section id="punto-6" class="bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        
+        <!-- Header con botón modal -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold font-mono">6</span>
+            <div>
+              <h2 class="text-xl font-bold text-[var(--foreground,#f8fafc)]">
+                Consultas SQL de Negocio sobre el Esquema Estrella
+              </h2>
+              <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">
+                Demostración real de cómo el modelo responde las preguntas de impacto del fenómeno El Niño
+              </p>
+            </div>
+          </div>
+          <button onclick="abrirModal(6)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer">
+            <span>📁</span> Ver Scripts & Archivos en Disco
+          </button>
+        </div>
+
+        <!-- Cuadrante Pedagógico -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          <div class="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+            <span class="font-bold text-purple-400 uppercase tracking-wide text-[10px]">¿Por qué?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">El modelo estrella debe demostrar con datos reales que responde la cadena causal del reto (cómo impacta El Niño a los embalses, la generación térmica, el precio de bolsa y las ventas de EnerAndes en Antioquia).</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-1">
+            <span class="font-bold text-cyan-400 uppercase tracking-wide text-[10px]">¿Cómo?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Documentamos el diagrama y grano en <code class="text-cyan-300">docs/modelo_dimensional.md</code>, el catálogo en <code class="text-cyan-300">docs/diccionario_datos.md</code> y programamos 5 consultas SQL analíticas en <code class="text-cyan-300">consultas/oro/*.sql</code>.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+            <span class="font-bold text-emerald-400 uppercase tracking-wide text-[10px]">¿Para qué?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Para comprobar de extremo a extremo el impacto del clima sobre la energía y dejar listas las consultas que alimentarán el dashboard de la Entrega 3.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+            <span class="font-bold text-amber-400 uppercase tracking-wide text-[10px]">En simple</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Probamos el esquema estrella con 5 preguntas reales de negocio y demostramos que en El Niño la generación térmica sube al 30 % y el precio de bolsa casi se triplica.</p>
+          </div>
+        </div>
+
+        <!-- Consulta 1 y 2 en tarjetas interactivas -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <!-- Card Consulta 1 -->
+          <div class="p-5 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-400">01_enso_hidrologia_y_precio.sql</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">ENSO &rarr; Bolsa</span>
+            </div>
+            <p class="text-xs text-slate-300">
+              ¿Cómo impacta la fase ENSO al precio promedio de bolsa y a los embalses en Colombia?
+            </p>
+            <div class="overflow-x-auto text-[11px] font-mono">
+              <table class="w-full text-left">
+                <thead class="text-slate-400 border-b border-slate-700">
+                  <tr><th>Fase</th><th class="text-right">Embalses</th><th class="text-right">Aportes GWh</th><th class="text-right">Precio COP</th></tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800">
+                  <tr class="text-rose-400 font-bold"><td>El Niño</td><td class="text-right">61.9 %</td><td class="text-right">143.3</td><td class="text-right">663.0</td></tr>
+                  <tr class="text-slate-300"><td>Neutral</td><td class="text-right">64.1 %</td><td class="text-right">228.3</td><td class="text-right">413.8</td></tr>
+                  <tr class="text-blue-400 font-bold"><td>La Niña</td><td class="text-right">83.5 %</td><td class="text-right">215.5</td><td class="text-right">222.8</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-[11px] text-rose-300">
+              <strong>Hallazgo:</strong> En <strong>El Niño</strong>, los aportes caen a 143 GWh/día (-37 %) y el precio de bolsa casi se triplica frente a La Niña (663 COP vs 222 COP).
+            </div>
+          </div>
+
+          <!-- Card Consulta 2 -->
+          <div class="p-5 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-cyan-400">02_matriz_generacion_por_fase_enso.sql</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono">Sustitución Térmica</span>
+            </div>
+            <p class="text-xs text-slate-300">
+              ¿Qué tipo de energía entra a suplir la caída hidráulica durante la sequía de El Niño?
+            </p>
+            <div class="overflow-x-auto text-[11px] font-mono">
+              <table class="w-full text-left">
+                <thead class="text-slate-400 border-b border-slate-700">
+                  <tr><th>Fase</th><th>Tecnología</th><th class="text-right">GWh</th><th class="text-right">% Matriz</th></tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800">
+                  <tr class="text-amber-300"><td>El Niño</td><td>HIDRÁULICA</td><td class="text-right">36,489</td><td class="text-right">63.0 %</td></tr>
+                  <tr class="text-rose-400 font-bold"><td>El Niño</td><td>TÉRMICA</td><td class="text-right">17,231</td><td class="text-right">29.8 %</td></tr>
+                  <tr class="text-blue-300"><td>La Niña</td><td>HIDRÁULICA</td><td class="text-right">17,629</td><td class="text-right">81.6 %</td></tr>
+                  <tr class="text-slate-400"><td>La Niña</td><td>TÉRMICA</td><td class="text-right">2,467</td><td class="text-right">11.4 %</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="p-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-[11px] text-cyan-300">
+              <strong>Hallazgo:</strong> La generación térmica casi se <strong>triplica (11.4 % &rarr; 29.8 %)</strong> para compensar la sequía, encareciendo el precio marginal.
+            </div>
+          </div>
+        </div>
+
+        <!-- Consulta 3, 4 y 5 en acordeón compacto -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700 space-y-1.5">
+            <div class="font-bold text-amber-300">03 · Hora Pico del SIN</div>
+            <p class="text-slate-300">La hora más tensionada es la <strong>Hora 20 (19:00 - 20:00)</strong> con <strong>10,909 MWh</strong> de demanda y precio medio de <strong>658.9 COP/kWh</strong>.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700 space-y-1.5">
+            <div class="font-bold text-cyan-300">04 · Exposición de EnerAndes</div>
+            <p class="text-slate-300">EnerAndes compra en bolsa el <strong>~22.2 %</strong> de su energía en Medellín (276 GWh), Bello e Itagüí, expuesta directamente al precio de bolsa.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700 space-y-1.5">
+            <div class="font-bold text-purple-300">05 · Clima IDEAM &times; Ventas</div>
+            <p class="text-slate-300">Cruce exacto por <code class="text-purple-300">dim_municipio</code> entre estaciones meteorológicas (Rionegro 784 mm, Medellín 505 mm) y consumo eléctrico municipal.</p>
+          </div>
+        </div>
+
+        <!-- Banner Disparador Modal Scripts y Archivos -->
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-colors flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2.5 text-slate-300">
+            <span class="text-lg">🔬</span>
+            <div>
+              <span class="font-bold text-cyan-400">Inspección Técnica "Bajo el Capó":</span>
+              <span class="text-slate-400 block sm:inline sm:ml-1">Consulta los scripts involucrados y la ubicación física de archivos en disco (Antes vs. Después).</span>
+            </div>
+          </div>
+          <button onclick="abrirModal(6)" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-medium transition-all text-xs shrink-0 shadow-sm cursor-pointer">
+            <span>📁</span> Abrir Scripts & Archivos ➔
+          </button>
+        </div>
+      </section>

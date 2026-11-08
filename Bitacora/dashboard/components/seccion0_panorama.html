@@ -1,0 +1,264 @@
+<!-- ============================================================ -->
+<!-- SECCIÓN 0: VISTA PANORÁMICA (NEGOCIO & INGENIERÍA DE DATOS)   -->
+<!-- ============================================================ -->
+<section id="panorama" class="bg-gradient-to-b from-slate-900 to-[var(--card,#1e293b)] border border-cyan-500/30 rounded-2xl p-6 sm:p-8 shadow-xl space-y-8 relative overflow-hidden">
+  
+  <!-- Glow decorativo superior -->
+  <div class="absolute -top-24 -right-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Header de la Sección -->
+  <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white text-xl shadow-lg shadow-cyan-500/20">
+        🔭
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">NARRATIVA GLOBAL</span>
+          <span class="text-xs text-slate-400 font-mono">EA1 Ingesta + EA2 Kimball</span>
+        </div>
+        <h2 class="text-2xl font-black text-white tracking-tight">
+          Vista Panorámica: El Negocio y la Ingeniería de Datos
+        </h2>
+        <p class="text-xs text-slate-400 mt-0.5">
+          De la fluctuación térmica en el Pacífico a la exposición financiera de EnerAndes en Antioquia
+        </p>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-2">
+      <span class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 font-mono">
+        ⚡ Pipeline End-to-End: <span class="text-cyan-400 font-bold">~22 seg</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- CUADRANTES DE COMPRENSIÓN RÁPIDA -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- ¿Por qué? -->
+    <div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 space-y-2">
+      <div class="flex items-center gap-2 text-rose-400 font-bold text-xs uppercase tracking-wider">
+        <span>❓</span> ¿Por qué importa? (Negocio)
+      </div>
+      <p class="text-slate-300 text-xs leading-relaxed">
+        Colombia es <strong class="text-white">70% hidroeléctrica</strong>. Cuando llega <strong class="text-rose-300">El Niño</strong>, los embalses se secan y se despachan plantas térmicas caras. El precio en la <strong>Bolsa de Energía</strong> se triplica (222 &rarr; 663 COP/kWh), poniendo en riesgo el margen de EnerAndes si compra en bolsa sin cobertura.
+      </p>
+    </div>
+
+    <!-- ¿Cómo? -->
+    <div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-2">
+      <div class="flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-wider">
+        <span>⚙️</span> ¿Cómo se resuelve? (Ingeniería)
+      </div>
+      <p class="text-slate-300 text-xs leading-relaxed">
+        Unificando 5 fuentes heterogéneas mediante la <strong class="text-cyan-300">Arquitectura Medallón</strong>: Ingesta paralela e inmutable en <strong class="text-amber-400">Bronce</strong> (Parquet), contratos Pandera y cuarentena en <strong class="text-slate-300">Plata</strong>, y modelo dimensional Kimball en <strong class="text-yellow-400">Oro</strong> (dbt + DuckDB).
+      </p>
+    </div>
+
+    <!-- ¿Para qué? -->
+    <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-2">
+      <div class="flex items-center gap-2 text-emerald-400 font-bold text-xs uppercase tracking-wider">
+        <span>🎯</span> ¿Para qué sirve? (Analítica)
+      </div>
+      <p class="text-slate-300 text-xs leading-relaxed">
+        Permite <strong class="text-emerald-300">anticipar con 3 a 6 meses</strong> la presión en tarifas eléctricas analizando anomalías oceánicas (NOAA), para fijar contratos bilaterales a largo plazo y mitigar la volatilidad del mercado spot de XM.
+      </p>
+    </div>
+
+    <!-- En simple -->
+    <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-2">
+      <div class="flex items-center gap-2 text-amber-400 font-bold text-xs uppercase tracking-wider">
+        <span>💡</span> En Simple
+      </div>
+      <p class="text-slate-300 text-xs leading-relaxed">
+        Si el agua del Pacífico se calienta medio grado, deja de llover en Antioquia, los embalses caen, la luz sube al triple y EnerAndes pierde dinero. La ingeniería de datos conecta cada eslabón con contratos de calidad y SQL confiable.
+      </p>
+    </div>
+  </div>
+
+  <!-- CADENA CAUSAL: LOS 5 ESLABONES DEL NEGOCIO -->
+  <div class="space-y-3">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+        <span>🔗</span> La Cadena Causal del Negocio: De la Atmósfera a la Facturación
+      </h3>
+      <span class="text-[11px] text-slate-400">5 fuentes interconectadas en el pipeline</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+      <!-- Eslabón 1: NOAA -->
+      <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-2 relative">
+        <div class="flex items-center justify-between text-xs">
+          <span class="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold font-mono text-[10px]">1. MACRO</span>
+          <span class="text-slate-500 font-mono text-[10px]">NOAA</span>
+        </div>
+        <div class="font-bold text-white text-xs flex items-center gap-1.5">
+          <span>🌊</span> Índice ONI (Pacífico)
+        </div>
+        <p class="text-[11px] text-slate-300 leading-snug">
+          Anomalía térmica superficial &ge; +0.5 °C alerta la gestación de <strong class="text-amber-300">El Niño</strong> con meses de antelación.
+        </p>
+        <div class="pt-1 border-t border-slate-700 text-[10px] text-cyan-400 font-mono">
+          Rango: -2.1 a +2.6 °C
+        </div>
+      </div>
+
+      <!-- Eslabón 2: IDEAM -->
+      <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-2">
+        <div class="flex items-center justify-between text-xs">
+          <span class="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold font-mono text-[10px]">2. REGIONAL</span>
+          <span class="text-slate-500 font-mono text-[10px]">IDEAM</span>
+        </div>
+        <div class="font-bold text-white text-xs flex items-center gap-1.5">
+          <span>☀️</span> Lluvias en Antioquia
+        </div>
+        <p class="text-[11px] text-slate-300 leading-snug">
+          Mide el estrés hídrico en las cuencas de los embalses estratégicos (Guatapé, Peñol, Ituango).
+        </p>
+        <div class="pt-1 border-t border-slate-700 text-[10px] text-cyan-400 font-mono">
+          Lluvia &darr; 38% | Calor &uarr; 1.8°C
+        </div>
+      </div>
+
+      <!-- Eslabón 3: XM Operación -->
+      <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-2">
+        <div class="flex items-center justify-between text-xs">
+          <span class="px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold font-mono text-[10px]">3. SISTEMA</span>
+          <span class="text-slate-500 font-mono text-[10px]">XM S.A.</span>
+        </div>
+        <div class="font-bold text-white text-xs flex items-center gap-1.5">
+          <span>📉</span> Embalses & Térmicas
+        </div>
+        <p class="text-[11px] text-slate-300 leading-snug">
+          Aportes hídricos caen de 115% a 63%. Para evitar apagones, el despacho térmico sube del 11% al 30%.
+        </p>
+        <div class="pt-1 border-t border-slate-700 text-[10px] text-purple-300 font-mono">
+          Generación térmica &times; 2.7
+        </div>
+      </div>
+
+      <!-- Eslabón 4: XM Mercado -->
+      <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-2">
+        <div class="flex items-center justify-between text-xs">
+          <span class="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold font-mono text-[10px]">4. PRECIO</span>
+          <span class="text-slate-500 font-mono text-[10px]">XM S.A.</span>
+        </div>
+        <div class="font-bold text-white text-xs flex items-center gap-1.5">
+          <span>📈</span> Bolsa Mayorista
+        </div>
+        <p class="text-[11px] text-slate-300 leading-snug">
+          Las térmicas más caras fijan el precio marginal horario. El spot se triplica en cuestión de semanas.
+        </p>
+        <div class="pt-1 border-t border-slate-700 text-[10px] text-rose-400 font-mono">
+          222 &rarr; 663 COP/kWh
+        </div>
+      </div>
+
+      <!-- Eslabón 5: EnerAndes -->
+      <div class="p-3.5 rounded-xl bg-slate-800/80 border border-emerald-500/30 space-y-2">
+        <div class="flex items-center justify-between text-xs">
+          <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold font-mono text-[10px]">5. IMPACTO</span>
+          <span class="text-slate-500 font-mono text-[10px]">EnerAndes</span>
+        </div>
+        <div class="font-bold text-white text-xs flex items-center gap-1.5">
+          <span>⚡</span> Margen y Ventas
+        </div>
+        <p class="text-[11px] text-slate-300 leading-snug">
+          Comercializa en 20 municipios. Al comprar <strong class="text-emerald-300">22.2% en bolsa</strong>, la subida de precios absorbe el margen si no hay cobertura.
+        </p>
+        <div class="pt-1 border-t border-slate-700 text-[10px] text-emerald-400 font-mono">
+          4,007 ventas analizadas
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LA ARQUITECTURA DE DATOS: MEDALLÓN + KIMBALL -->
+  <div class="space-y-4 pt-2">
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+        <span>🏛️</span> Arquitectura de Ingeniería de Datos: Medallón & Kimball
+      </h3>
+      <span class="text-[11px] text-slate-400">Evolución de Actividad 1 a Actividad 2</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Capa Bronce (EA1) -->
+      <div class="p-4 rounded-xl bg-slate-900/90 border border-amber-600/30 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">🥉</span>
+            <span class="font-bold text-amber-400 text-sm">Capa Bronce (EA1)</span>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">data/bronze/</span>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          <strong>Ingesta Multicanal & Persistencia Inmutable:</strong>
+        </p>
+        <ul class="text-[11px] text-slate-300 space-y-1.5 list-disc pl-4">
+          <li><strong>XM Sinergox API:</strong> Paralelismo con <code>ThreadPoolExecutor(6)</code> para ventanas mensuales concurrentes (1,004 días).</li>
+          <li><strong>IDEAM Socrata:</strong> Paginación SoQL de 50k registros en lotes de 7 días ante timeouts.</li>
+          <li><strong>Resiliencia:</strong> Reintentos exponenciales (2s, 4s, 8s) y comprobación de idempotencia.</li>
+          <li><strong>Formato Apache Parquet:</strong> Compresión Snappy columnar (-80% espacio vs CSV) con linaje inmutable (<code>_fuente</code>, <code>_extraido_en</code>).</li>
+        </ul>
+      </div>
+
+      <!-- Capa Plata (EA2) -->
+      <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-500/30 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded bg-slate-500/20 text-slate-300 flex items-center justify-center font-bold text-xs">🥈</span>
+            <span class="font-bold text-slate-200 text-sm">Capa Plata (EA2)</span>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">data/silver/</span>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          <strong>Limpieza, Contratos y Calidad Certificada:</strong>
+        </p>
+        <ul class="text-[11px] text-slate-300 space-y-1.5 list-disc pl-4">
+          <li><strong>Limpieza Estructural:</strong> Despivote horario (24 cols &rarr; 1 col), conversión MWh a kWh (&times;1,000) y DIVIPOLA DANE (5 dígitos).</li>
+          <li><strong>Contratos Pandera:</strong> <code>DataFrameSchema</code> en tiempo de ejecución validando tipos, regex y rangos antes de persistir.</li>
+          <li><strong>Patrón de Cuarentena:</strong> 43 ventas incompletas y 7 lluvias anómalas aisladas sin detener la ejecución.</li>
+          <li><strong>Pruebas:</strong> Suite de <strong>25 tests Pytest</strong> y reporte de calidad con <strong>24 reglas auditadas</strong>.</li>
+        </ul>
+      </div>
+
+      <!-- Capa Oro (EA2) -->
+      <div class="p-4 rounded-xl bg-slate-900/90 border border-yellow-500/30 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded bg-yellow-500/20 text-yellow-400 flex items-center justify-center font-bold text-xs">🥇</span>
+            <span class="font-bold text-yellow-300 text-sm">Capa Oro (EA2)</span>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">DuckDB + dbt</span>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          <strong>Modelo Dimensional Kimball & Analítica:</strong>
+        </p>
+        <ul class="text-[11px] text-slate-300 space-y-1.5 list-disc pl-4">
+          <li><strong>Motor DuckDB OLAP:</strong> Consultas vectorizadas ultra-rápidas en <code>data/observatorio.duckdb</code>.</li>
+          <li><strong>Esquema Estrella:</strong> 5 Tablas de Hechos (Ventas, Mercado, Generación, Clima, Estaciones) y 7 Dimensiones Conformadas.</li>
+          <li><strong>Auditoría dbt:</strong> 105 pruebas de integridad referencial, unicidad y not_null aprobadas al 100% (<code>PASS=105</code>).</li>
+          <li><strong>Valor al Negocio:</strong> 5 consultas SQL clave para responder la correlación clima-precio-ventas.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- BANNER DE ENLACE RÁPIDO HACIA EL DETALLE TÉCNICO -->
+  <div class="p-4 rounded-xl bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-transparent border border-cyan-500/20 flex flex-wrap items-center justify-between gap-4 text-xs">
+    <div class="flex items-center gap-3">
+      <span class="text-2xl">🚀</span>
+      <div>
+        <span class="font-bold text-white block">A continuación: Los 7 Puntos Técnicos de la Rúbrica EA2</span>
+        <span class="text-slate-400">Inspecciona paso a paso el código, transformaciones antes/después, contratos Pandera y modelos dbt.</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="#punto-1" class="px-3.5 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-semibold transition-all">
+        Comenzar con Punto 1 (EnerAndes) &rarr;
+      </a>
+    </div>
+  </div>
+
+</section>

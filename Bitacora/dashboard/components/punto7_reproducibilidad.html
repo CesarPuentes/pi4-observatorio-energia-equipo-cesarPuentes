@@ -1,0 +1,89 @@
+<section id="punto-7" class="bg-[var(--card,#1e293b)] border border-[var(--border,#334155)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        
+        <!-- Header con botón modal -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold font-mono">7</span>
+            <div>
+              <h2 class="text-xl font-bold text-[var(--foreground,#f8fafc)]">
+                Reproducibilidad en 1 Comando & Higiene de Git
+              </h2>
+              <p class="text-xs text-[var(--muted-foreground,#94a3b8)]">
+                Ejecución de todo el pipeline en 22 segundos sin subir binarios pesados al repositorio
+              </p>
+            </div>
+          </div>
+          <button onclick="abrirModal(7)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 text-xs font-semibold shadow-sm transition-all shrink-0 cursor-pointer">
+            <span>📁</span> Ver Scripts & Archivos en Disco
+          </button>
+        </div>
+
+        <!-- Cuadrante Pedagógico -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          <div class="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+            <span class="font-bold text-purple-400 uppercase tracking-wide text-[10px]">¿Por qué?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Ejecutar 5 scripts sueltos y luego comandos manuales de dbt propicia errores de orden, y subir <code class="text-purple-300">data/silver/</code> o <code class="text-purple-300">*.duckdb</code> a GitHub contamina el repositorio con archivos binarios pesados.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 space-y-1">
+            <span class="font-bold text-cyan-400 uppercase tracking-wide text-[10px]">¿Cómo?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Creamos el orquestador <code class="text-cyan-300">src/transformar.py</code> (<code class="text-cyan-300">python -m src.transformar</code>) que ejecuta toda la Capa Plata, el reporte de calidad y <code class="text-cyan-300">dbt build</code> en un solo paso, y configuramos <code class="text-cyan-300">.gitignore</code>.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+            <span class="font-bold text-emerald-400 uppercase tracking-wide text-[10px]">¿Para qué?</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Para permitir que cualquier evaluador o integrante reconstruya Plata + Oro + 82 pruebas de dbt con un único comando en ~22 segundos manteniendo limpio el repositorio.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+            <span class="font-bold text-amber-400 uppercase tracking-wide text-[10px]">En simple</span>
+            <p class="text-[var(--foreground,#f8fafc)]">Un solo comando (<code class="text-amber-300">python -m src.transformar</code>) reconstruye y verifica todo el proyecto sin subir bases de datos pesadas a Git.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <!-- Comando Reproducible -->
+          <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-2">
+            <span class="font-bold text-emerald-400">1. Construir Plata + Reporte + Oro:</span>
+            <div class="code-block bg-slate-900 border border-slate-800 text-emerald-300 flex items-center justify-between">
+              <code>python -m src.transformar</code>
+              <button onclick="copiarComando('python -m src.transformar')" class="hover:text-white cursor-pointer" title="Copiar">📋</button>
+            </div>
+            <p class="text-slate-400">Limpia las 5 fuentes, escribe <code class="text-slate-300">docs/reporte_calidad.md</code> y corre <code class="text-slate-300">dbt build</code> en ~22 segundos.</p>
+          </div>
+
+          <!-- Pruebas y Consultas -->
+          <div class="p-4 rounded-xl bg-[var(--background,#0f172a)] border border-[var(--border,#334155)] space-y-2">
+            <span class="font-bold text-cyan-400">2. Ejecutar Pruebas y Consultas:</span>
+            <div class="code-block bg-slate-900 border border-slate-800 text-cyan-300 flex items-center justify-between">
+              <code>python -m pytest -v</code>
+              <button onclick="copiarComando('python -m pytest -v')" class="hover:text-white cursor-pointer" title="Copiar">📋</button>
+            </div>
+            <div class="code-block bg-slate-900 border border-slate-800 text-purple-300 flex items-center justify-between">
+              <code>python -m src.consultar --solo-oro</code>
+              <button onclick="copiarComando('python -m src.consultar --solo-oro')" class="hover:text-white cursor-pointer" title="Copiar">📋</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Protección .gitignore -->
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-xs space-y-2">
+          <span class="font-bold text-amber-400 flex items-center gap-1.5">
+            <span>🛡️</span> Protección del Repositorio (.gitignore activo):
+          </span>
+          <p class="text-slate-300">
+            Están excluidos de Git: <code class="text-amber-300">data/bronze/</code>, <code class="text-amber-300">data/silver/</code>, <code class="text-amber-300">data/observatorio.duckdb</code>, <code class="text-amber-300">dbt/target/</code>, <code class="text-amber-300">dbt/logs/</code> y <code class="text-amber-300">dbt/.user.yml</code>, manteniendo el repositorio liviano y el código 100 % reproducible desde scripts.
+          </p>
+        </div>
+
+        <!-- Banner Disparador Modal Scripts y Archivos -->
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-colors flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2.5 text-slate-300">
+            <span class="text-lg">🔬</span>
+            <div>
+              <span class="font-bold text-cyan-400">Inspección Técnica "Bajo el Capó":</span>
+              <span class="text-slate-400 block sm:inline sm:ml-1">Consulta los scripts involucrados y la ubicación física de archivos en disco (Antes vs. Después).</span>
+            </div>
+          </div>
+          <button onclick="abrirModal(7)" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-medium transition-all text-xs shrink-0 shadow-sm cursor-pointer">
+            <span>📁</span> Abrir Scripts & Archivos ➔
+          </button>
+        </div>
+      </section>
