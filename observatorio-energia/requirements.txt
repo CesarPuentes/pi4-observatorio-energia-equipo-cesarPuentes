@@ -3,4 +3,8 @@ pandas>=2.2
 pyarrow>=17.0
 openpyxl>=3.1
 duckdb>=1.1
+pandera>=0.20
+dbt-core>=1.8
+dbt-duckdb>=1.8
 pytest>=8.0
+
