@@ -1,0 +1,19 @@
+name: pipeline-observatorio
+
+on:
+  schedule:
+    - cron: "0 11 * * *"   # todos los dias a las 6:00 a. m. hora Colombia (UTC-5)
+  workflow_dispatch:        # permite ejecutarlo manualmente
+
+jobs:
+  etl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r observatorio-energia/requirements.txt
+      - name: Ejecutar pruebas unitarias (Bronce y Plata)
+        working-directory: observatorio-energia
+        run: python -m pytest -v
