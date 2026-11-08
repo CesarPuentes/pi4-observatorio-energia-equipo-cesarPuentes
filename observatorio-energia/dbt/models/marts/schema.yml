@@ -1,0 +1,242 @@
+# Pruebas de dbt sobre la capa oro (marts). "dbt build" las ejecuta despues de crear cada tabla.
+# Incluye los modelos de la clase (dim_mes, dim_municipio, dim_segmento, fact_ventas_mensual)
+# y los modelos ampliados de la Evidencia 2 (dim_fecha, dim_hora, dim_recurso, dim_estacion,
+# fact_mercado_horario, fact_generacion_recurso, fact_hidrologia_diaria, fact_clima_diario).
+
+version: 2
+
+models:
+  # ---------------------------------------------------------------------------
+  # DIMENSIONES (7 dimensiones)
+  # ---------------------------------------------------------------------------
+  - name: dim_mes
+    description: "Grano: 1 fila por mes con ventas (mes_id = AAAAMM), enriquecida con el indice ONI y la fase ENSO."
+    columns:
+      - name: mes_id
+        data_tests: [unique, not_null]
+      - name: periodo
+        data_tests: [unique, not_null]
+      - name: fase_enso
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["El Niño", "La Niña", "Neutral"]
+
+  - name: dim_fecha
+    description: "Grano: 1 fila por dia calendario (2023-01-01 a 2026-12-31), con mes, trimestre, dia de la semana y fase ENSO de la NOAA."
+    columns:
+      - name: fecha
+        data_tests: [unique, not_null]
+      - name: fecha_id
+        data_tests: [unique, not_null]
+      - name: anio
+        data_tests: [not_null]
+      - name: trimestre
+        data_tests: [not_null]
+      - name: mes
+        data_tests: [not_null]
+      - name: fase_enso
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["El Niño", "La Niña", "Neutral"]
+
+  - name: dim_hora
+    description: "Grano: 1 fila por hora operativa del dia (1 a 24, correspondiente a Hour01..Hour24 de XM)."
+    columns:
+      - name: hora
+        data_tests: [unique, not_null]
+      - name: franja_horaria
+        data_tests: [unique, not_null]
+      - name: periodo_dia
+        data_tests: [not_null]
+      - name: tipo_franja_demanda
+        data_tests: [not_null]
+
+  - name: dim_municipio
+    description: "Grano: 1 fila por municipio de Colombia (1,122 municipios) con su codigo oficial DIVIPOLA (municipio_id / cod_mpio) y coordenadas."
+    columns:
+      - name: municipio_id
+        data_tests: [unique, not_null]
+      - name: cod_mpio
+        data_tests: [unique, not_null]
+      - name: municipio
+        data_tests: [not_null]
+      - name: departamento
+        data_tests: [not_null]
+
+  - name: dim_segmento
+    description: "Grano: 1 fila por segmento de cliente (Comercial, Industrial, No informado, Residencial)."
+    columns:
+      - name: segmento_id
+        data_tests: [unique, not_null]
+      - name: segmento
+        data_tests: [unique, not_null]
+
+  - name: dim_recurso
+    description: "Grano: 1 fila por planta o unidad de generacion del SIN (codigo_recurso), construida a partir de ListadoRecursos de XM."
+    columns:
+      - name: codigo_recurso
+        data_tests: [unique, not_null]
+      - name: nombre_recurso
+        data_tests: [not_null]
+      - name: tipo_generacion
+        data_tests: [not_null]
+      - name: estado
+        data_tests: [not_null]
+
+  - name: dim_estacion
+    description: "Grano: 1 fila por estacion meteorologica del IDEAM en Antioquia (codigo_estacion), vinculada a su municipio en dim_municipio."
+    columns:
+      - name: codigo_estacion
+        data_tests: [unique, not_null]
+      - name: municipio_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_municipio')
+                field: municipio_id
+
+  # ---------------------------------------------------------------------------
+  # TABLAS DE HECHOS (5 tablas de hechos)
+  # ---------------------------------------------------------------------------
+  - name: fact_ventas_mensual
+    description: "Grano: 1 fila por mes (mes_id / fecha), municipio (municipio_id), segmento (segmento_id) y modalidad de compra (tipo_compra) de las ventas de EnerAndes entre 2023 y 2026."
+    columns:
+      - name: venta_id
+        data_tests: [unique, not_null]
+      - name: mes_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_mes')
+                field: mes_id
+      - name: fecha
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_fecha')
+                field: fecha
+      - name: municipio_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_municipio')
+                field: municipio_id
+      - name: segmento_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_segmento')
+                field: segmento_id
+      - name: tipo_compra
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Bolsa", "Contrato"]
+      - name: energia_kwh
+        data_tests: [not_null]
+      - name: clientes
+        data_tests: [not_null]
+
+  - name: fact_mercado_horario
+    description: "Grano: 1 fila por fecha (dia calendario) y hora del dia (1 a 24), con el precio de bolsa nacional (COP/kWh) y la demanda real del SIN (kWh y MWh)."
+    columns:
+      - name: mercado_horario_id
+        data_tests: [unique, not_null]
+      - name: fecha
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_fecha')
+                field: fecha
+      - name: hora
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_hora')
+                field: hora
+      - name: precio_bolsa_cop_kwh
+        data_tests: [not_null]
+      - name: demanda_real_kwh
+        data_tests: [not_null]
+
+  - name: fact_generacion_recurso
+    description: "Grano: 1 fila por fecha (dia calendario), hora del dia (1 a 24) y planta de generacion (codigo_recurso), con la energia generada en kWh."
+    columns:
+      - name: fecha
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_fecha')
+                field: fecha
+      - name: hora
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_hora')
+                field: hora
+      - name: codigo_recurso
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_recurso')
+                field: codigo_recurso
+      - name: generacion_kwh
+        data_tests: [not_null]
+
+  - name: fact_hidrologia_diaria
+    description: "Grano: 1 fila por fecha (dia calendario), con el porcentaje de volumen util diario de embalses y los aportes hidricos del SIN en kWh y GWh."
+    columns:
+      - name: fecha
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_fecha')
+                field: fecha
+      - name: volumen_util_pct
+        data_tests: [not_null]
+      - name: aportes_energia_kwh
+        data_tests: [not_null]
+
+  - name: fact_clima_diario
+    description: "Grano: 1 fila por fecha (dia calendario) y estacion meteorologica (codigo_estacion) en Antioquia, con la precipitacion diaria (mm) y las temperaturas media, minima y maxima (°C)."
+    columns:
+      - name: clima_diario_id
+        data_tests: [unique, not_null]
+      - name: fecha
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_fecha')
+                field: fecha
+      - name: codigo_estacion
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_estacion')
+                field: codigo_estacion
+      - name: municipio_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_municipio')
+                field: municipio_id
